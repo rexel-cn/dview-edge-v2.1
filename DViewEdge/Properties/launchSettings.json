@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "DViewEdge": {
+      "commandName": "Project",
+      "workingDirectory": "D:\\work\\10_Git\\csharp\\dview-edge-v2.1\\DViewEdge",
+      "remoteDebugEnabled": false,
+      "authenticationMode": "None",
+      "nativeDebugging": true
+    }
+  }
+}
