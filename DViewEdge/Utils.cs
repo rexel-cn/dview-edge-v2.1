@@ -3,6 +3,7 @@ using Newtonsoft.Json.Serialization;
 using System;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using static DViewEdge.EdgeForm;
 
 namespace DViewEdge
 {
@@ -96,16 +97,24 @@ namespace DViewEdge
         /// <summary>
         /// 对象转JSON（首字母小写）
         /// </summary>
-        /// <param name="classes"></param>
+        /// <param name="classes">classes</param>
         /// <returns></returns>
-        public static string ToJsonStr(object classes)
+        public static string JsonToStr(object classes)
         {
             var serializerSettings = new JsonSerializerSettings
             {
-                // 设置为驼峰命名
                 ContractResolver = new CamelCasePropertyNamesContractResolver()
             };
             return JsonConvert.SerializeObject(classes, Formatting.None, serializerSettings);
+        }
+
+        public static DeviceModifyVal StrToJson(string str)
+        {
+            var serializerSettings = new JsonSerializerSettings
+            {
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
+            };
+            return JsonConvert.DeserializeObject<DeviceModifyVal>(str, serializerSettings);
         }
 
         /// <summary>
@@ -125,6 +134,31 @@ namespace DViewEdge
         public static void ShowInfoBox(string str)
         {
             _ = MessageBox.Show(str, "提示", MessageBoxButtons.OK, MessageBoxIcon.Question);
+        }
+
+        /// <summary>
+        /// 转换数据格式
+        /// </summary>
+        /// <param name="size">size</param>
+        /// <returns>结果</returns>
+        public static string ConvertSize(Int64 size)
+        {
+            if (size / Constants.GB >= 1)
+            {
+                return (Math.Round(size / (float)Constants.GB, 2)).ToString() + " GB";
+            }
+            else if (size / Constants.MB >= 1)
+            {
+                return (Math.Round(size / (float)Constants.MB, 2)).ToString() + " MB";
+            }
+            else if (size / Constants.KB >= 1)
+            {
+                return (Math.Round(size / (float)Constants.KB, 2)).ToString() + " KB";
+            }
+            else
+            {
+                return size.ToString() + " 字节";
+            }
         }
     }
 }

@@ -1,0 +1,6 @@
+D:\work\10_Git\csharp\dview-edge-v2.1\bin\Debug\M2Mqtt.Net\M2Mqtt.Net.dll
+D:\work\10_Git\csharp\dview-edge-v2.1\bin\Debug\M2Mqtt.Net\M2Mqtt.Net.pdb
+D:\work\10_Git\csharp\dview-edge-v2.1\M2Mqtt\obj\Debug\M2Mqtt.Net.csproj.AssemblyReference.cache
+D:\work\10_Git\csharp\dview-edge-v2.1\M2Mqtt\obj\Debug\M2Mqtt.Net.csproj.CoreCompileInputs.cache
+D:\work\10_Git\csharp\dview-edge-v2.1\M2Mqtt\obj\Debug\M2Mqtt.Net.dll
+D:\work\10_Git\csharp\dview-edge-v2.1\M2Mqtt\obj\Debug\M2Mqtt.Net.pdb

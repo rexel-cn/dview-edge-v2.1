@@ -1,0 +1,102 @@
+{
+  "format": 1,
+  "restore": {
+    "D:\\work\\10_Git\\csharp\\dview-edge-v2.1\\DViewEdge\\WinFormsApp1.csproj": {}
+  },
+  "projects": {
+    "D:\\work\\10_Git\\csharp\\dview-edge-v2.1\\DViewEdge\\WinFormsApp1.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\work\\10_Git\\csharp\\dview-edge-v2.1\\DViewEdge\\WinFormsApp1.csproj",
+        "projectName": "rexel-mqtt",
+        "projectPath": "D:\\work\\10_Git\\csharp\\dview-edge-v2.1\\DViewEdge\\WinFormsApp1.csproj",
+        "packagesPath": "C:\\Users\\Chunhui.Qu\\.nuget\\packages\\",
+        "outputPath": "D:\\work\\10_Git\\csharp\\dview-edge-v2.1\\DViewEdge\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Chunhui.Qu\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net5.0-windows7.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net5.0-windows7.0": {
+            "targetAlias": "net5.0-windows",
+            "projectReferences": {
+              "D:\\work\\10_Git\\csharp\\dview-edge-v2.1\\M2Mqtt\\M2Mqtt.Net.csproj": {
+                "projectPath": "D:\\work\\10_Git\\csharp\\dview-edge-v2.1\\M2Mqtt\\M2Mqtt.Net.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net5.0-windows7.0": {
+          "targetAlias": "net5.0-windows",
+          "dependencies": {
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.1, )"
+            },
+            "System.Management": {
+              "target": "Package",
+              "version": "[5.0.0, )"
+            },
+            "XAct.Core.PCL": {
+              "target": "Package",
+              "version": "[0.0.5014, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            },
+            "Microsoft.WindowsDesktop.App.WindowsForms": {
+              "privateAssets": "none"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.302\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\work\\10_Git\\csharp\\dview-edge-v2.1\\M2Mqtt\\M2Mqtt.Net.csproj": {
+      "restore": {
+        "projectUniqueName": "D:\\work\\10_Git\\csharp\\dview-edge-v2.1\\M2Mqtt\\M2Mqtt.Net.csproj",
+        "projectName": "M2Mqtt.Net",
+        "projectPath": "D:\\work\\10_Git\\csharp\\dview-edge-v2.1\\M2Mqtt\\M2Mqtt.Net.csproj",
+        "frameworks": {
+          "net48": {
+            "projectReferences": {}
+          }
+        }
+      },
+      "frameworks": {
+        "net48": {}
+      }
+    }
+  }
+}

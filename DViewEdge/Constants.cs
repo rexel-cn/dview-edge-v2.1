@@ -36,9 +36,9 @@ namespace DViewEdge
         public const byte Qos0 = 0x00;
 
         // 数据单位
-        public const int KB = 1024;
-        public const int MB = KB * 1024;
-        public const int GB = MB * 1024;
+        public const Int64 KB = 1024;
+        public const Int64 MB = KB * 1024;
+        public const Int64 GB = MB * 1024;
 
         // 时间格式
         public const string FormatLong = "yyyy-MM-dd HH:mm:ss";

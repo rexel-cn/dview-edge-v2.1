@@ -5,6 +5,13 @@ using System.Globalization;
 
 namespace DViewEdge
 {
+    public class PointData
+    {
+        public string PointId { get; set; }
+        public object PointValue { get; set; }
+        public string Qty { get; set; }
+    }
+
     public class Tools
     {
         public static List<PointData> GetPointDataList(string listStr, string type)
@@ -117,13 +124,6 @@ namespace DViewEdge
             }
             return pointData;
         }
-    }
-
-    public class PointData
-    {
-        public string PointId { get; set; }
-        public object PointValue { get; set; }
-        public string Qty { get; set; }
     }
 }
 

@@ -7,41 +7,61 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Diagnostics;
 using uPLibrary.Networking.M2Mqtt.Messages;
+using System.Drawing;
 
 namespace DViewEdge
 {
     public partial class EdgeForm : Form
     {
-        /// <summary>
-        /// 引用子窗体
-        /// </summary>
-        private readonly LogForm LogForm = new();
-
-        /// <summary>
-        /// 局部变量
-        /// </summary>
         private Conf EdgeConf { get; }
         private Topic MqttTopic { get; }
         private MqttUtils MqttUtils { get; }
         private RunDbUtils RunDbUtils { get; }
-        private bool LoadOnce { get; set; }
-        private static Int64 netWorkBytes;
+        private Int64 NetSendCount { get; set; }
+        private Int64 NetSendBytes { get; set; }
+        private Int64 SendSuccedCount { get; set; }
+        private Int64 SendErrorCount { get; set; }
+        private int MaxLines { get; set; }
+        private bool IsPause { get; set; }
+        private bool IsFirstSend { get; set; }
 
-        /// <summary>
-        /// 定义事件
-        /// </summary>
-        public event AppendLogHandler AppendLogEvent;
+        private class SendInfo
+        {
+            public int Count { get; set; }
+            public Int64 Size { get; set; }
+            public byte[] Data { get; set; }
+        }
+
+        public class ReportData
+        {
+            public string Time { get; set; }
+
+            public string DataType { get; set; }
+
+            public string PointType { get; set; }
+
+            public List<PointData> Data { get; set; }
+        }
+
+        public class DeviceModifyVal
+        {
+            public string DeviceId { get; set; }
+
+            public string PointId { get; set; }
+
+            public string PointType { get; set; }
+
+            public double BeforeValue { get; set; }
+
+            public double AfterValue { get; set; }
+
+            public int Duration { get; set; }
+        }
 
         public EdgeForm()
         {
             // 初始化窗体组件
             InitializeComponent();
-
-            // 加载系统日志窗体
-            LogForm.LoadMe();
-
-            // 窗体始终位于屏幕最前面
-            this.TopMost = true;
 
             // 设置为false能安全的访问窗体控件
             CheckForIllegalCrossThreadCalls = false;
@@ -50,29 +70,24 @@ namespace DViewEdge
             this.EdgeConf = new Conf();
 
             // 初始化显示内容
-            InitFormContentByConf(this.EdgeConf);
+            this.InitFormData(this.EdgeConf);
 
             // 获取客户端ID
-            string clientId = GetClientIdByConf(this.EdgeConf);
+            string clientId = this.GetClientIdByConf(this.EdgeConf);
 
             // 加载Topic信息
             this.MqttTopic = new Topic(clientId);
 
             // 初始化MQTT客户端
             this.MqttUtils = MqttUtils.GetInastance(this.EdgeConf.Address, this.EdgeConf.Port);
+            this.MqttUtils.AddPublishedHandler(MqttMsgPublished);
 
             // 初始化COM客户端
             this.RunDbUtils = RunDbUtils.GetInstance();
 
-            LogForm.AppendLogEvent("启动成功");
-
-            LoadOnce = false;
-            netWorkBytes = 0;
-
             // 启动后台任务
-            StartTask();
+            this.StartTask();
         }
-
 
         /// <summary>
         /// 启动后台任务
@@ -82,14 +97,17 @@ namespace DViewEdge
             // 监控任务
             Task connectMonitor = new(() => { ConnectMonitor(); });
             connectMonitor.Start();
+            AppendLog("启动监控任务");
 
             // 订阅任务
             Task topicSubscribe = new(() => { CreateSubscribe(); });
             topicSubscribe.Start();
+            AppendLog("启动订阅任务");
 
-            // 发送任务
+            // 采集任务
             Task publishData = new(() => { PublishData(); });
             publishData.Start();
+            AppendLog("启动采集任务");
         }
 
         /// <summary>
@@ -113,10 +131,12 @@ namespace DViewEdge
         /// 根据配置文件初始化显示内容
         /// </summary>
         /// <param name="conf">配置文件</param>
-        private void InitFormContentByConf(Conf conf)
+        private void InitFormData(Conf conf)
         {
             this.lblCount.Text = "0";
             this.lblSize.Text = "0";
+            this.lblSucceed.Text = "0";
+            this.lblError.Text = "0";
             this.lblStartTime.Text = Utils.TimeNow();
             this.lblMachineCode.Text = FingerPrint.Value();
 
@@ -129,61 +149,31 @@ namespace DViewEdge
             this.txtOffset.Text = conf.Offset;
             this.txtUserClientId.Text = conf.UserClientId;
             this.txtDeviceDescribe.Text = conf.DeviceDescribe;
+
+            // 初始化连接状态
+            StatusOk();
+
+            // 初始化全局变量
+            this.MaxLines = 100;
+            this.IsPause = false;
+            this.IsFirstSend = true;
+
+            // 位于屏幕最前面
+            this.TopMost = true;
+
+            // 流量计数初始化
+            this.NetSendCount = 0;
+            this.NetSendBytes = 0;
+            this.SendSuccedCount = 0;
+            this.SendErrorCount = 0;
         }
-
-        //public void AddLogToFrom(string logs)
-        //{
-        //    Action<string> action = (logs) =>
-        //    {
-        //        network_bytes.Text = ByteConversionGBMBKB(netWorkBytes);
-        //        Log.Pop(logs, 0);
-        //    };
-        //    Invoke(action, logs);
-        //}
-
-        //public void AddPackageOnece(long size)
-        //{
-        //    Action<long> action = (size) =>
-        //    {
-        //        // 计算速率
-        //        package_once.Text = ByteConversionGBMBKB(size);
-        //        bool b1 = float.TryParse(sim_car_network_package.Text, out float SimCarNetworkPackageData);
-
-        //        float packages = 0;
-        //        long useTIme = 0;
-        //        if (b1)
-        //        {
-        //            useTIme =
-        //            ((DateTime.Now.AddDays(1 - DateTime.Now.Day).Date.AddMonths(1).AddSeconds(-1).ToUniversalTime().Ticks - 621355968000000000) / 10000000) -
-        //            ((DateTime.Now.AddDays(1 - DateTime.Now.Day).Date.ToUniversalTime().Ticks - 621355968000000000) / 10000000);
-        //            if (UseGB)
-        //            {
-        //                packages = SimCarNetworkPackageData * 1000 * 1000 * 1000;
-        //            }
-
-        //            if (UseMB)
-        //            {
-        //                packages = SimCarNetworkPackageData * 1000 * 1000;
-        //            }
-
-        //            var prespeed = useTIme / (packages / size);
-        //            // 在原有基础上加上30%
-        //            prespeed = (float)(prespeed + (prespeed * 0.3));
-        //            predict_speed.Text = "推荐：" + prespeed + "秒";
-        //        }
-        //    };
-        //    Invoke(action, size);
-        //}
-
-
 
         /// <summary>
         /// 创建订阅
         /// </summary>
-        /// <param name="mqttClient"></param>
         private void CreateSubscribe()
         {
-            if (!this.MqttUtils.IsConnected())
+            if (this.MqttUtils.IsConnected())
             {
                 return;
             }
@@ -211,24 +201,36 @@ namespace DViewEdge
         private void MqttMsgPublishReceived(object sender, MqttMsgPublishEventArgs e)
         {
             string topic = e.Topic;
+            string msg = Encoding.UTF8.GetString(e.Message);
+
             if (topic == this.MqttTopic.DownControl)
             {
-//                AddLogToFrom("收到下发命令。");
-                DoModifyPoint(e);
+                AppendLog(String.Format("命令下发通知：{0}", msg));
+                DoModifyPoint(msg);
             }
-
             if (topic == this.MqttTopic.DownNotice)
             {
-//                AddLogToFrom("收到平台通知。");
-                LoadOnce = false;
+                AppendLog(String.Format("上报数据通知：{0}", msg));
+                this.DoSendMetaOnce();
             }
         }
 
-        private void DoModifyPoint(MqttMsgPublishEventArgs e)
+        public void MqttMsgPublished(object sender, MqttMsgPublishedEventArgs e)
         {
-            string originalRtf = Encoding.UTF8.GetString(e.Message);
-            var deviceModifyVal = System.Text.Json.JsonSerializer.Deserialize<DeviceModifyVal>(originalRtf);
-            string point = deviceModifyVal.PointType + "." + deviceModifyVal.PointId;
+            if (e.IsPublished)
+            {
+                this.SendSuccedCount += 1;
+            }
+            else
+            {
+                this.SendErrorCount += 1;
+            }
+        }
+
+        private void DoModifyPoint(string msg)
+        {
+            DeviceModifyVal val = Utils.StrToJson(msg);
+            string point = val.PointType + "." + val.PointId;
 
             try
             {
@@ -236,21 +238,21 @@ namespace DViewEdge
                 object n = runbdb.Open();
                 if (Convert.ToInt16(n) == 1)
                 {
-                    runbdb.SetVarValueEx(point, deviceModifyVal.BeforeValue);
-//                    AddLogToFrom("修改测点：" + point + "=" + deviceModifyVal.beforeValue);
+                    runbdb.SetVarValueEx(point, val.BeforeValue);
+                    AppendLog(String.Format("修改测点{0}值为{1}", point, val.BeforeValue));
                 }
 
-                if (deviceModifyVal.Duration > 0)
+                if (val.Duration > 0)
                 {
-                    Thread.Sleep(deviceModifyVal.Duration * 1000);
-                    runbdb.SetVarValueEx(point, deviceModifyVal.AfterValue);
-//                    AddLogToFrom("脉冲更新：" + point + "=" + deviceModifyVal.afterValue);
+                    Thread.Sleep(val.Duration * 1000);
+                    runbdb.SetVarValueEx(point, val.AfterValue);
+                    AppendLog(String.Format("修改测点{0}值为{1}", point, val.AfterValue));
                 }
                 runbdb.Close();
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-//                AddLogToFrom("fmCDOM异常。" + ex.Message);
+                AppendLog(String.Format("命令下发异常：{0}", e.Message));
             }
         }
 
@@ -259,56 +261,41 @@ namespace DViewEdge
             while (true)
             {
                 Thread.Sleep(1000);
-
                 if (this.MqttUtils.IsConnected())
                 {
+                    StatusOk();
                     continue;
                 }
 
                 try
                 {
-                    CreateSubscribe();
-//                   AddLogToFrom("MQTT重连成功。");
+                    this.CreateSubscribe();
+                    StatusOk();
+                    AppendLog("重新连接平台");
                 }
-                catch (Exception ex)
+                catch (Exception e)
                 {
-//                    AddLogToFrom("MQTT重连异常。" + ex.Message);
+                    StatusNg();
+                    this.SendErrorCount += 1;
+                    AppendLog(String.Format("平台连接异常：{0}", e.Message));
+                }
+                finally
+                {
+                    AppendLog("事件提醒：尝试重新连接");
                 }
             }
         }
 
-        private class ReadResult
+        private void StatusOk()
         {
-            public int Count { get; set; }
-            public int Size { get; set; }
-            public byte[] Data { get; set; }
+            this.lblStatus.Text = "正常";
+            this.lblStatus.ForeColor = Color.Blue;
         }
 
-        public class ReportData
+        private void StatusNg()
         {
-            public string Time { get; set; }
-
-            public string DataType { get; set; }
-
-            public string PointType { get; set; }
-
-            public List<PointData> Data { get; set; }
-        }
-
-
-        public class DeviceModifyVal
-        {
-            public string DeviceId { get; set; }
-
-            public string PointId { get; set; }
-
-            public string PointType { get; set; }
-
-            public double BeforeValue { get; set; }
-
-            public double AfterValue { get; set; }
-
-            public int Duration { get; set; }
+            this.lblStatus.Text = "离线";
+            this.lblStatus.ForeColor = Color.Red;
         }
 
         private void SaveButtonClick(object sender, EventArgs e)
@@ -330,77 +317,78 @@ namespace DViewEdge
             this.EdgeConf.SaveConf();
         }
 
-        //public static string ByteConversionGBMBKB(Int64 KSize)
-        //{
-        //    if (KSize / GB >= 1)
-        //    {
-        //        // 如果当前Byte的值大于等于1GB
-        //        // 将其转换成GB
-        //        return (Math.Round(KSize / (float)GB, 2)).ToString() + "GB";
-        //    }
-        //    else if (KSize / MB >= 1)
-        //    {
-        //        // 如果当前Byte的值大于等于1MB
-        //        // 将其转换成MB
-        //        return (Math.Round(KSize / (float)MB, 2)).ToString() + "MB";
-        //    }
-        //    else if (KSize / KB >= 1)
-        //    {
-        //        // 如果当前Byte的值大于等于1KB
-        //        // 将其转换成KB
-        //        return (Math.Round(KSize / (float)KB, 2)).ToString() + "KB";
-        //    }
-        //    else
-        //    {
-        //        // 显示Byte值
-        //        return KSize.ToString() + "Byte";
-        //    }
-        //}
 
-        private ReadResult ReadDataByType(string pontType)
+        private static SendInfo GetSendInfoForData(ReportData data)
         {
-            ReadResult result = new()
+            string json = Utils.JsonToStr(data);
+            byte[] bytes = Encoding.UTF8.GetBytes(json);
+            return new SendInfo
             {
-                Data = null,
-                Count = 0,
-                Size = 0
+                Data = bytes,
+                Size = bytes.Length,
+                Count = data.Data.Count
             };
+        }
 
+        private static SendInfo GetSendInfoForMeta(List<ReportData> list)
+        {
+            int count = 0;
+            foreach (ReportData data in list)
+            {
+                count += data.Data.Count;
+            }
+            string json = Utils.JsonToStr(list);
+            byte[] bytes = Encoding.UTF8.GetBytes(json);
+            return new SendInfo
+            {
+                Data = bytes,
+                Size = bytes.Length,
+                Count = count
+            };
+        }
+
+        private ReportData GetReportData(string pontType, out bool isError, out bool noData)
+        {
             Rundb runbdb = null;
             try
             {
+                // 偏移后的时间
+                DateTime offsetTime = DateTime.Now.AddSeconds(Convert.ToDouble(this.EdgeConf.Offset));
+
+                // 打开COM接口
                 runbdb = RunDbUtils.GetRead();
                 object openResult = runbdb.Open();
                 if (Convert.ToInt16(openResult) != Constants.OpenOk)
                 {
-                    // TODO 打开DOM异常
+                    AppendLog(String.Format("COM接口异常，应答结果：{0}", openResult));
+                    isError = true;
+                    noData = true;
                     return null;
                 }
 
+                // 读取测点数据
                 var data = runbdb.ReadFilterVarValues(pontType, "*");
                 if (data == null)
                 {
-                    // TODO 日志
-                    return result;
+                    isError = false;
+                    noData = true;
+                    return null;
                 }
 
+                // 转换数据结构
                 List<PointData> dataList = Tools.GetPointDataList(data, pontType);
 
-                DateTime offsetTime = DateTime.Now.AddSeconds(Convert.ToDouble(this.EdgeConf.Offset));
+                // 生成应答数据
                 var reportData = new ReportData
                 {
                     Time = offsetTime.ToString(Constants.FormatLongMs),
-                    DataType = GetTypeForInstance(pontType),
+                    DataType = GetDataType(pontType),
                     PointType = pontType,
                     Data = dataList,
                 };
-
-                string json = Utils.ToJsonStr(reportData);
-                byte[] bytes = Encoding.UTF8.GetBytes(json);
-
-                result.Data = bytes;
-                result.Count = dataList.Count;
-                result.Size = bytes.Length;
+                isError = false;
+                noData = false;
+                return reportData;
             }
             finally
             {
@@ -409,88 +397,130 @@ namespace DViewEdge
                     runbdb.Close();
                 }
             }
-            return result;
         }
 
         private void PublishData()
         {
-            string[] pointTypeList = this.txtSelectTag.Text.Split(",");
             while (true)
             {
-                //var longOnecePackageLen = 0;
-                //var pointCount = 0;
-                foreach (string pointType in pointTypeList)
+                // 上报测点元数据
+                if (this.IsFirstSend)
                 {
-                    ReadResult readResult = ReadDataByType(pointType);
-                    if (readResult == null)
-                    {
-                        // TODO 增加重试处理
-                        continue;
-                    }
-
-                    if (readResult.Count == 0)
-                    {
-                        // TODO 打印日志
-                        continue;
-                    }
-
-                    LogForm.AppendLog("上报数据");
-                    //this.MqttUtils.Public(this.MqttTopic.UpData, readResult.Data);
-                    // TODO 打印上报成功日志
+                    this.DoSendMetaOnce();
+                    this.IsFirstSend = false;
                 }
 
-//                this.point_count.Text = String.Format("{0}", pointCount);
-//                AddPackageOnece(longOnecePackageLen);
+                // 上报各类型数据
+                this.DoSendDataOnce();
+
+                // 等待下一次上报
                 Thread.Sleep(Int32.Parse(this.EdgeConf.Repeate) * 1000);
             }
         }
 
-        //private List<RecortMeta> GetALLPointMetaInfo()
-        //{
-        //    List<RecortMeta> result = new();
-        //    foreach (string selectTag in FormArgs_selectTag.Split(","))
-        //    {
-        //        Rundb runbdb = RunDbUtils.Instance.getRunDb();
-        //        string CODE = selectTag;
-
-        //        try
-        //        {
-        //            object n = runbdb.Open();
-        //            if (Convert.ToInt16(n) == 1)
-        //            {
-        //                var data = "";
-        //                if (this.point_filter.Text == "ALL")
-        //                {
-        //                    data = runbdb.ReadFilterVarValues(CODE, "*");
-        //                }
-        //                else
-        //                {
-        //                    data = runbdb.ReadFilterVarValues(CODE, CODE + this.point_filter.Text);
-        //                }
-
-        //                List<PointData> dataList = Tools.GetPointDataList(data, CODE);
-        //                var reportMeta = new RecortMeta
-        //                {
-        //                    time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"),
-        //                    dataType = GetTypeForInstance(selectTag),
-        //                    pointType = selectTag,
-        //                    data = dataList
-        //                };
-        //                result.Add(reportMeta);
-        //                runbdb.Close();
-        //            }
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            AddLogToFrom("Metadata fmCDOM异常。" + ex.Message);
-        //        }
-        //    }
-        //    return result;
-        //}
-
-        public static string GetTypeForInstance(string codeType)
+        private void DoSendMetaOnce()
         {
-            string result = codeType switch
+            try
+            {
+                List<ReportData> dataList = new();
+                string[] pointTypeList = this.txtSelectTag.Text.Split(",");
+                foreach (string pointType in pointTypeList)
+                {
+                    // 读取数据
+                    ReportData reportData = this.GetReportData(pointType, out bool isError, out bool noData);
+
+                    // 接口异常
+                    if (isError)
+                    {
+                        continue;
+                    }
+
+                    // 没有数据
+                    if (noData)
+                    {
+                        continue;
+                    }
+                    dataList.Add(reportData);
+                }
+
+                SendInfo sendInfo = GetSendInfoForMeta(dataList);
+
+                // 发送数据
+                this.MqttUtils.Public(this.MqttTopic.UpMeta, sendInfo.Data);
+                AppendLog(String.Format("上报测点元数据, 测点数{0}", sendInfo.Count));
+
+                // 流量计数
+                this.NetSendCount += 1;
+                this.NetSendBytes += sendInfo.Size;
+            }
+            catch (Exception e)
+            {
+                this.SendErrorCount += 1;
+                AppendLog(String.Format("COM接口异常:{0}", e.Message));
+            }
+            finally
+            {
+                RefreshFlowData();
+            }
+        }
+
+        private void DoSendDataOnce()
+        {
+            try
+            {
+                string[] pointTypeList = this.txtSelectTag.Text.Split(",");
+                foreach (string pointType in pointTypeList)
+                {
+                    // 读取数据
+                    ReportData reportData = this.GetReportData(pointType, out bool isError, out bool noData);
+
+                    // 接口异常
+                    if (isError)
+                    {
+                        this.SendErrorCount += 1;
+                        continue;
+                    }
+
+                    // 没有数据
+                    if (noData)
+                    {
+                        continue;
+                    }
+
+                    // 流量数据
+                    SendInfo sendInfo = GetSendInfoForData(reportData);
+
+                    // 发送数据
+                    this.MqttUtils.Public(this.MqttTopic.UpData, sendInfo.Data);
+                    AppendLog(String.Format("上报{0}类型测点{1}个", pointType, sendInfo.Count));
+
+                    // 流量计数
+                    this.NetSendCount += 1;
+                    this.NetSendBytes += sendInfo.Size;
+                }
+            }
+            catch (Exception e)
+            {
+                this.SendErrorCount += 1;
+                AppendLog(String.Format("COM接口异常:{0}", e.Message));
+            }
+            finally
+            {
+                RefreshFlowData();
+            }
+        }
+
+        private void RefreshFlowData()
+        {
+            this.lblCount.Text = this.NetSendCount.ToString();
+            this.lblSize.Text = Utils.ConvertSize(this.NetSendBytes);
+            this.lblSucceed.Text = this.SendSuccedCount.ToString();
+            this.lblError.Text = this.SendErrorCount.ToString();
+        }
+
+        private static string GetDataType(string pointType)
+        {
+            string result = pointType switch
             {
                 Constants.AR or Constants.AO or Constants.AI or Constants.VA => "double",
                 Constants.DR or Constants.DO or Constants.DI or Constants.VD => "int",
@@ -512,7 +542,6 @@ namespace DViewEdge
             }
         }
 
-
         private void RestartButtonClick(object sender, EventArgs e)
         {
             DialogResult result = Utils.ShowConfirm("确定重启应用吗？");
@@ -532,8 +561,6 @@ namespace DViewEdge
             _ = Process.Start(processStartInfo);
             Process.GetCurrentProcess()?.Kill();
         }
-
-
 
         private void AddressLeave(object sender, EventArgs e)
         {
@@ -556,7 +583,6 @@ namespace DViewEdge
                 }
             }
         }
-
 
         private void PortLeave(object sender, EventArgs e)
         {
@@ -610,7 +636,98 @@ namespace DViewEdge
 
         private void LogBtnClieck(object sender, EventArgs e)
         {
-            LogForm.ShowMe();
+            if (this.splitContainer.Panel2Collapsed == false)
+            {
+                // 折叠
+                this.splitContainer.Panel2Collapsed = true;
+                this.btnLog.Text = "打开日志";
+            }
+            else
+            {
+                // 打开
+                this.splitContainer.Panel2Collapsed = false;
+                this.btnLog.Text = "关闭日志";
+            }
+        }
+
+        private void PauseBtnClienk(object sender, EventArgs e)
+        {
+            if (this.IsPause)
+            {
+                this.IsPause = false;
+                this.btnPause.Text = "暂停";
+            }
+            else
+            {
+                this.IsPause = true;
+                this.btnPause.Text = "打开";
+            }
+        }
+
+        private void CleanBtnClick(object sender, EventArgs e)
+        {
+            this.rtbLogContent.Text = "";
+        }
+
+        private void AppendLog(string str)
+        {
+            if (this.IsPause)
+            {
+                return;
+            }
+            string log = string.Format("{0}:{1}\n", Utils.TimeNow(), str);
+            this.rtbLogContent.AppendText(log);
+        }
+
+        private void LogContentTextChanged(object sender, EventArgs e)
+        {
+            if (this.rtbLogContent.Lines.Length > this.MaxLines)
+            {
+                this.rtbLogContent.Text = this.rtbLogContent.Text[(this.rtbLogContent.Lines[0].Length + 1)..];
+                this.rtbLogContent.Select(this.rtbLogContent.Text.Length, 0);
+            }
+        }
+
+        private void MaxLinesLeave(object sender, EventArgs e)
+        {
+            if (this.txtMaxLines.Text == "")
+            {
+                Utils.ShowInfoBox("显示行数不允许为空");
+                return;
+            }
+
+            bool ok = Utils.IsNaturalNumber(this.txtMaxLines.Text);
+            if (!ok)
+            {
+                Utils.ShowInfoBox("显示行数只允许输入正整数");
+                return;
+            }
+
+            int maxLines = Convert.ToInt16(this.txtMaxLines.Text);
+            if (maxLines <= 0)
+            {
+                Utils.ShowInfoBox("显示行数必须大于0");
+                return;
+            }
+            if (maxLines > 1000)
+            {
+                Utils.ShowInfoBox("显示行数不能超过1000");
+                return;
+            }
+
+            this.MaxLines = maxLines;
+        }
+
+        private void UpMetaBtnClick(object sender, EventArgs e)
+        {
+            // 防止重复操作
+            this.btnUpMeta.Enabled = false;
+
+            // 上报测点数据
+            this.DoSendMetaOnce();
+
+            Thread.Sleep(1000);
+            this.btnUpMeta.Enabled = true;
         }
     }
 }

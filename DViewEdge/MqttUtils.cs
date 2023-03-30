@@ -1,6 +1,7 @@
 ﻿using System;
 using uPLibrary.Networking.M2Mqtt;
 using uPLibrary.Networking.M2Mqtt.Messages;
+using static uPLibrary.Networking.M2Mqtt.MqttClient;
 
 namespace DViewEdge
 {
@@ -18,13 +19,19 @@ namespace DViewEdge
                 return Instance;
             }
 
+            Int32 intPort = Int32.Parse(port);
             MqttUtils _instance = new()
             {
-                MqttClient = new MqttClient(
-                address, Int32.Parse(port), false, MqttSslProtocols.None, null, null)
+                MqttClient = new MqttClient(address, intPort, false, MqttSslProtocols.None, null, null)
             };
             Instance = _instance;
             return Instance;
+        }
+
+        public void AddPublishedHandler(MqttMsgPublishedEventHandler handler)
+        {
+            this.MqttClient.MqttMsgPublished -= handler;
+            this.MqttClient.MqttMsgPublished += handler;
         }
 
         public void Connect(string clientId, string username, string password)
@@ -48,5 +55,6 @@ namespace DViewEdge
         {
             this.MqttClient.Publish(topic, message, MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE, true);
         }
+
     }
 }
