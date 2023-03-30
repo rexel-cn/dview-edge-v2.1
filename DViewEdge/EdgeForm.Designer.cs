@@ -339,7 +339,7 @@ namespace DViewEdge
             // btnSave
             // 
             this.btnSave.AutoSize = true;
-            this.btnSave.BackColor = System.Drawing.SystemColors.Window;
+            this.btnSave.BackColor = System.Drawing.SystemColors.Menu;
             this.btnSave.BackgroundImage = global::DViewEdge.Properties.Resources.save;
             this.btnSave.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.btnSave.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -358,8 +358,8 @@ namespace DViewEdge
             // btnRestart
             // 
             this.btnRestart.AutoSize = true;
-            this.btnRestart.BackColor = System.Drawing.SystemColors.Window;
-            this.btnRestart.BackgroundImage = global::DViewEdge.Properties.Resources.restart;
+            this.btnRestart.BackColor = System.Drawing.SystemColors.Menu;
+            this.btnRestart.BackgroundImage = global::DViewEdge.Properties.Resources.rebort;
             this.btnRestart.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.btnRestart.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnRestart.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
@@ -377,8 +377,8 @@ namespace DViewEdge
             // btnUpMeta
             // 
             this.btnUpMeta.AutoSize = true;
-            this.btnUpMeta.BackColor = System.Drawing.SystemColors.Window;
-            this.btnUpMeta.BackgroundImage = global::DViewEdge.Properties.Resources.meta;
+            this.btnUpMeta.BackColor = System.Drawing.SystemColors.Menu;
+            this.btnUpMeta.BackgroundImage = global::DViewEdge.Properties.Resources.upload;
             this.btnUpMeta.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.btnUpMeta.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnUpMeta.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
@@ -395,7 +395,7 @@ namespace DViewEdge
             // btnLog
             // 
             this.btnLog.AutoSize = true;
-            this.btnLog.BackColor = System.Drawing.SystemColors.Window;
+            this.btnLog.BackColor = System.Drawing.SystemColors.Menu;
             this.btnLog.BackgroundImage = global::DViewEdge.Properties.Resources.log;
             this.btnLog.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.btnLog.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -409,6 +409,7 @@ namespace DViewEdge
             this.btnLog.Text = "日志监控";
             this.btnLog.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnLog.UseVisualStyleBackColor = false;
+            this.btnLog.Click += new System.EventHandler(this.LogBtnClieck);
             // 
             // grbPlatform
             // 
@@ -620,8 +621,7 @@ namespace DViewEdge
             // 
             // EdgeForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.SystemColors.Window;
             this.ClientSize = new System.Drawing.Size(761, 579);
             this.Controls.Add(this.grbDevice);
@@ -637,7 +637,7 @@ namespace DViewEdge
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "EdgeForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "DView数据采集插件";
+            this.Text = "DView数据采集程序";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.EdgeFormClosing);
             this.grbMonitor.ResumeLayout(false);
             this.grbMonitor.PerformLayout();

@@ -12,6 +12,14 @@ namespace DViewEdge
 {
     public partial class EdgeForm : Form
     {
+        /// <summary>
+        /// 引用子窗体
+        /// </summary>
+        private readonly LogForm LogForm = new();
+
+        /// <summary>
+        /// 局部变量
+        /// </summary>
         private Conf EdgeConf { get; }
         private Topic MqttTopic { get; }
         private MqttUtils MqttUtils { get; }
@@ -19,10 +27,18 @@ namespace DViewEdge
         private bool LoadOnce { get; set; }
         private static Int64 netWorkBytes;
 
+        /// <summary>
+        /// 定义事件
+        /// </summary>
+        public event AppendLogHandler AppendLogEvent;
+
         public EdgeForm()
         {
             // 初始化窗体组件
             InitializeComponent();
+
+            // 加载系统日志窗体
+            LogForm.LoadMe();
 
             // 窗体始终位于屏幕最前面
             this.TopMost = true;
@@ -48,7 +64,7 @@ namespace DViewEdge
             // 初始化COM客户端
             this.RunDbUtils = RunDbUtils.GetInstance();
 
-//            LogView.AddLogBox(this.richTextBox1);
+            LogForm.AppendLogEvent("启动成功");
 
             LoadOnce = false;
             netWorkBytes = 0;
@@ -56,6 +72,7 @@ namespace DViewEdge
             // 启动后台任务
             StartTask();
         }
+
 
         /// <summary>
         /// 启动后台任务
@@ -417,7 +434,8 @@ namespace DViewEdge
                         continue;
                     }
 
-                    this.MqttUtils.Public(this.MqttTopic.UpData, readResult.Data);
+                    LogForm.AppendLog("上报数据");
+                    //this.MqttUtils.Public(this.MqttTopic.UpData, readResult.Data);
                     // TODO 打印上报成功日志
                 }
 
@@ -483,7 +501,7 @@ namespace DViewEdge
 
         private void EdgeFormClosing(object sender, FormClosingEventArgs e)
         {
-            DialogResult result = ShowConfirm("确定退出应用吗？");
+            DialogResult result = Utils.ShowConfirm("确定退出应用吗？");
             if (result == DialogResult.Yes)
             {
                 DoSaveConf();
@@ -497,7 +515,7 @@ namespace DViewEdge
 
         private void RestartButtonClick(object sender, EventArgs e)
         {
-            DialogResult result = ShowConfirm("确定重启应用吗？");
+            DialogResult result = Utils.ShowConfirm("确定重启应用吗？");
             if (result != DialogResult.Yes)
             {
                 return;
@@ -515,15 +533,6 @@ namespace DViewEdge
             Process.GetCurrentProcess()?.Kill();
         }
 
-        private static DialogResult ShowConfirm(string str) 
-        {
-            return MessageBox.Show(str, "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-        }
-
-        private static void ShowInfoBox(string str)
-        {
-            _ = MessageBox.Show(str, "提示", MessageBoxButtons.OK, MessageBoxIcon.Question);
-        }
 
 
         private void AddressLeave(object sender, EventArgs e)
@@ -531,7 +540,7 @@ namespace DViewEdge
             bool ok = Utils.IsIpAddress(this.txtAddress.Text);
             if (!ok)
             {
-                ShowInfoBox("输入的IP地址不合法");
+                Utils.ShowInfoBox("输入的IP地址不合法");
             }
         }
 
@@ -543,7 +552,7 @@ namespace DViewEdge
                 if (!Constants.SupportType.Contains(s))
                 {
                     string str = string.Join(",", Constants.SupportType.ToArray());
-                    ShowInfoBox("测点类型输入不合法，正确格式为：" + str);
+                    Utils.ShowInfoBox("测点类型输入不合法，正确格式为：" + str);
                 }
             }
         }
@@ -554,7 +563,7 @@ namespace DViewEdge
             bool ok = Utils.IsNumber(this.txtPort.Text);
             if (!ok)
             {
-                ShowInfoBox("输入的端口不合法");
+                Utils.ShowInfoBox("输入的端口不合法");
             }
         }
 
@@ -563,7 +572,7 @@ namespace DViewEdge
             bool ok = Utils.IsNaturalNumber(this.txtRepeate.Text);
             if (!ok)
             {
-                ShowInfoBox("采集频率只允许输入正整数");
+                Utils.ShowInfoBox("采集频率只允许输入正整数");
             }
         }
 
@@ -572,7 +581,7 @@ namespace DViewEdge
             bool ok = Utils.IsInteger(this.txtOffset.Text);
             if (!ok)
             {
-                ShowInfoBox("时间偏移只允许输入整数");
+                Utils.ShowInfoBox("时间偏移只允许输入整数");
             }
         }
 
@@ -586,7 +595,7 @@ namespace DViewEdge
             bool ok = Utils.IsClientId(this.txtUserClientId.Text);
             if (!ok)
             {
-                ShowInfoBox("客户端ID不合法。\n请以字母开头，长度在4~50之间，只能包含字符、数字和下划线");
+                Utils.ShowInfoBox("客户端ID不合法。\n请以字母开头，长度在4~50之间，只能包含字符、数字和下划线");
             }
         }
 
@@ -595,8 +604,13 @@ namespace DViewEdge
             int len = this.txtDeviceDescribe.Text.Length;
             if (len > 50)
             {
-                ShowInfoBox("设备名称描述不允许超过50个字符");
+                Utils.ShowInfoBox("设备名称描述不允许超过50个字符");
             }
+        }
+
+        private void LogBtnClieck(object sender, EventArgs e)
+        {
+            LogForm.ShowMe();
         }
     }
 }

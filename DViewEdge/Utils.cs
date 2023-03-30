@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Serialization;
 using System;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
 
 namespace DViewEdge
 {
@@ -105,6 +106,25 @@ namespace DViewEdge
                 ContractResolver = new CamelCasePropertyNamesContractResolver()
             };
             return JsonConvert.SerializeObject(classes, Formatting.None, serializerSettings);
+        }
+
+        /// <summary>
+        /// 显示确认窗口
+        /// </summary>
+        /// <param name="str">str</param>
+        /// <returns></returns>
+        public static DialogResult ShowConfirm(string str)
+        {
+            return MessageBox.Show(str, "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+        }
+
+        /// <summary>
+        /// 显示提示窗口
+        /// </summary>
+        /// <param name="str">str</param>
+        public static void ShowInfoBox(string str)
+        {
+            _ = MessageBox.Show(str, "提示", MessageBoxButtons.OK, MessageBoxIcon.Question);
         }
     }
 }
