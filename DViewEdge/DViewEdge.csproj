@@ -4,9 +4,9 @@
 		<OutputType>WinExe</OutputType>
 		<TargetFramework>net5.0-windows</TargetFramework>
 		<UseWindowsForms>true</UseWindowsForms>
-		<Authors>IDS</Authors>
-		<Product>IDS</Product>
-		<PackageId>rexel-mqtt</PackageId>
+		<Authors>REXEL IDS</Authors>
+		<Product>DVIEW</Product>
+		<PackageId>dview-edge</PackageId>
 		<Platforms>AnyCPU;x64;x86</Platforms>
 	</PropertyGroup>
 
