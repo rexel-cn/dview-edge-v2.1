@@ -10,7 +10,7 @@ namespace DViewEdge
         private string Path;
 
         /// <summary>
-        /// 共有属性
+        /// 公开属性
         /// </summary>
         public string SelectTag { get; set; }
         public string Username { get; set; }
@@ -56,16 +56,16 @@ namespace DViewEdge
             string path = BasePath + Constants.ConfFile;
 
             IniFile ini = new(path);
-            this.Path = path;
-            this.SelectTag = ini.Read(KeySelectTag, SectionConfig);
-            this.Username = ini.Read(KeyUsername, SectionConfig);
-            this.Password = ini.Read(KeyPassword, SectionConfig);
-            this.Repeate = ini.Read(KeyRepeate, SectionConfig);
-            this.Offset = ini.Read(KeyOffset, SectionConfig);
-            this.Address = ini.Read(KeyAddress, SectionConfig);
-            this.Port = ini.Read(KeyPort, SectionConfig);
-            this.UserClientId = ini.Read(KeyUserClientId, SectionConfig);
-            this.DeviceDescribe = ini.Read(KeyDeviceDescribe, SectionConfig);
+            Path = path;
+            SelectTag = ini.Read(KeySelectTag, SectionConfig);
+            Username = ini.Read(KeyUsername, SectionConfig);
+            Password = ini.Read(KeyPassword, SectionConfig);
+            Repeate = ini.Read(KeyRepeate, SectionConfig);
+            Offset = ini.Read(KeyOffset, SectionConfig);
+            Address = ini.Read(KeyAddress, SectionConfig);
+            Port = ini.Read(KeyPort, SectionConfig);
+            UserClientId = ini.Read(KeyUserClientId, SectionConfig);
+            DeviceDescribe = ini.Read(KeyDeviceDescribe, SectionConfig);
         }
 
         /// <summary>
@@ -73,16 +73,16 @@ namespace DViewEdge
         /// </summary>
         public void SaveConf()
         {
-            IniFile ini = new(this.Path);
-            ini.Write(KeySelectTag, this.SelectTag, SectionConfig);
-            ini.Write(KeyUsername, this.Username, SectionConfig);
-            ini.Write(KeyPassword, this.Password, SectionConfig);
-            ini.Write(KeyRepeate, this.Repeate, SectionConfig);
-            ini.Write(KeyOffset, this.Offset, SectionConfig);
-            ini.Write(KeyAddress, this.Address, SectionConfig);
-            ini.Write(KeyPort, this.Port, SectionConfig);
-            ini.Write(KeyUserClientId, this.UserClientId, SectionConfig);
-            ini.Write(KeyDeviceDescribe, this.DeviceDescribe, SectionConfig);
+            IniFile ini = new(Path);
+            ini.Write(KeySelectTag, SelectTag, SectionConfig);
+            ini.Write(KeyUsername, Username, SectionConfig);
+            ini.Write(KeyPassword, Password, SectionConfig);
+            ini.Write(KeyRepeate, Repeate, SectionConfig);
+            ini.Write(KeyOffset, Offset, SectionConfig);
+            ini.Write(KeyAddress, Address, SectionConfig);
+            ini.Write(KeyPort, Port, SectionConfig);
+            ini.Write(KeyUserClientId, UserClientId, SectionConfig);
+            ini.Write(KeyDeviceDescribe, DeviceDescribe, SectionConfig);
         }
     }
 }

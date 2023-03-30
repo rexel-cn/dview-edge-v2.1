@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DViewEdge
+﻿namespace DViewEdge
 {
     public class Topic
     {
@@ -17,14 +11,14 @@ namespace DViewEdge
         /// <summary>
         /// 获取Topic信息
         /// </summary>
-        /// <param name="clientId">机器码</param>
+        /// <param name="clientId">客户端ID</param>
         public Topic(string clientId)
         {
-            this.DownNotice = string.Format(Constants.TopicDownNotice, clientId);
-            this.DownControl = string.Format(Constants.TopicDownControl, clientId);
-            this.DownRestart = string.Format(Constants.TopicDownRestart, clientId);
-            this.UpData = string.Format(Constants.TopicUpData, clientId);
-            this.UpMeta = string.Format(Constants.TopicUpMeta, clientId);
+            DownNotice = string.Format(Constants.TopicDownNotice, clientId);
+            DownControl = string.Format(Constants.TopicDownControl, clientId);
+            DownRestart = string.Format(Constants.TopicDownRestart, clientId);
+            UpData = string.Format(Constants.TopicUpData, clientId);
+            UpMeta = string.Format(Constants.TopicUpMeta, clientId);
         }
     }
 }

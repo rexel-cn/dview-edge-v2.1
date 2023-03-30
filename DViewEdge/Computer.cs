@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Security.Cryptography;
 using System.Text;
-using XSystem.Security.Cryptography;
 
 namespace DViewEdge
 {
@@ -56,12 +56,12 @@ namespace DViewEdge
             {
                 byte b = bt[i];
                 int n, n1, n2;
-                n = (int)b;
+                n = b;
                 n1 = n & 15;
                 n2 = (n >> 4) & 15;
                 if (n2 > 9)
                 {
-                    s += ((char)(n2 - 10 + (int)'A')).ToString();
+                    s += ((char)(n2 - 10 + 'A')).ToString();
                 }
                 else
                 {
@@ -69,7 +69,7 @@ namespace DViewEdge
                 }
                 if (n1 > 9)
                 {
-                    s += ((char)(n1 - 10 + (int)'A')).ToString();
+                    s += ((char)(n1 - 10 + 'A')).ToString();
                 }
                 else
                 {
@@ -99,7 +99,6 @@ namespace DViewEdge
             {
                 if (mo[wmiMustBeTrue].ToString() == "True")
                 {
-                    //Only get the first one
                     if (result == "")
                     {
                         try
@@ -122,7 +121,7 @@ namespace DViewEdge
         /// </summary>
         /// <param name="wmiClass">wmiClass</param>
         /// <param name="wmiProperty">wmiProperty</param>
-        /// <returns></returns>
+        /// <returns>string</returns>
         private static string Identifier(string wmiClass, string wmiProperty)
         {
             string result = "";
@@ -130,7 +129,6 @@ namespace DViewEdge
             System.Management.ManagementObjectCollection moc = mc.GetInstances();
             foreach (System.Management.ManagementObject mo in moc)
             {
-                //Only get the first one
                 if (result == "")
                 {
                     try
@@ -153,7 +151,7 @@ namespace DViewEdge
         /// <summary>
         /// CPU相关参数
         /// </summary>
-        /// <returns></returns>
+        /// <returns>string</returns>
         private static string CpuId()
         {
             string retVal = Identifier("Win32_Processor", "UniqueId");
@@ -182,7 +180,7 @@ namespace DViewEdge
         /// <summary>
         /// BIOS相关参数
         /// </summary>
-        /// <returns>结果</returns>
+        /// <returns>string</returns>
         private static string BiosId()
         {
             return Identifier("Win32_BIOS", "Manufacturer")

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace DViewEdge
 {
@@ -33,12 +29,21 @@ namespace DViewEdge
         public const string VT = "VT";
 
         // 数据质量
+        public static string QtyOk = "0";
+        public static string QtyNg = "1";
+
+        // 数据类型
+        public static string TypeDouble = "double";
+        public static string TypeInt = "int";
+        public static string TypeString = "string";
+
+        // 服务质量
         public const byte Qos0 = 0x00;
 
         // 数据单位
-        public const Int64 KB = 1024;
-        public const Int64 MB = KB * 1024;
-        public const Int64 GB = MB * 1024;
+        public const long KB = 1024;
+        public const long MB = KB * 1024;
+        public const long GB = MB * 1024;
 
         // 时间格式
         public const string FormatLong = "yyyy-MM-dd HH:mm:ss";

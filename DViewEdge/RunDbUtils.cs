@@ -8,8 +8,15 @@ namespace DViewEdge
         private Rundb Read { get; set; }
         private Rundb Write { get; set; }
 
+        /// <summary>
+        /// 构造函数
+        /// </summary>
         private RunDbUtils() { }
 
+        /// <summary>
+        /// 创建实例
+        /// </summary>
+        /// <returns>实例</returns>
         public static RunDbUtils GetInstance()
         {
             if (Instance != null)
@@ -26,15 +33,22 @@ namespace DViewEdge
             return _instance;
         }
 
+        /// <summary>
+        /// 获取读数据实例
+        /// </summary>
+        /// <returns>Rundb</returns>
         public Rundb GetRead()
         {
             return Read;
         }
 
+        /// <summary>
+        /// 获取写数据实例
+        /// </summary>
+        /// <returns>Rundb</returns>
         public Rundb GetWrite()
         {
             return Write;
         }
-
     }
 }

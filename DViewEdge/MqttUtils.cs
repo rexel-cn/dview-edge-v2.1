@@ -1,5 +1,4 @@
-﻿using System;
-using uPLibrary.Networking.M2Mqtt;
+﻿using uPLibrary.Networking.M2Mqtt;
 using uPLibrary.Networking.M2Mqtt.Messages;
 using static uPLibrary.Networking.M2Mqtt.MqttClient;
 
@@ -10,8 +9,17 @@ namespace DViewEdge
         private static MqttUtils Instance = null;
         private MqttClient MqttClient = null;
 
+        /// <summary>
+        /// 构造函数
+        /// </summary>
         private MqttUtils(){}
 
+        /// <summary>
+        /// 创建实例
+        /// </summary>
+        /// <param name="address">地址</param>
+        /// <param name="port">端口</param>
+        /// <returns>实例</returns>
         public static MqttUtils GetInastance(string address, string port)
         {
             if (Instance != null)
@@ -19,7 +27,7 @@ namespace DViewEdge
                 return Instance;
             }
 
-            Int32 intPort = Int32.Parse(port);
+            int intPort = int.Parse(port);
             MqttUtils _instance = new()
             {
                 MqttClient = new MqttClient(address, intPort, false, MqttSslProtocols.None, null, null)
@@ -28,33 +36,57 @@ namespace DViewEdge
             return Instance;
         }
 
+        /// <summary>
+        /// 创建发送结果监听事件
+        /// </summary>
+        /// <param name="handler">handler</param>
         public void AddPublishedHandler(MqttMsgPublishedEventHandler handler)
         {
-            this.MqttClient.MqttMsgPublished -= handler;
-            this.MqttClient.MqttMsgPublished += handler;
+            MqttClient.MqttMsgPublished -= handler;
+            MqttClient.MqttMsgPublished += handler;
         }
 
+        /// <summary>
+        /// 连接Mqtt Broker
+        /// </summary>
+        /// <param name="clientId">客户端ID</param>
+        /// <param name="username">账号</param>
+        /// <param name="password">密码</param>
         public void Connect(string clientId, string username, string password)
         {
-            this.MqttClient.Connect(clientId, username, password);
+            MqttClient.Connect(clientId, username, password);
         }
 
-        public Boolean IsConnected()
+        /// <summary>
+        /// 返回是否连接
+        /// </summary>
+        /// <returns>bool</returns>
+        public bool IsConnected()
         {
-            return this.MqttClient.IsConnected;
+            return MqttClient.IsConnected;
         }
 
-        public void Subscribe(string[] topics, byte[] qosLevels, MqttClient.MqttMsgPublishEventHandler handler)
+        /// <summary>
+        /// 创建订阅对象
+        /// </summary>
+        /// <param name="topics">主题</param>
+        /// <param name="qosLevels">数据质量</param>
+        /// <param name="handler">监听句柄</param>
+        public void Subscribe(string[] topics, byte[] qosLevels, MqttMsgPublishEventHandler handler)
         {
-            this.MqttClient.MqttMsgPublishReceived -= handler;
-            this.MqttClient.MqttMsgPublishReceived += handler;
-            this.MqttClient.Subscribe(topics, qosLevels);
+            MqttClient.MqttMsgPublishReceived -= handler;
+            MqttClient.MqttMsgPublishReceived += handler;
+            MqttClient.Subscribe(topics, qosLevels);
         }
 
+        /// <summary>
+        /// 发送消息
+        /// </summary>
+        /// <param name="topic">主题</param>
+        /// <param name="message">消息</param>
         public void Public(string topic, byte[] message)
         {
-            this.MqttClient.Publish(topic, message, MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE, true);
+            MqttClient.Publish(topic, message, MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE, true);
         }
-
     }
 }

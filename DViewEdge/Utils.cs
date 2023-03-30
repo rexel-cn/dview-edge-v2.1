@@ -20,6 +20,22 @@ namespace DViewEdge
         }
 
         /// <summary>
+        /// 根据测点类型获取数据类型
+        /// </summary>
+        /// <param name="pointType">测点类型</param>
+        /// <returns>数据类型</returns>
+        public static string GetDataType(string pointType)
+        {
+            string result = pointType switch
+            {
+                Constants.AR or Constants.AO or Constants.AI or Constants.VA => Constants.TypeDouble,
+                Constants.DR or Constants.DO or Constants.DI or Constants.VD => Constants.TypeInt,
+                Constants.VT or _ => Constants.TypeString,
+            };
+            return result;
+        }
+
+        /// <summary>
         /// 是否为数字
         /// </summary>
         /// <param name="str">str</param>
@@ -37,7 +53,7 @@ namespace DViewEdge
         /// <returns>true:是、false:否</returns>
         public static bool IsInteger(string str)
         {
-            Regex regex = new("^-?\\d+$");
+            Regex regex = new(@"^-?\d+$");
             return regex.IsMatch(str);
         }
 
@@ -48,7 +64,7 @@ namespace DViewEdge
         /// <returns>true:是、false:否</returns>
         public static bool IsNaturalNumber(string str)
         {
-            Regex regex = new("^\\+?[1-9][0-9]*$");
+            Regex regex = new(@"^\+?[1-9][0-9]*$");
             return regex.IsMatch(str);
         }
 
@@ -60,7 +76,7 @@ namespace DViewEdge
         /// <returns></returns>
         public static bool IsClientId(string str)
         {
-            Regex regex = new("^[a-zA-Z]\\w{3,49}$");
+            Regex regex = new(@"^[a-zA-Z]\w{3,49}$");
             return regex.IsMatch(str);
         }
 
@@ -141,19 +157,19 @@ namespace DViewEdge
         /// </summary>
         /// <param name="size">size</param>
         /// <returns>结果</returns>
-        public static string ConvertSize(Int64 size)
+        public static string ConvertSize(long size)
         {
             if (size / Constants.GB >= 1)
             {
-                return (Math.Round(size / (float)Constants.GB, 2)).ToString() + " GB";
+                return Math.Round(size / (float)Constants.GB, 2).ToString() + " GB";
             }
             else if (size / Constants.MB >= 1)
             {
-                return (Math.Round(size / (float)Constants.MB, 2)).ToString() + " MB";
+                return Math.Round(size / (float)Constants.MB, 2).ToString() + " MB";
             }
             else if (size / Constants.KB >= 1)
             {
-                return (Math.Round(size / (float)Constants.KB, 2)).ToString() + " KB";
+                return Math.Round(size / (float)Constants.KB, 2).ToString() + " KB";
             }
             else
             {

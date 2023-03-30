@@ -30,8 +30,6 @@ namespace DViewEdge
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EdgeForm));
-            this.predict_speed = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
             this.splitContainer = new System.Windows.Forms.SplitContainer();
             this.grbDevice = new System.Windows.Forms.GroupBox();
             this.lbl12 = new System.Windows.Forms.Label();
@@ -48,9 +46,9 @@ namespace DViewEdge
             this.req11 = new System.Windows.Forms.Label();
             this.req10 = new System.Windows.Forms.Label();
             this.req9 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
+            this.lbl20 = new System.Windows.Forms.Label();
+            this.lbl21 = new System.Windows.Forms.Label();
+            this.lbl22 = new System.Windows.Forms.Label();
             this.lbl11 = new System.Windows.Forms.Label();
             this.txtOffset = new System.Windows.Forms.TextBox();
             this.grbPlatform = new System.Windows.Forms.GroupBox();
@@ -78,13 +76,13 @@ namespace DViewEdge
             this.lblStartTime = new System.Windows.Forms.Label();
             this.lblStatus = new System.Windows.Forms.Label();
             this.lbl4 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
+            this.lbl24 = new System.Windows.Forms.Label();
+            this.lbl23 = new System.Windows.Forms.Label();
             this.lbl3 = new System.Windows.Forms.Label();
             this.lbl2 = new System.Windows.Forms.Label();
             this.lbl1 = new System.Windows.Forms.Label();
             this.rtbLogContent = new System.Windows.Forms.RichTextBox();
-            this.lblLines = new System.Windows.Forms.Label();
+            this.lbl25 = new System.Windows.Forms.Label();
             this.txtMaxLines = new System.Windows.Forms.TextBox();
             this.btnClean = new System.Windows.Forms.Button();
             this.btnPause = new System.Windows.Forms.Button();
@@ -97,22 +95,6 @@ namespace DViewEdge
             this.grbPlatform.SuspendLayout();
             this.grbMonitor.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // predict_speed
-            // 
-            this.predict_speed.AutoSize = true;
-            this.predict_speed.Location = new System.Drawing.Point(856, 278);
-            this.predict_speed.Name = "predict_speed";
-            this.predict_speed.Size = new System.Drawing.Size(0, 17);
-            this.predict_speed.TabIndex = 1;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(15, 595);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(0, 17);
-            this.label5.TabIndex = 2;
             // 
             // splitContainer
             // 
@@ -137,7 +119,7 @@ namespace DViewEdge
             // splitContainer.Panel2
             // 
             this.splitContainer.Panel2.Controls.Add(this.rtbLogContent);
-            this.splitContainer.Panel2.Controls.Add(this.lblLines);
+            this.splitContainer.Panel2.Controls.Add(this.lbl25);
             this.splitContainer.Panel2.Controls.Add(this.txtMaxLines);
             this.splitContainer.Panel2.Controls.Add(this.btnClean);
             this.splitContainer.Panel2.Controls.Add(this.btnPause);
@@ -225,9 +207,9 @@ namespace DViewEdge
             this.grbCollection.Controls.Add(this.req11);
             this.grbCollection.Controls.Add(this.req10);
             this.grbCollection.Controls.Add(this.req9);
-            this.grbCollection.Controls.Add(this.label3);
-            this.grbCollection.Controls.Add(this.label2);
-            this.grbCollection.Controls.Add(this.label1);
+            this.grbCollection.Controls.Add(this.lbl20);
+            this.grbCollection.Controls.Add(this.lbl21);
+            this.grbCollection.Controls.Add(this.lbl22);
             this.grbCollection.Controls.Add(this.lbl11);
             this.grbCollection.Controls.Add(this.txtOffset);
             this.grbCollection.Location = new System.Drawing.Point(354, 192);
@@ -306,32 +288,32 @@ namespace DViewEdge
             this.req9.Text = "*";
             this.req9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // label3
+            // lbl20
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(255, 45);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(83, 17);
-            this.label3.TabIndex = 3;
-            this.label3.Text = "例：AR,DI,VA";
+            this.lbl20.AutoSize = true;
+            this.lbl20.Location = new System.Drawing.Point(255, 45);
+            this.lbl20.Name = "lbl20";
+            this.lbl20.Size = new System.Drawing.Size(83, 17);
+            this.lbl20.TabIndex = 3;
+            this.lbl20.Text = "例：AR,DI,VA";
             // 
-            // label2
+            // lbl21
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(255, 85);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(20, 17);
-            this.label2.TabIndex = 7;
-            this.label2.Text = "秒";
+            this.lbl21.AutoSize = true;
+            this.lbl21.Location = new System.Drawing.Point(255, 85);
+            this.lbl21.Name = "lbl21";
+            this.lbl21.Size = new System.Drawing.Size(20, 17);
+            this.lbl21.TabIndex = 7;
+            this.lbl21.Text = "秒";
             // 
-            // label1
+            // lbl22
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(255, 125);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(20, 17);
-            this.label1.TabIndex = 11;
-            this.label1.Text = "秒";
+            this.lbl22.AutoSize = true;
+            this.lbl22.Location = new System.Drawing.Point(255, 125);
+            this.lbl22.Name = "lbl22";
+            this.lbl22.Size = new System.Drawing.Size(20, 17);
+            this.lbl22.TabIndex = 11;
+            this.lbl22.Text = "秒";
             // 
             // lbl11
             // 
@@ -505,7 +487,7 @@ namespace DViewEdge
             this.btnLog.Text = "系统日志";
             this.btnLog.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnLog.UseVisualStyleBackColor = true;
-            this.btnLog.Click += new System.EventHandler(this.LogBtnClieck);
+            this.btnLog.Click += new System.EventHandler(this.LogBtnClick);
             // 
             // btnUpMeta
             // 
@@ -573,8 +555,8 @@ namespace DViewEdge
             this.grbMonitor.Controls.Add(this.lblStartTime);
             this.grbMonitor.Controls.Add(this.lblStatus);
             this.grbMonitor.Controls.Add(this.lbl4);
-            this.grbMonitor.Controls.Add(this.label6);
-            this.grbMonitor.Controls.Add(this.label4);
+            this.grbMonitor.Controls.Add(this.lbl24);
+            this.grbMonitor.Controls.Add(this.lbl23);
             this.grbMonitor.Controls.Add(this.lbl3);
             this.grbMonitor.Controls.Add(this.lbl2);
             this.grbMonitor.Controls.Add(this.lbl1);
@@ -661,25 +643,25 @@ namespace DViewEdge
             this.lbl4.Text = "发送流量:";
             this.lbl4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // label6
+            // lbl24
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(587, 81);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(59, 17);
-            this.label6.TabIndex = 10;
-            this.label6.Text = "异常次数:";
-            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lbl24.AutoSize = true;
+            this.lbl24.Location = new System.Drawing.Point(587, 81);
+            this.lbl24.Name = "lbl24";
+            this.lbl24.Size = new System.Drawing.Size(59, 17);
+            this.lbl24.TabIndex = 10;
+            this.lbl24.Text = "异常次数:";
+            this.lbl24.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // label4
+            // lbl23
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(160, 81);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(59, 17);
-            this.label4.TabIndex = 6;
-            this.label4.Text = "发送成功:";
-            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lbl23.AutoSize = true;
+            this.lbl23.Location = new System.Drawing.Point(160, 81);
+            this.lbl23.Name = "lbl23";
+            this.lbl23.Size = new System.Drawing.Size(59, 17);
+            this.lbl23.TabIndex = 6;
+            this.lbl23.Text = "发送成功:";
+            this.lbl23.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // lbl3
             // 
@@ -726,14 +708,14 @@ namespace DViewEdge
             this.rtbLogContent.Text = "";
             this.rtbLogContent.TextChanged += new System.EventHandler(this.LogContentTextChanged);
             // 
-            // lblLines
+            // lbl25
             // 
-            this.lblLines.AutoSize = true;
-            this.lblLines.Location = new System.Drawing.Point(243, 18);
-            this.lblLines.Name = "lblLines";
-            this.lblLines.Size = new System.Drawing.Size(59, 17);
-            this.lblLines.TabIndex = 2;
-            this.lblLines.Text = "显示行数:";
+            this.lbl25.AutoSize = true;
+            this.lbl25.Location = new System.Drawing.Point(243, 18);
+            this.lbl25.Name = "lbl25";
+            this.lbl25.Size = new System.Drawing.Size(59, 17);
+            this.lbl25.TabIndex = 2;
+            this.lbl25.Text = "显示行数:";
             // 
             // txtMaxLines
             // 
@@ -776,7 +758,7 @@ namespace DViewEdge
             this.btnPause.Text = "暂停";
             this.btnPause.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnPause.UseVisualStyleBackColor = true;
-            this.btnPause.Click += new System.EventHandler(this.PauseBtnClienk);
+            this.btnPause.Click += new System.EventHandler(this.PauseBtnClick);
             // 
             // EdgeForm
             // 
@@ -785,8 +767,6 @@ namespace DViewEdge
             this.BackColor = System.Drawing.SystemColors.Window;
             this.ClientSize = new System.Drawing.Size(1172, 612);
             this.Controls.Add(this.splitContainer);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.predict_speed);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "EdgeForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -807,13 +787,10 @@ namespace DViewEdge
             this.grbMonitor.ResumeLayout(false);
             this.grbMonitor.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
-        private System.Windows.Forms.Label predict_speed;
-        private System.Windows.Forms.Label label5;
         private System.Windows.Forms.SplitContainer splitContainer;
         private System.Windows.Forms.GroupBox grbDevice;
         private System.Windows.Forms.Label lbl12;
@@ -830,9 +807,9 @@ namespace DViewEdge
         private System.Windows.Forms.Label req11;
         private System.Windows.Forms.Label req10;
         private System.Windows.Forms.Label req9;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lbl20;
+        private System.Windows.Forms.Label lbl21;
+        private System.Windows.Forms.Label lbl22;
         private System.Windows.Forms.Label lbl11;
         private System.Windows.Forms.TextBox txtOffset;
         private System.Windows.Forms.GroupBox grbPlatform;
@@ -861,15 +838,15 @@ namespace DViewEdge
         private System.Windows.Forms.Label lbl3;
         private System.Windows.Forms.Label lbl2;
         private System.Windows.Forms.Label lbl1;
-        private System.Windows.Forms.Label lblLines;
+        private System.Windows.Forms.Label lbl25;
         private System.Windows.Forms.TextBox txtMaxLines;
         private System.Windows.Forms.Button btnClean;
         private System.Windows.Forms.Button btnPause;
         private System.Windows.Forms.RichTextBox rtbLogContent;
         private System.Windows.Forms.Label lblError;
         private System.Windows.Forms.Label lblSucceed;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label lbl24;
+        private System.Windows.Forms.Label lbl23;
     }
 }
 

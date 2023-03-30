@@ -14,7 +14,13 @@ namespace DViewEdge
 
     public class Tools
     {
-        public static List<PointData> GetPointDataList(string listStr, string type)
+        /// <summary>
+        /// 转换运行数据结构
+        /// </summary>
+        /// <param name="listStr">listStr</param>
+        /// <param name="pointType">pointType</param>
+        /// <returns>结果</returns>
+        public static List<PointData> GetPointDataList(string listStr, string pointType)
         {
             List<PointData> pointDataList = new();
             if (listStr == "" || listStr == null)
@@ -23,7 +29,7 @@ namespace DViewEdge
             }
 
             Regex r = new(@"\(.*?\)");
-            int get_cnt = Int32.Parse(r.Match(listStr).Value.Replace("(", "").Replace(")", ""));
+            int get_cnt = int.Parse(r.Match(listStr).Value.Replace("(", "").Replace(")", ""));
             if (get_cnt == 0)
             {
                 return pointDataList;
@@ -36,7 +42,7 @@ namespace DViewEdge
             {
                 start = listStr.IndexOf("|", tmp);
                 string lineData;
-                if (type == Constants.VT)
+                if (pointType == Constants.VT)
                 {
                     int cen = listStr.IndexOf(",'", start);
                     end = listStr.IndexOf("'|", cen);
@@ -54,11 +60,11 @@ namespace DViewEdge
 
                 if (CheckPointValid(pointId))
                 {
-                    PointData pointData = MakePointData(type, pointId, pointValue);
+                    PointData pointData = MakePointData(pointType, pointId, pointValue);
                     pointDataList.Add(pointData);
                 }
 
-                if (type == Constants.VT)
+                if (pointType == Constants.VT)
                 {
                     tmp = end;
                     if (tmp + 2 >= listStr.Length)
@@ -78,6 +84,11 @@ namespace DViewEdge
             return pointDataList;
         }
 
+        /// <summary>
+        /// 检查测点是否有效
+        /// </summary>
+        /// <param name="str">str</param>
+        /// <returns>结果</returns>
         private static bool CheckPointValid(string str)
         {
             if (Regex.IsMatch(str, @"[\u4e00-\u9fa5]"))
@@ -95,26 +106,34 @@ namespace DViewEdge
             return true;
         }
 
-        private static PointData MakePointData(string type, string pointId, string pointValue)
+        /// <summary>
+        /// 生成测点数据对象
+        /// </summary>
+        /// <param name="pointType">测点类型</param>
+        /// <param name="pointId">测点Id</param>
+        /// <param name="pointValue">测点值</param>
+        /// <returns>PointData</returns>
+        private static PointData MakePointData(string pointType, string pointId, string pointValue)
         {
             PointData pointData = new()
             {
                 PointId = pointId,
-                Qty = "0"
+                Qty = Constants.QtyOk
             };
 
             if (pointValue == "{0}")
             {
-                pointData.Qty = "1";
+                pointData.Qty = Constants.QtyNg;
                 pointData.PointValue = 0;
                 return pointData;
             }
 
-            if (type == "VA" || type == "AR" || type == "AO" || type == "AI")
+            string dataType = Utils.GetDataType(pointType);
+            if (Constants.TypeDouble.Equals(dataType))
             {
                 pointData.PointValue = Convert.ToDouble(pointValue, CultureInfo.InvariantCulture);
             }
-            else if (type == "VD" || type == "DR" || type == "DO" || type == "DI")
+            else if (Constants.TypeInt.Equals(dataType))
             {
                 pointData.PointValue = Convert.ToInt32(pointValue, CultureInfo.InvariantCulture);
             }
