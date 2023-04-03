@@ -703,7 +703,7 @@ namespace DViewEdge
             this.rtbLogContent.Location = new System.Drawing.Point(9, 56);
             this.rtbLogContent.Name = "rtbLogContent";
             this.rtbLogContent.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Horizontal;
-            this.rtbLogContent.Size = new System.Drawing.Size(389, 533);
+            this.rtbLogContent.Size = new System.Drawing.Size(394, 533);
             this.rtbLogContent.TabIndex = 4;
             this.rtbLogContent.Text = "";
             this.rtbLogContent.TextChanged += new System.EventHandler(this.LogContentTextChanged);

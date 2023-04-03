@@ -2,10 +2,25 @@
 {
     public class Topic
     {
+        /// <summary>
+        /// 下行通知Topic
+        /// </summary>
         public string DownNotice { get; }
+        /// <summary>
+        /// 命令下发Topic
+        /// </summary>
         public string DownControl { get; }
+        /// <summary>
+        /// 重启通知Topic
+        /// </summary>
         public string DownRestart { get; }
+        /// <summary>
+        /// 上报数据Topic
+        /// </summary>
         public string UpData { get; }
+        /// <summary>
+        /// 设备元数据Topic
+        /// </summary>
         public string UpMeta { get; }
 
         /// <summary>

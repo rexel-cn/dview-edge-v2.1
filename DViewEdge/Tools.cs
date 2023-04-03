@@ -5,13 +5,6 @@ using System.Globalization;
 
 namespace DViewEdge
 {
-    public class PointData
-    {
-        public string PointId { get; set; }
-        public object PointValue { get; set; }
-        public string Qty { get; set; }
-    }
-
     public class Tools
     {
         /// <summary>
@@ -20,9 +13,9 @@ namespace DViewEdge
         /// <param name="listStr">listStr</param>
         /// <param name="pointType">pointType</param>
         /// <returns>结果</returns>
-        public static List<PointData> GetPointDataList(string listStr, string pointType)
+        public static List<EdgeForm.PointData> GetPointDataList(string listStr, string pointType)
         {
-            List<PointData> pointDataList = new();
+            List<EdgeForm.PointData> pointDataList = new();
             if (listStr == "" || listStr == null)
             {
                 return pointDataList;
@@ -60,7 +53,7 @@ namespace DViewEdge
 
                 if (CheckPointValid(pointId))
                 {
-                    PointData pointData = MakePointData(pointType, pointId, pointValue);
+                    EdgeForm.PointData pointData = MakePointData(pointType, pointId, pointValue);
                     pointDataList.Add(pointData);
                 }
 
@@ -113,9 +106,9 @@ namespace DViewEdge
         /// <param name="pointId">测点Id</param>
         /// <param name="pointValue">测点值</param>
         /// <returns>PointData</returns>
-        private static PointData MakePointData(string pointType, string pointId, string pointValue)
+        private static EdgeForm.PointData MakePointData(string pointType, string pointId, string pointValue)
         {
-            PointData pointData = new()
+            EdgeForm.PointData pointData = new()
             {
                 PointId = pointId,
                 Qty = Constants.QtyOk

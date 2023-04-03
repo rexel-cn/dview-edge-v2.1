@@ -36,7 +36,7 @@ namespace DViewEdge
         }
 
         /// <summary>
-        /// 上报数据
+        /// 运行数据
         /// </summary>
         public class ReportData
         {
@@ -44,6 +44,26 @@ namespace DViewEdge
             public string DataType { get; set; }
             public string PointType { get; set; }
             public List<PointData> Data { get; set; }
+        }
+
+        /// <summary>
+        /// 测点信息
+        /// </summary>
+        public class PointData
+        {
+            public string PointId { get; set; }
+            public object PointValue { get; set; }
+            public string Qty { get; set; }
+        }
+
+        /// <summary>
+        /// 设备元数据
+        /// </summary>
+        public class DeviceMeta
+        {
+            public string Username { get; set; }
+            public string DeviceDescribe { get; set; }
+            public List<ReportData> PointList { get; set; }
         }
 
         /// <summary>
@@ -175,7 +195,7 @@ namespace DViewEdge
         /// <summary>
         /// 检查连接状态
         /// </summary>
-        public void CheckConnect()
+        private void CheckConnect()
         {
             while (true)
             {
@@ -196,7 +216,7 @@ namespace DViewEdge
                 {
                     StatusNg();
                     SendErrorCount += 1;
-                    AppendLog(String.Format("平台连接异常：{0}", e.Message));
+                    AppendLog(string.Format("平台连接异常：{0}", e.Message));
                 }
                 finally
                 {
@@ -285,7 +305,13 @@ namespace DViewEdge
                     dataList.Add(reportData);
                 }
 
-                SendInfo sendInfo = GetSendInfoForMeta(dataList);
+                DeviceMeta meta = new()
+                {
+                    Username = EdgeConf.Username,
+                    DeviceDescribe = txtDeviceDescribe.Text,
+                    PointList = dataList
+                };
+                SendInfo sendInfo = GetSendInfoForMeta(meta);
 
                 // 发送数据
                 MqttUtils.Public(MqttTopic.UpMeta, sendInfo.Data);
@@ -548,16 +574,16 @@ namespace DViewEdge
         /// <summary>
         /// 获取测点数据流量信息
         /// </summary>
-        /// <param name="list">list</param>
+        /// <param name="meta">meta</param>
         /// <returns>SendInfo</returns>
-        private static SendInfo GetSendInfoForMeta(List<ReportData> list)
+        private static SendInfo GetSendInfoForMeta(DeviceMeta meta)
         {
             int count = 0;
-            foreach (ReportData data in list)
+            foreach (ReportData data in meta.PointList)
             {
                 count += data.Data.Count;
             }
-            string json = Utils.JsonToStr(list);
+            string json = Utils.JsonToStr(meta);
             byte[] bytes = Encoding.UTF8.GetBytes(json);
             return new SendInfo
             {
@@ -616,6 +642,13 @@ namespace DViewEdge
                 isError = false;
                 noData = false;
                 return reportData;
+            }
+            catch (Exception e)
+            {
+                isError = true;
+                noData = true;
+                AppendLog(string.Format("COM接口打开异常：{0}", e.Message));
+                return null;
             }
             finally
             {
@@ -852,7 +885,7 @@ namespace DViewEdge
         /// </summary>
         /// <param name="sender">sender</param>
         /// <param name="e">e</param>
-        public void MqttMsgPublished(object sender, MqttMsgPublishedEventArgs e)
+        private void MqttMsgPublished(object sender, MqttMsgPublishedEventArgs e)
         {
             if (e.IsPublished)
             {

@@ -89,7 +89,7 @@ namespace DViewEdge
         /// <param name="wmiClass">wmiClass</param>
         /// <param name="wmiProperty">wmiProperty</param>
         /// <param name="wmiMustBeTrue">wmiMustBeTrue</param>
-        /// <returns></returns>
+        /// <returns>string</returns>
         private static string Identifier(string wmiClass, string wmiProperty, string wmiMustBeTrue)
         {
             string result = "";
@@ -129,20 +129,17 @@ namespace DViewEdge
             System.Management.ManagementObjectCollection moc = mc.GetInstances();
             foreach (System.Management.ManagementObject mo in moc)
             {
-                if (result == "")
+                try
                 {
-                    try
+                    if (mo[wmiProperty] != null)
                     {
-                        if (mo[wmiProperty] != null)
-                        {
-                            result = mo[wmiProperty].ToString();
-                            break;
-                        }
+                        result = mo[wmiProperty].ToString();
+                        break;
                     }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine(ex.ToString());
-                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.ToString());
                 }
             }
             return result;
