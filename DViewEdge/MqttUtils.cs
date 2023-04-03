@@ -1,4 +1,5 @@
-﻿using uPLibrary.Networking.M2Mqtt;
+﻿using System;
+using uPLibrary.Networking.M2Mqtt;
 using uPLibrary.Networking.M2Mqtt.Messages;
 using static uPLibrary.Networking.M2Mqtt.MqttClient;
 
@@ -7,7 +8,9 @@ namespace DViewEdge
     public class MqttUtils
     {
         private static MqttUtils Instance = null;
-        private MqttClient MqttClient = null;
+        private MqttClient Client = null;
+        private string Address = null;
+        private string Port = null;
 
         /// <summary>
         /// 构造函数
@@ -20,20 +23,47 @@ namespace DViewEdge
         /// <param name="address">地址</param>
         /// <param name="port">端口</param>
         /// <returns>实例</returns>
-        public static MqttUtils GetInastance(string address, string port)
+        public static MqttUtils GetInastance(string _address, string _port)
         {
+            if (string.IsNullOrEmpty(_address) || string.IsNullOrEmpty(_port))
+            {
+                return null;
+            }
             if (Instance != null)
             {
                 return Instance;
             }
 
-            int intPort = int.Parse(port);
             MqttUtils _instance = new()
             {
-                MqttClient = new MqttClient(address, intPort, false, MqttSslProtocols.None, null, null)
+                Client = null,
+                Address = _address,
+                Port = _port
             };
             Instance = _instance;
             return Instance;
+        }
+
+        private MqttClient GetClient()
+        {
+            if (Client != null)
+            {
+                return Client;
+            }
+            int intPort = int.Parse(Port);
+
+            MqttClient c = null;
+            try
+            {
+                c = new MqttClient(Address, intPort, false, MqttSslProtocols.None, null, null);
+                Client = c;
+                return c;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+                return null;
+            }
         }
 
         /// <summary>
@@ -42,8 +72,13 @@ namespace DViewEdge
         /// <param name="handler">handler</param>
         public void AddPublishedHandler(MqttMsgPublishedEventHandler handler)
         {
-            MqttClient.MqttMsgPublished -= handler;
-            MqttClient.MqttMsgPublished += handler;
+            MqttClient c = GetClient();
+            if (c == null)
+            {
+                return;
+            }
+            c.MqttMsgPublished -= handler;
+            c.MqttMsgPublished += handler;
         }
 
         /// <summary>
@@ -54,7 +89,12 @@ namespace DViewEdge
         /// <param name="password">密码</param>
         public void Connect(string clientId, string username, string password)
         {
-            MqttClient.Connect(clientId, username, password);
+            MqttClient c = GetClient();
+            if (c == null)
+            {
+                return;
+            }
+            c.Connect(clientId, username, password);
         }
 
         /// <summary>
@@ -63,7 +103,12 @@ namespace DViewEdge
         /// <returns>bool</returns>
         public bool IsConnected()
         {
-            return MqttClient.IsConnected;
+            MqttClient c = GetClient();
+            if (c == null)
+            {
+                return false;
+            }
+            return c.IsConnected;
         }
 
         /// <summary>
@@ -74,9 +119,18 @@ namespace DViewEdge
         /// <param name="handler">监听句柄</param>
         public void Subscribe(string[] topics, byte[] qosLevels, MqttMsgPublishEventHandler handler)
         {
-            MqttClient.MqttMsgPublishReceived -= handler;
-            MqttClient.MqttMsgPublishReceived += handler;
-            MqttClient.Subscribe(topics, qosLevels);
+            MqttClient c = GetClient();
+            if (c == null)
+            {
+                return;
+            }
+            if (!c.IsConnected)
+            {
+                return;
+            }
+            c.MqttMsgPublishReceived -= handler;
+            c.MqttMsgPublishReceived += handler;
+            c.Subscribe(topics, qosLevels);
         }
 
         /// <summary>
@@ -86,7 +140,16 @@ namespace DViewEdge
         /// <param name="message">消息</param>
         public void Public(string topic, byte[] message)
         {
-            MqttClient.Publish(topic, message, MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE, true);
+            MqttClient c = GetClient();
+            if (c == null)
+            {
+                return;
+            }
+            if (!c.IsConnected)
+            {
+                return;
+            }
+            c.Publish(topic, message, MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE, true);
         }
     }
 }

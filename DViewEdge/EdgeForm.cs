@@ -137,7 +137,7 @@ namespace DViewEdge
             txtDeviceDescribe.Text = conf.DeviceDescribe;
 
             // 初始化连接状态
-            StatusOk();
+            StatusNg();
 
             // 初始化全局变量
             MaxLines = 100;
@@ -216,11 +216,7 @@ namespace DViewEdge
                 {
                     StatusNg();
                     SendErrorCount += 1;
-                    AppendLog(string.Format("平台连接异常：{0}", e.Message));
-                }
-                finally
-                {
-                    AppendLog("事件提醒：尝试重新连接");
+                    Console.Write(e.Message);
                 }
             }
         }
@@ -232,27 +228,36 @@ namespace DViewEdge
         {
             if (MqttUtils.IsConnected())
             {
+                Console.Write("TopicSubscribe. MQTT IsConnected.");
                 return;
             }
 
-            string clientId = GetClientIdByConf(EdgeConf);
-            string username = EdgeConf.Username;
-            string password = EdgeConf.Password;
-            MqttUtils.Connect(clientId, username, password);
+            try
+            {
+                string clientId = GetClientIdByConf(EdgeConf);
+                string username = EdgeConf.Username;
+                string password = EdgeConf.Password;
+                MqttUtils.Connect(clientId, username, password);
 
-            string[] topics = new string[3]
+                string[] topics = new string[3]
+                {
+                    MqttTopic.DownNotice,
+                    MqttTopic.DownControl,
+                    MqttTopic.DownRestart
+                };
+                byte[] qosLevels = new byte[3]
+                {
+                    Constants.Qos0,
+                    Constants.Qos0,
+                    Constants.Qos0
+                };
+                MqttUtils.Subscribe(topics, qosLevels, MqttMsgPublishReceived);
+                Console.Write("MQTT Subscribe Succeed.");
+            }
+            catch (Exception e)
             {
-                MqttTopic.DownNotice,
-                MqttTopic.DownControl,
-                MqttTopic.DownRestart
-            };
-            byte[] qosLevels = new byte[3]
-            {
-                Constants.Qos0,
-                Constants.Qos0,
-                Constants.Qos0
-            };
-            MqttUtils.Subscribe(topics, qosLevels, MqttMsgPublishReceived);
+                AppendLog(string.Format("MQTT Broker连接异常。{0}", e.Message));
+            }
         }
 
         /// <summary>
@@ -288,21 +293,20 @@ namespace DViewEdge
                 string[] pointTypeList = txtSelectTag.Text.Split(",");
                 foreach (string pointType in pointTypeList)
                 {
-                    // 读取数据
                     ReportData reportData = GetReportData(pointType, out bool isError, out bool noData);
-
-                    // 接口异常
                     if (isError)
                     {
+                        SendErrorCount += 1;
                         continue;
                     }
-
-                    // 没有数据
                     if (noData)
                     {
                         continue;
                     }
-                    dataList.Add(reportData);
+                    if (reportData != null)
+                    {
+                        dataList.Add(reportData);
+                    }
                 }
 
                 DeviceMeta meta = new()
@@ -313,13 +317,16 @@ namespace DViewEdge
                 };
                 SendInfo sendInfo = GetSendInfoForMeta(meta);
 
-                // 发送数据
-                MqttUtils.Public(MqttTopic.UpMeta, sendInfo.Data);
-                AppendLog(string.Format("上报测点元数据, 测点数{0}", sendInfo.Count));
+                if (sendInfo.Count > 0)
+                {
+                    // 发送数据
+                    MqttUtils.Public(MqttTopic.UpMeta, sendInfo.Data);
+                    AppendLog(string.Format("上报测点元数据, 测点数{0}", sendInfo.Count));
 
-                // 流量计数
-                NetSendCount += 1;
-                NetSendBytes += sendInfo.Size;
+                    // 流量计数
+                    NetSendCount += 1;
+                    NetSendBytes += sendInfo.Size;
+                }
             }
             catch (Exception e)
             {
@@ -342,32 +349,36 @@ namespace DViewEdge
                 string[] pointTypeList = txtSelectTag.Text.Split(",");
                 foreach (string pointType in pointTypeList)
                 {
-                    // 读取数据
                     ReportData reportData = GetReportData(pointType, out bool isError, out bool noData);
-
-                    // 接口异常
                     if (isError)
                     {
+                        Console.WriteLine("DoSendDataOnce. isError");
                         SendErrorCount += 1;
                         continue;
                     }
-
-                    // 没有数据
                     if (noData)
                     {
+                        Console.WriteLine("DoSendDataOnce. noData");
                         continue;
                     }
-
-                    // 流量数据
+                    if (reportData == null)
+                    {
+                        Console.WriteLine("DoSendDataOnce. reportData == null");
+                        continue;
+                    }
                     SendInfo sendInfo = GetSendInfoForData(reportData);
+                    Console.WriteLine(string.Format("DoSendDataOnce. sendInfo: {0}", reportData.ToString()));
 
-                    // 发送数据
-                    MqttUtils.Public(MqttTopic.UpData, sendInfo.Data);
-                    AppendLog(string.Format("上报{0}类型测点{1}个", pointType, sendInfo.Count));
+                    if (sendInfo.Count > 0)
+                    {
+                        // 发送数据
+                        MqttUtils.Public(MqttTopic.UpData, sendInfo.Data);
+                        AppendLog(string.Format("上报{0}类型测点{1}个", pointType, sendInfo.Count));
 
-                    // 流量计数
-                    NetSendCount += 1;
-                    NetSendBytes += sendInfo.Size;
+                        // 流量计数
+                        NetSendCount += 1;
+                        NetSendBytes += sendInfo.Size;
+                    }
                 }
             }
             catch (Exception e)
@@ -613,7 +624,7 @@ namespace DViewEdge
                 object openResult = runbdb.Open();
                 if (Convert.ToInt16(openResult) != Constants.OpenOk)
                 {
-                    AppendLog(string.Format("COM接口异常，应答结果：{0}", openResult));
+                    AppendLog(string.Format("COM接口异常，应答结果：{0}", openResult.ToString()));
                     isError = true;
                     noData = true;
                     return null;
@@ -621,6 +632,7 @@ namespace DViewEdge
 
                 // 读取测点数据
                 var data = runbdb.ReadFilterVarValues(pontType, "*");
+                runbdb.Close();
                 if (data == null)
                 {
                     isError = false;
@@ -649,13 +661,6 @@ namespace DViewEdge
                 noData = true;
                 AppendLog(string.Format("COM接口打开异常：{0}", e.Message));
                 return null;
-            }
-            finally
-            {
-                if (runbdb != null)
-                {
-                    runbdb.Close();
-                }
             }
         }
 

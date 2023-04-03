@@ -93,23 +93,20 @@ namespace DViewEdge
         private static string Identifier(string wmiClass, string wmiProperty, string wmiMustBeTrue)
         {
             string result = "";
-            System.Management.ManagementClass mc = new System.Management.ManagementClass(wmiClass);
+            System.Management.ManagementClass mc = new(wmiClass);
             System.Management.ManagementObjectCollection moc = mc.GetInstances();
             foreach (System.Management.ManagementObject mo in moc)
             {
                 if (mo[wmiMustBeTrue].ToString() == "True")
                 {
-                    if (result == "")
+                    try
                     {
-                        try
-                        {
-                            result = mo[wmiProperty].ToString();
-                            break;
-                        }
-                        catch (Exception ex)
-                        {
-                            Console.WriteLine(ex.ToString());
-                        }
+                        result = mo[wmiProperty].ToString();
+                        break;
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.ToString());
                     }
                 }
             }
@@ -125,7 +122,7 @@ namespace DViewEdge
         private static string Identifier(string wmiClass, string wmiProperty)
         {
             string result = "";
-            System.Management.ManagementClass mc = new System.Management.ManagementClass(wmiClass);
+            System.Management.ManagementClass mc = new(wmiClass);
             System.Management.ManagementObjectCollection moc = mc.GetInstances();
             foreach (System.Management.ManagementObject mo in moc)
             {
