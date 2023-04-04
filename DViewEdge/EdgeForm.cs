@@ -206,18 +206,7 @@ namespace DViewEdge
                     continue;
                 }
 
-                try
-                {
-                    TopicSubscribe();
-                    StatusOk();
-                    AppendLog("重新连接平台");
-                }
-                catch (Exception e)
-                {
-                    StatusNg();
-                    SendErrorCount += 1;
-                    Console.Write(e.Message);
-                }
+                TopicSubscribe();
             }
         }
 
@@ -252,10 +241,14 @@ namespace DViewEdge
                     Constants.Qos0
                 };
                 MqttUtils.Subscribe(topics, qosLevels, MqttMsgPublishReceived);
-                Console.Write("MQTT Subscribe Succeed.");
+
+                StatusOk();
+                AppendLog("重新连接平台");
             }
             catch (Exception e)
             {
+                StatusNg();
+                SendErrorCount += 1;
                 AppendLog(string.Format("MQTT Broker连接异常。{0}", e.Message));
             }
         }
@@ -669,10 +662,10 @@ namespace DViewEdge
         /// </summary>
         private void RefreshFlowData()
         {
-            lblCount.Text = NetSendCount.ToString();
+            lblCount.Text = NetSendCount.ToString("###,###");
             lblSize.Text = Utils.ConvertSize(NetSendBytes);
-            lblSucceed.Text = SendSuccedCount.ToString();
-            lblError.Text = SendErrorCount.ToString();
+            lblSucceed.Text = SendSuccedCount.ToString("###,###");
+            lblError.Text = SendErrorCount.ToString("###,###");
         }
 
         /// <summary>

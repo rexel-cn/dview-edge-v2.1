@@ -161,19 +161,19 @@ namespace DViewEdge
         {
             if (size / Constants.GB >= 1)
             {
-                return Math.Round(size / (float)Constants.GB, 2).ToString() + " GB";
+                return Math.Round(size / (float)Constants.GB, 2).ToString("N2") + "GB";
             }
             else if (size / Constants.MB >= 1)
             {
-                return Math.Round(size / (float)Constants.MB, 2).ToString() + " MB";
+                return Math.Round(size / (float)Constants.MB, 2).ToString("N2") + "MB";
             }
             else if (size / Constants.KB >= 1)
             {
-                return Math.Round(size / (float)Constants.KB, 2).ToString() + " KB";
+                return Math.Round(size / (float)Constants.KB, 2).ToString("N2") + "KB";
             }
             else
             {
-                return size.ToString() + " 字节";
+                return size.ToString("N2") + "字节";
             }
         }
     }
