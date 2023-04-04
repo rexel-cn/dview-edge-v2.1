@@ -148,7 +148,7 @@ namespace DViewEdge
             this.lbl12.Location = new System.Drawing.Point(12, 45);
             this.lbl12.Name = "lbl12";
             this.lbl12.Size = new System.Drawing.Size(83, 17);
-            this.lbl12.TabIndex = 0;
+            this.lbl12.TabIndex = 1;
             this.lbl12.Text = "机器唯一标识:";
             // 
             // lbl14
@@ -157,7 +157,7 @@ namespace DViewEdge
             this.lbl14.Location = new System.Drawing.Point(12, 125);
             this.lbl14.Name = "lbl14";
             this.lbl14.Size = new System.Drawing.Size(83, 17);
-            this.lbl14.TabIndex = 4;
+            this.lbl14.TabIndex = 5;
             this.lbl14.Text = "设备名称描述:";
             // 
             // lblMachineCode
@@ -167,7 +167,7 @@ namespace DViewEdge
             this.lblMachineCode.Location = new System.Drawing.Point(111, 48);
             this.lblMachineCode.Name = "lblMachineCode";
             this.lblMachineCode.Size = new System.Drawing.Size(15, 14);
-            this.lblMachineCode.TabIndex = 1;
+            this.lblMachineCode.TabIndex = 2;
             this.lblMachineCode.Text = "-";
             this.lblMachineCode.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -177,7 +177,7 @@ namespace DViewEdge
             this.lbl13.Location = new System.Drawing.Point(12, 85);
             this.lbl13.Name = "lbl13";
             this.lbl13.Size = new System.Drawing.Size(83, 17);
-            this.lbl13.TabIndex = 2;
+            this.lbl13.TabIndex = 3;
             this.lbl13.Text = "自定义客户端:";
             // 
             // txtDeviceDescribe
@@ -186,7 +186,7 @@ namespace DViewEdge
             this.txtDeviceDescribe.Location = new System.Drawing.Point(111, 122);
             this.txtDeviceDescribe.Name = "txtDeviceDescribe";
             this.txtDeviceDescribe.Size = new System.Drawing.Size(595, 23);
-            this.txtDeviceDescribe.TabIndex = 5;
+            this.txtDeviceDescribe.TabIndex = 0;
             this.txtDeviceDescribe.Leave += new System.EventHandler(this.DeviceDescribeLeave);
             // 
             // txtUserClientId
@@ -195,7 +195,7 @@ namespace DViewEdge
             this.txtUserClientId.Location = new System.Drawing.Point(111, 82);
             this.txtUserClientId.Name = "txtUserClientId";
             this.txtUserClientId.Size = new System.Drawing.Size(595, 23);
-            this.txtUserClientId.TabIndex = 3;
+            this.txtUserClientId.TabIndex = 4;
             this.txtUserClientId.Leave += new System.EventHandler(this.UserClientIdLeave);
             // 
             // grbCollection
@@ -215,7 +215,7 @@ namespace DViewEdge
             this.grbCollection.Location = new System.Drawing.Point(354, 192);
             this.grbCollection.Name = "grbCollection";
             this.grbCollection.Size = new System.Drawing.Size(383, 212);
-            this.grbCollection.TabIndex = 6;
+            this.grbCollection.TabIndex = 7;
             this.grbCollection.TabStop = false;
             this.grbCollection.Text = "数据采集";
             // 
@@ -225,7 +225,7 @@ namespace DViewEdge
             this.lbl9.Location = new System.Drawing.Point(12, 45);
             this.lbl9.Name = "lbl9";
             this.lbl9.Size = new System.Drawing.Size(59, 17);
-            this.lbl9.TabIndex = 0;
+            this.lbl9.TabIndex = 1;
             this.lbl9.Text = "变量类型:";
             // 
             // txtSelectTag
@@ -234,7 +234,7 @@ namespace DViewEdge
             this.txtSelectTag.Location = new System.Drawing.Point(92, 42);
             this.txtSelectTag.Name = "txtSelectTag";
             this.txtSelectTag.Size = new System.Drawing.Size(161, 23);
-            this.txtSelectTag.TabIndex = 2;
+            this.txtSelectTag.TabIndex = 3;
             this.txtSelectTag.Leave += new System.EventHandler(this.SelectTagLeave);
             // 
             // lbl10
@@ -243,7 +243,7 @@ namespace DViewEdge
             this.lbl10.Location = new System.Drawing.Point(12, 85);
             this.lbl10.Name = "lbl10";
             this.lbl10.Size = new System.Drawing.Size(59, 17);
-            this.lbl10.TabIndex = 4;
+            this.lbl10.TabIndex = 5;
             this.lbl10.Text = "采集频率:";
             // 
             // txtRepeate
@@ -252,7 +252,7 @@ namespace DViewEdge
             this.txtRepeate.Location = new System.Drawing.Point(92, 82);
             this.txtRepeate.Name = "txtRepeate";
             this.txtRepeate.Size = new System.Drawing.Size(161, 23);
-            this.txtRepeate.TabIndex = 6;
+            this.txtRepeate.TabIndex = 7;
             this.txtRepeate.Leave += new System.EventHandler(this.RepeateLeave);
             // 
             // req11
@@ -262,7 +262,7 @@ namespace DViewEdge
             this.req11.Location = new System.Drawing.Point(77, 125);
             this.req11.Name = "req11";
             this.req11.Size = new System.Drawing.Size(13, 17);
-            this.req11.TabIndex = 9;
+            this.req11.TabIndex = 10;
             this.req11.Text = "*";
             this.req11.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
@@ -273,7 +273,7 @@ namespace DViewEdge
             this.req10.Location = new System.Drawing.Point(77, 85);
             this.req10.Name = "req10";
             this.req10.Size = new System.Drawing.Size(13, 17);
-            this.req10.TabIndex = 5;
+            this.req10.TabIndex = 6;
             this.req10.Text = "*";
             this.req10.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
@@ -284,7 +284,7 @@ namespace DViewEdge
             this.req9.Location = new System.Drawing.Point(77, 45);
             this.req9.Name = "req9";
             this.req9.Size = new System.Drawing.Size(13, 17);
-            this.req9.TabIndex = 1;
+            this.req9.TabIndex = 2;
             this.req9.Text = "*";
             this.req9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
@@ -294,7 +294,7 @@ namespace DViewEdge
             this.lbl20.Location = new System.Drawing.Point(255, 45);
             this.lbl20.Name = "lbl20";
             this.lbl20.Size = new System.Drawing.Size(83, 17);
-            this.lbl20.TabIndex = 3;
+            this.lbl20.TabIndex = 4;
             this.lbl20.Text = "例：AR,DI,VA";
             // 
             // lbl21
@@ -303,7 +303,7 @@ namespace DViewEdge
             this.lbl21.Location = new System.Drawing.Point(255, 85);
             this.lbl21.Name = "lbl21";
             this.lbl21.Size = new System.Drawing.Size(20, 17);
-            this.lbl21.TabIndex = 7;
+            this.lbl21.TabIndex = 8;
             this.lbl21.Text = "秒";
             // 
             // lbl22
@@ -312,7 +312,7 @@ namespace DViewEdge
             this.lbl22.Location = new System.Drawing.Point(255, 125);
             this.lbl22.Name = "lbl22";
             this.lbl22.Size = new System.Drawing.Size(20, 17);
-            this.lbl22.TabIndex = 11;
+            this.lbl22.TabIndex = 0;
             this.lbl22.Text = "秒";
             // 
             // lbl11
@@ -321,7 +321,7 @@ namespace DViewEdge
             this.lbl11.Location = new System.Drawing.Point(12, 125);
             this.lbl11.Name = "lbl11";
             this.lbl11.Size = new System.Drawing.Size(59, 17);
-            this.lbl11.TabIndex = 8;
+            this.lbl11.TabIndex = 9;
             this.lbl11.Text = "时间偏移:";
             // 
             // txtOffset
@@ -330,7 +330,7 @@ namespace DViewEdge
             this.txtOffset.Location = new System.Drawing.Point(92, 122);
             this.txtOffset.Name = "txtOffset";
             this.txtOffset.Size = new System.Drawing.Size(161, 23);
-            this.txtOffset.TabIndex = 10;
+            this.txtOffset.TabIndex = 11;
             this.txtOffset.Leave += new System.EventHandler(this.OffsetLeave);
             // 
             // grbPlatform
@@ -350,7 +350,7 @@ namespace DViewEdge
             this.grbPlatform.Location = new System.Drawing.Point(9, 192);
             this.grbPlatform.Name = "grbPlatform";
             this.grbPlatform.Size = new System.Drawing.Size(322, 212);
-            this.grbPlatform.TabIndex = 5;
+            this.grbPlatform.TabIndex = 6;
             this.grbPlatform.TabStop = false;
             this.grbPlatform.Text = "物联平台";
             // 
@@ -360,7 +360,7 @@ namespace DViewEdge
             this.txtUsername.Location = new System.Drawing.Point(77, 42);
             this.txtUsername.Name = "txtUsername";
             this.txtUsername.Size = new System.Drawing.Size(220, 23);
-            this.txtUsername.TabIndex = 2;
+            this.txtUsername.TabIndex = 3;
             this.txtUsername.Leave += new System.EventHandler(this.AddressLeave);
             // 
             // req8
@@ -370,7 +370,7 @@ namespace DViewEdge
             this.req8.Location = new System.Drawing.Point(62, 165);
             this.req8.Name = "req8";
             this.req8.Size = new System.Drawing.Size(13, 17);
-            this.req8.TabIndex = 10;
+            this.req8.TabIndex = 11;
             this.req8.Text = "*";
             this.req8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
@@ -381,7 +381,7 @@ namespace DViewEdge
             this.req7.Location = new System.Drawing.Point(62, 125);
             this.req7.Name = "req7";
             this.req7.Size = new System.Drawing.Size(13, 17);
-            this.req7.TabIndex = 7;
+            this.req7.TabIndex = 8;
             this.req7.Text = "*";
             this.req7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
@@ -392,7 +392,7 @@ namespace DViewEdge
             this.req6.Location = new System.Drawing.Point(62, 85);
             this.req6.Name = "req6";
             this.req6.Size = new System.Drawing.Size(13, 17);
-            this.req6.TabIndex = 4;
+            this.req6.TabIndex = 5;
             this.req6.Text = "*";
             this.req6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
@@ -403,7 +403,7 @@ namespace DViewEdge
             this.req5.Location = new System.Drawing.Point(62, 45);
             this.req5.Name = "req5";
             this.req5.Size = new System.Drawing.Size(13, 17);
-            this.req5.TabIndex = 1;
+            this.req5.TabIndex = 2;
             this.req5.Text = "*";
             this.req5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
@@ -413,7 +413,7 @@ namespace DViewEdge
             this.lbl5.Location = new System.Drawing.Point(12, 45);
             this.lbl5.Name = "lbl5";
             this.lbl5.Size = new System.Drawing.Size(35, 17);
-            this.lbl5.TabIndex = 0;
+            this.lbl5.TabIndex = 1;
             this.lbl5.Text = "账号:";
             this.lbl5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -423,7 +423,7 @@ namespace DViewEdge
             this.lbl6.Location = new System.Drawing.Point(12, 85);
             this.lbl6.Name = "lbl6";
             this.lbl6.Size = new System.Drawing.Size(35, 17);
-            this.lbl6.TabIndex = 3;
+            this.lbl6.TabIndex = 4;
             this.lbl6.Text = "密码:";
             // 
             // txtPassword
@@ -433,7 +433,7 @@ namespace DViewEdge
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.PasswordChar = '*';
             this.txtPassword.Size = new System.Drawing.Size(220, 23);
-            this.txtPassword.TabIndex = 5;
+            this.txtPassword.TabIndex = 6;
             // 
             // lbl7
             // 
@@ -441,7 +441,7 @@ namespace DViewEdge
             this.lbl7.Location = new System.Drawing.Point(12, 125);
             this.lbl7.Name = "lbl7";
             this.lbl7.Size = new System.Drawing.Size(35, 17);
-            this.lbl7.TabIndex = 6;
+            this.lbl7.TabIndex = 7;
             this.lbl7.Text = "地址:";
             // 
             // txtAddress
@@ -450,7 +450,7 @@ namespace DViewEdge
             this.txtAddress.Location = new System.Drawing.Point(77, 122);
             this.txtAddress.Name = "txtAddress";
             this.txtAddress.Size = new System.Drawing.Size(220, 23);
-            this.txtAddress.TabIndex = 8;
+            this.txtAddress.TabIndex = 9;
             // 
             // lbl8
             // 
@@ -458,7 +458,7 @@ namespace DViewEdge
             this.lbl8.Location = new System.Drawing.Point(12, 165);
             this.lbl8.Name = "lbl8";
             this.lbl8.Size = new System.Drawing.Size(35, 17);
-            this.lbl8.TabIndex = 9;
+            this.lbl8.TabIndex = 10;
             this.lbl8.Text = "端口:";
             // 
             // txtPort
@@ -467,7 +467,7 @@ namespace DViewEdge
             this.txtPort.Location = new System.Drawing.Point(77, 162);
             this.txtPort.Name = "txtPort";
             this.txtPort.Size = new System.Drawing.Size(220, 23);
-            this.txtPort.TabIndex = 11;
+            this.txtPort.TabIndex = 0;
             this.txtPort.Leave += new System.EventHandler(this.PortLeave);
             // 
             // btnLog
@@ -483,7 +483,7 @@ namespace DViewEdge
             this.btnLog.Name = "btnLog";
             this.btnLog.Padding = new System.Windows.Forms.Padding(30, 0, 0, 0);
             this.btnLog.Size = new System.Drawing.Size(115, 34);
-            this.btnLog.TabIndex = 3;
+            this.btnLog.TabIndex = 4;
             this.btnLog.Text = "系统日志";
             this.btnLog.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnLog.UseVisualStyleBackColor = true;
@@ -502,7 +502,7 @@ namespace DViewEdge
             this.btnUpMeta.Name = "btnUpMeta";
             this.btnUpMeta.Padding = new System.Windows.Forms.Padding(30, 0, 0, 0);
             this.btnUpMeta.Size = new System.Drawing.Size(115, 34);
-            this.btnUpMeta.TabIndex = 2;
+            this.btnUpMeta.TabIndex = 3;
             this.btnUpMeta.Text = "上报测点";
             this.btnUpMeta.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnUpMeta.UseVisualStyleBackColor = true;
@@ -521,7 +521,7 @@ namespace DViewEdge
             this.btnRestart.Name = "btnRestart";
             this.btnRestart.Padding = new System.Windows.Forms.Padding(30, 0, 0, 0);
             this.btnRestart.Size = new System.Drawing.Size(115, 34);
-            this.btnRestart.TabIndex = 1;
+            this.btnRestart.TabIndex = 2;
             this.btnRestart.Text = "重新启动";
             this.btnRestart.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnRestart.UseVisualStyleBackColor = true;
@@ -540,7 +540,7 @@ namespace DViewEdge
             this.btnSave.Name = "btnSave";
             this.btnSave.Padding = new System.Windows.Forms.Padding(30, 0, 0, 0);
             this.btnSave.Size = new System.Drawing.Size(115, 34);
-            this.btnSave.TabIndex = 0;
+            this.btnSave.TabIndex = 1;
             this.btnSave.Text = "保存配置";
             this.btnSave.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnSave.UseVisualStyleBackColor = true;
@@ -563,7 +563,7 @@ namespace DViewEdge
             this.grbMonitor.Location = new System.Drawing.Point(9, 56);
             this.grbMonitor.Name = "grbMonitor";
             this.grbMonitor.Size = new System.Drawing.Size(728, 116);
-            this.grbMonitor.TabIndex = 4;
+            this.grbMonitor.TabIndex = 5;
             this.grbMonitor.TabStop = false;
             this.grbMonitor.Text = "运行状态";
             // 
@@ -574,7 +574,7 @@ namespace DViewEdge
             this.lblSize.Location = new System.Drawing.Point(372, 82);
             this.lblSize.Name = "lblSize";
             this.lblSize.Size = new System.Drawing.Size(15, 14);
-            this.lblSize.TabIndex = 9;
+            this.lblSize.TabIndex = 10;
             this.lblSize.Text = "-";
             this.lblSize.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -585,7 +585,7 @@ namespace DViewEdge
             this.lblError.Location = new System.Drawing.Point(652, 82);
             this.lblError.Name = "lblError";
             this.lblError.Size = new System.Drawing.Size(15, 14);
-            this.lblError.TabIndex = 11;
+            this.lblError.TabIndex = 0;
             this.lblError.Text = "-";
             this.lblError.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -596,7 +596,7 @@ namespace DViewEdge
             this.lblSucceed.Location = new System.Drawing.Point(225, 82);
             this.lblSucceed.Name = "lblSucceed";
             this.lblSucceed.Size = new System.Drawing.Size(15, 14);
-            this.lblSucceed.TabIndex = 7;
+            this.lblSucceed.TabIndex = 8;
             this.lblSucceed.Text = "-";
             this.lblSucceed.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -607,7 +607,7 @@ namespace DViewEdge
             this.lblCount.Location = new System.Drawing.Point(78, 82);
             this.lblCount.Name = "lblCount";
             this.lblCount.Size = new System.Drawing.Size(15, 14);
-            this.lblCount.TabIndex = 5;
+            this.lblCount.TabIndex = 6;
             this.lblCount.Text = "-";
             this.lblCount.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -618,7 +618,7 @@ namespace DViewEdge
             this.lblStartTime.Location = new System.Drawing.Point(225, 42);
             this.lblStartTime.Name = "lblStartTime";
             this.lblStartTime.Size = new System.Drawing.Size(15, 14);
-            this.lblStartTime.TabIndex = 3;
+            this.lblStartTime.TabIndex = 4;
             this.lblStartTime.Text = "-";
             this.lblStartTime.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -629,7 +629,7 @@ namespace DViewEdge
             this.lblStatus.Location = new System.Drawing.Point(78, 42);
             this.lblStatus.Name = "lblStatus";
             this.lblStatus.Size = new System.Drawing.Size(37, 14);
-            this.lblStatus.TabIndex = 1;
+            this.lblStatus.TabIndex = 2;
             this.lblStatus.Text = "离线";
             this.lblStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -639,7 +639,7 @@ namespace DViewEdge
             this.lbl4.Location = new System.Drawing.Point(307, 81);
             this.lbl4.Name = "lbl4";
             this.lbl4.Size = new System.Drawing.Size(59, 17);
-            this.lbl4.TabIndex = 8;
+            this.lbl4.TabIndex = 9;
             this.lbl4.Text = "发送流量:";
             this.lbl4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -649,7 +649,7 @@ namespace DViewEdge
             this.lbl24.Location = new System.Drawing.Point(587, 81);
             this.lbl24.Name = "lbl24";
             this.lbl24.Size = new System.Drawing.Size(59, 17);
-            this.lbl24.TabIndex = 10;
+            this.lbl24.TabIndex = 11;
             this.lbl24.Text = "异常次数:";
             this.lbl24.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -659,7 +659,7 @@ namespace DViewEdge
             this.lbl23.Location = new System.Drawing.Point(160, 81);
             this.lbl23.Name = "lbl23";
             this.lbl23.Size = new System.Drawing.Size(59, 17);
-            this.lbl23.TabIndex = 6;
+            this.lbl23.TabIndex = 7;
             this.lbl23.Text = "发送成功:";
             this.lbl23.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -669,7 +669,7 @@ namespace DViewEdge
             this.lbl3.Location = new System.Drawing.Point(13, 81);
             this.lbl3.Name = "lbl3";
             this.lbl3.Size = new System.Drawing.Size(59, 17);
-            this.lbl3.TabIndex = 4;
+            this.lbl3.TabIndex = 5;
             this.lbl3.Text = "发送总数:";
             this.lbl3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -679,7 +679,7 @@ namespace DViewEdge
             this.lbl2.Location = new System.Drawing.Point(160, 41);
             this.lbl2.Name = "lbl2";
             this.lbl2.Size = new System.Drawing.Size(59, 17);
-            this.lbl2.TabIndex = 2;
+            this.lbl2.TabIndex = 3;
             this.lbl2.Text = "启动时间:";
             this.lbl2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -689,7 +689,7 @@ namespace DViewEdge
             this.lbl1.Location = new System.Drawing.Point(13, 41);
             this.lbl1.Name = "lbl1";
             this.lbl1.Size = new System.Drawing.Size(59, 17);
-            this.lbl1.TabIndex = 0;
+            this.lbl1.TabIndex = 1;
             this.lbl1.Text = "连接状态:";
             this.lbl1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -764,11 +764,14 @@ namespace DViewEdge
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.AutoSize = true;
+            this.AutoValidate = System.Windows.Forms.AutoValidate.Disable;
             this.BackColor = System.Drawing.SystemColors.Window;
             this.ClientSize = new System.Drawing.Size(1172, 612);
             this.Controls.Add(this.splitContainer);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "EdgeForm";
+            this.ShowInTaskbar = false;
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "DView数据采集程序";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.EdgeFormClosing);

@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using uPLibrary.Networking.M2Mqtt.Messages;
 using System.Drawing;
+using DViewEdge.Properties;
 
 namespace DViewEdge
 {
@@ -540,11 +541,13 @@ namespace DViewEdge
             {
                 IsPause = false;
                 btnPause.Text = "暂停";
+                btnPause.BackgroundImage = Resources.pause;
             }
             else
             {
                 IsPause = true;
                 btnPause.Text = "打开";
+                btnPause.BackgroundImage = Resources.start;
             }
         }
 
