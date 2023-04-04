@@ -272,7 +272,8 @@ namespace DViewEdge
                 DoSendDataOnce();
 
                 // 等待下一次上报
-                Thread.Sleep(int.Parse(EdgeConf.Repeate) * 1000);
+                int s =  (int)(double.Parse(txtRepeate.Text) * 1000);
+                Thread.Sleep(s * 1000);
             }
         }
 
@@ -510,27 +511,6 @@ namespace DViewEdge
         }
 
         /// <summary>
-        /// 打开日志按钮按下
-        /// </summary>
-        /// <param name="sender">sender</param>
-        /// <param name="e">e</param>
-        private void LogBtnClick(object sender, EventArgs e)
-        {
-            if (splitContainer.Panel2Collapsed == false)
-            {
-                // 折叠
-                splitContainer.Panel2Collapsed = true;
-                btnLog.Text = "打开日志";
-            }
-            else
-            {
-                // 打开
-                splitContainer.Panel2Collapsed = false;
-                btnLog.Text = "关闭日志";
-            }
-        }
-
-        /// <summary>
         /// 暂停按钮按下
         /// </summary>
         /// <param name="sender">sender</param>
@@ -738,10 +718,10 @@ namespace DViewEdge
         /// <param name="e">e</param>
         private void RepeateLeave(object sender, EventArgs e)
         {
-            bool ok = Utils.IsNaturalNumber(txtRepeate.Text);
+            bool ok = Utils.IsPositiveNumber(txtRepeate.Text);
             if (!ok)
             {
-                Utils.ShowInfoBox("采集频率只允许输入正整数");
+                Utils.ShowInfoBox("采集频率只允许输入正数");
             }
         }
 

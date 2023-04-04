@@ -64,7 +64,6 @@ namespace DViewEdge
             this.txtAddress = new System.Windows.Forms.TextBox();
             this.lbl8 = new System.Windows.Forms.Label();
             this.txtPort = new System.Windows.Forms.TextBox();
-            this.btnLog = new System.Windows.Forms.Button();
             this.btnUpMeta = new System.Windows.Forms.Button();
             this.btnRestart = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
@@ -98,9 +97,6 @@ namespace DViewEdge
             // 
             // splitContainer
             // 
-            this.splitContainer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.splitContainer.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
             this.splitContainer.Location = new System.Drawing.Point(0, 0);
             this.splitContainer.Name = "splitContainer";
@@ -110,7 +106,6 @@ namespace DViewEdge
             this.splitContainer.Panel1.Controls.Add(this.grbDevice);
             this.splitContainer.Panel1.Controls.Add(this.grbCollection);
             this.splitContainer.Panel1.Controls.Add(this.grbPlatform);
-            this.splitContainer.Panel1.Controls.Add(this.btnLog);
             this.splitContainer.Panel1.Controls.Add(this.btnUpMeta);
             this.splitContainer.Panel1.Controls.Add(this.btnRestart);
             this.splitContainer.Panel1.Controls.Add(this.btnSave);
@@ -123,7 +118,7 @@ namespace DViewEdge
             this.splitContainer.Panel2.Controls.Add(this.txtMaxLines);
             this.splitContainer.Panel2.Controls.Add(this.btnClean);
             this.splitContainer.Panel2.Controls.Add(this.btnPause);
-            this.splitContainer.Size = new System.Drawing.Size(1158, 600);
+            this.splitContainer.Size = new System.Drawing.Size(1172, 612);
             this.splitContainer.SplitterDistance = 745;
             this.splitContainer.TabIndex = 0;
             // 
@@ -470,25 +465,6 @@ namespace DViewEdge
             this.txtPort.TabIndex = 0;
             this.txtPort.Leave += new System.EventHandler(this.PortLeave);
             // 
-            // btnLog
-            // 
-            this.btnLog.AutoSize = true;
-            this.btnLog.BackColor = System.Drawing.SystemColors.Window;
-            this.btnLog.BackgroundImage = global::DViewEdge.Properties.Resources.log;
-            this.btnLog.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.btnLog.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnLog.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.btnLog.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnLog.Location = new System.Drawing.Point(459, 9);
-            this.btnLog.Name = "btnLog";
-            this.btnLog.Padding = new System.Windows.Forms.Padding(30, 0, 0, 0);
-            this.btnLog.Size = new System.Drawing.Size(115, 34);
-            this.btnLog.TabIndex = 4;
-            this.btnLog.Text = "系统日志";
-            this.btnLog.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnLog.UseVisualStyleBackColor = true;
-            this.btnLog.Click += new System.EventHandler(this.LogBtnClick);
-            // 
             // btnUpMeta
             // 
             this.btnUpMeta.AutoSize = true;
@@ -703,7 +679,7 @@ namespace DViewEdge
             this.rtbLogContent.Location = new System.Drawing.Point(9, 56);
             this.rtbLogContent.Name = "rtbLogContent";
             this.rtbLogContent.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Horizontal;
-            this.rtbLogContent.Size = new System.Drawing.Size(394, 533);
+            this.rtbLogContent.Size = new System.Drawing.Size(408, 545);
             this.rtbLogContent.TabIndex = 4;
             this.rtbLogContent.Text = "";
             this.rtbLogContent.TextChanged += new System.EventHandler(this.LogContentTextChanged);
@@ -763,12 +739,13 @@ namespace DViewEdge
             // EdgeForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.AutoSize = true;
             this.AutoValidate = System.Windows.Forms.AutoValidate.Disable;
             this.BackColor = System.Drawing.SystemColors.Window;
             this.ClientSize = new System.Drawing.Size(1172, 612);
             this.Controls.Add(this.splitContainer);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
             this.Name = "EdgeForm";
             this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
@@ -828,7 +805,6 @@ namespace DViewEdge
         private System.Windows.Forms.TextBox txtAddress;
         private System.Windows.Forms.Label lbl8;
         private System.Windows.Forms.TextBox txtPort;
-        private System.Windows.Forms.Button btnLog;
         private System.Windows.Forms.Button btnUpMeta;
         private System.Windows.Forms.Button btnRestart;
         private System.Windows.Forms.Button btnSave;

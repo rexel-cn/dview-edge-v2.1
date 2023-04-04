@@ -58,6 +58,17 @@ namespace DViewEdge
         }
 
         /// <summary>
+        /// 是否为正数
+        /// </summary>
+        /// <param name="str">str</param>
+        /// <returns>true:是、false:否</returns>
+        public static bool IsPositiveNumber(string str)
+        {
+            Regex regex = new("^[0-9]+(.[0-9]{1})?$");
+            return regex.IsMatch(str);
+        }
+
+        /// <summary>
         /// 是否为正整数
         /// </summary>
         /// <param name="str">str</param>
