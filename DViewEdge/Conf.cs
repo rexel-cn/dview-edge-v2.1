@@ -21,12 +21,16 @@ namespace DViewEdge
         public string Port { get; set; }
         public string UserClientId { get; set; }
         public string DeviceDescribe { get; set; }
+        public string AuthUser { get; set; }
+        public string AuthPass { get; set; }
 
         /// <summary>
         /// 内部常量
         /// </summary>
         // 段落名
         private const string SectionConfig = "config";
+        // 段落名
+        private const string SectionAuth = "auth";
         // 配置项：变量类型
         private const string KeySelectTag = "selectTag";
         // 配置项：账号
@@ -66,6 +70,8 @@ namespace DViewEdge
             Port = ini.Read(KeyPort, SectionConfig);
             UserClientId = ini.Read(KeyUserClientId, SectionConfig);
             DeviceDescribe = ini.Read(KeyDeviceDescribe, SectionConfig);
+            AuthUser = ini.Read(KeyUsername, SectionAuth);
+            AuthPass = ini.Read(KeyPassword, SectionAuth);
         }
 
         /// <summary>

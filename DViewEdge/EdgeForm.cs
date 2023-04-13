@@ -138,7 +138,7 @@ namespace DViewEdge
             txtDeviceDescribe.Text = conf.DeviceDescribe;
 
             // 初始化连接状态
-            StatusNg();
+            PlatformNg();
 
             // 初始化全局变量
             MaxLines = 100;
@@ -203,7 +203,7 @@ namespace DViewEdge
                 Thread.Sleep(1000);
                 if (MqttUtils.IsConnected())
                 {
-                    StatusOk();
+                    PlatformOk();
                     continue;
                 }
 
@@ -216,18 +216,16 @@ namespace DViewEdge
         /// </summary>
         private void TopicSubscribe()
         {
-            if (MqttUtils.IsConnected())
-            {
-                Console.Write("TopicSubscribe. MQTT IsConnected.");
-                return;
-            }
-
             try
             {
+                if (MqttUtils.IsConnected())
+                {
+                    Console.Write("TopicSubscribe. MQTT IsConnected.");
+                    return;
+                }
+
                 string clientId = GetClientIdByConf(EdgeConf);
-                string username = EdgeConf.Username;
-                string password = EdgeConf.Password;
-                MqttUtils.Connect(clientId, username, password);
+                MqttUtils.Connect(clientId, EdgeConf.AuthUser, EdgeConf.AuthPass);
 
                 string[] topics = new string[3]
                 {
@@ -243,12 +241,12 @@ namespace DViewEdge
                 };
                 MqttUtils.Subscribe(topics, qosLevels, MqttMsgPublishReceived);
 
-                StatusOk();
+                PlatformOk();
                 AppendLog("重新连接平台");
             }
             catch (Exception e)
             {
-                StatusNg();
+                PlatformNg();
                 SendErrorCount += 1;
                 AppendLog(string.Format("MQTT Broker连接异常。{0}", e.Message));
             }
@@ -261,6 +259,11 @@ namespace DViewEdge
         {
             while (true)
             {
+                if (txtRepeate.IsDisposed)
+                {
+                    return;
+                }
+
                 // 上报测点元数据
                 if (IsFirstSend)
                 {
@@ -273,7 +276,7 @@ namespace DViewEdge
 
                 // 等待下一次上报
                 int s =  (int)(double.Parse(txtRepeate.Text) * 1000);
-                Thread.Sleep(s * 1000);
+                Thread.Sleep(s);
             }
         }
 
@@ -589,22 +592,25 @@ namespace DViewEdge
         /// <returns>ReportData</returns>
         private ReportData GetReportData(string pontType, out bool isError, out bool noData)
         {
-            Rundb runbdb = null;
             try
             {
                 // 偏移后的时间
                 DateTime offsetTime = DateTime.Now.AddSeconds(Convert.ToDouble(EdgeConf.Offset));
 
                 // 打开COM接口
-                runbdb = RunDbUtils.GetRead();
+                Rundb runbdb = RunDbUtils.GetRead();
                 object openResult = runbdb.Open();
                 if (Convert.ToInt16(openResult) != Constants.OpenOk)
                 {
+                    ComNg();
                     AppendLog(string.Format("COM接口异常，应答结果：{0}", openResult.ToString()));
                     isError = true;
                     noData = true;
                     return null;
                 }
+
+                // 更新COM连接状态
+                ComOk();
 
                 // 读取测点数据
                 var data = runbdb.ReadFilterVarValues(pontType, "*");
@@ -633,6 +639,7 @@ namespace DViewEdge
             }
             catch (Exception e)
             {
+                ComNg();
                 isError = true;
                 noData = true;
                 AppendLog(string.Format("COM接口打开异常：{0}", e.Message));
@@ -662,7 +669,10 @@ namespace DViewEdge
                 return;
             }
             string log = string.Format("{0}:{1}\n", Utils.TimeNow(), str);
-            rtbLogContent.AppendText(log);
+            if (!rtbLogContent.IsDisposed)
+            {
+                rtbLogContent.AppendText(log);
+            }
         }
 
         /// <summary>
@@ -824,7 +834,7 @@ namespace DViewEdge
         /// <summary>
         /// 设置连接正常显示
         /// </summary>
-        private void StatusOk()
+        private void PlatformOk()
         {
             lblStatus.Text = "正常";
             lblStatus.ForeColor = Color.Blue;
@@ -833,10 +843,28 @@ namespace DViewEdge
         /// <summary>
         /// 设置连接异常显示
         /// </summary>
-        private void StatusNg()
+        private void PlatformNg()
         {
             lblStatus.Text = "离线";
             lblStatus.ForeColor = Color.Red;
+        }
+
+        /// <summary>
+        /// 设置连接正常显示
+        /// </summary>
+        private void ComOk()
+        {
+            lblCom.Text = "正常";
+            lblCom.ForeColor = Color.Blue;
+        }
+
+        /// <summary>
+        /// 设置连接异常显示
+        /// </summary>
+        private void ComNg()
+        {
+            lblCom.Text = "断开";
+            lblCom.ForeColor = Color.Red;
         }
 
         /// <summary>
