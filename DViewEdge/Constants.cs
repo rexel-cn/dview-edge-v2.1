@@ -50,6 +50,6 @@ namespace DViewEdge
         public const string FormatLongMs = "yyyy-MM-dd HH:mm:ss.fff";
 
         // 支持采集的测点类型
-        public static List<string> SupportType = new() { AR, AI, AO, DR, DI, DO };
+        public static List<string> SupportType = new() { AR, AI, AO, DR, DI, DO, VA, VD };
     }
 }
