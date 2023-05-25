@@ -905,5 +905,13 @@ namespace DViewEdge
                 SendErrorCount += 1;
             }
         }
+
+        private void EdgeFormClosed(object sender, FormClosedEventArgs e)
+        {
+            // 强制所有消息中止，退出所有窗体，但是若有委托线程，无法干净退出
+            Application.Exit();
+            // 最彻底的退出方式、不管什么线程都被强制退出
+            System.Environment.Exit(0);
+        }
     }
 }

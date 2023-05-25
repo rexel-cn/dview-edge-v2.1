@@ -73,20 +73,20 @@ namespace DViewEdge
             this.lblSucceed = new System.Windows.Forms.Label();
             this.lblCount = new System.Windows.Forms.Label();
             this.lblStartTime = new System.Windows.Forms.Label();
+            this.lblCom = new System.Windows.Forms.Label();
             this.lblStatus = new System.Windows.Forms.Label();
             this.lbl4 = new System.Windows.Forms.Label();
             this.lbl24 = new System.Windows.Forms.Label();
             this.lbl23 = new System.Windows.Forms.Label();
             this.lbl3 = new System.Windows.Forms.Label();
             this.lbl2 = new System.Windows.Forms.Label();
+            this.lbl0 = new System.Windows.Forms.Label();
             this.lbl1 = new System.Windows.Forms.Label();
             this.rtbLogContent = new System.Windows.Forms.RichTextBox();
             this.lbl25 = new System.Windows.Forms.Label();
             this.txtMaxLines = new System.Windows.Forms.TextBox();
             this.btnClean = new System.Windows.Forms.Button();
             this.btnPause = new System.Windows.Forms.Button();
-            this.lbl0 = new System.Windows.Forms.Label();
-            this.lblCom = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
             this.splitContainer.Panel1.SuspendLayout();
             this.splitContainer.Panel2.SuspendLayout();
@@ -602,6 +602,17 @@ namespace DViewEdge
             this.lblStartTime.Text = "-";
             this.lblStartTime.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // lblCom
+            // 
+            this.lblCom.AutoSize = true;
+            this.lblCom.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.lblCom.Location = new System.Drawing.Point(78, 42);
+            this.lblCom.Name = "lblCom";
+            this.lblCom.Size = new System.Drawing.Size(37, 14);
+            this.lblCom.TabIndex = 2;
+            this.lblCom.Text = "断开";
+            this.lblCom.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // lblStatus
             // 
             this.lblStatus.AutoSize = true;
@@ -662,6 +673,16 @@ namespace DViewEdge
             this.lbl2.TabIndex = 3;
             this.lbl2.Text = "启动时间:";
             this.lbl2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lbl0
+            // 
+            this.lbl0.AutoSize = true;
+            this.lbl0.Location = new System.Drawing.Point(13, 42);
+            this.lbl0.Name = "lbl0";
+            this.lbl0.Size = new System.Drawing.Size(65, 17);
+            this.lbl0.TabIndex = 1;
+            this.lbl0.Text = "COM连接:";
+            this.lbl0.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // lbl1
             // 
@@ -740,27 +761,6 @@ namespace DViewEdge
             this.btnPause.UseVisualStyleBackColor = true;
             this.btnPause.Click += new System.EventHandler(this.PauseBtnClick);
             // 
-            // lbl0
-            // 
-            this.lbl0.AutoSize = true;
-            this.lbl0.Location = new System.Drawing.Point(13, 42);
-            this.lbl0.Name = "lbl0";
-            this.lbl0.Size = new System.Drawing.Size(65, 17);
-            this.lbl0.TabIndex = 1;
-            this.lbl0.Text = "COM连接:";
-            this.lbl0.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // lblCom
-            // 
-            this.lblCom.AutoSize = true;
-            this.lblCom.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.lblCom.Location = new System.Drawing.Point(78, 42);
-            this.lblCom.Name = "lblCom";
-            this.lblCom.Size = new System.Drawing.Size(37, 14);
-            this.lblCom.TabIndex = 2;
-            this.lblCom.Text = "断开";
-            this.lblCom.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
             // EdgeForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -777,6 +777,7 @@ namespace DViewEdge
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "DView数据采集程序";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.EdgeFormClosing);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.EdgeFormClosed);
             this.splitContainer.Panel1.ResumeLayout(false);
             this.splitContainer.Panel1.PerformLayout();
             this.splitContainer.Panel2.ResumeLayout(false);
