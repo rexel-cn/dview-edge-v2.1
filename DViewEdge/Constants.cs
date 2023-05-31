@@ -6,6 +6,8 @@ namespace DViewEdge
     {
         // 配置文件名称
         public const string ConfFile = "conf.ini";
+        // 日志文件名称
+        public const string LogFile = "log.txt";
 
         // COM打开状态
         public const short OpenOk = 1;

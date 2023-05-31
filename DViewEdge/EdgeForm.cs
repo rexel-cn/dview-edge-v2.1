@@ -15,6 +15,7 @@ namespace DViewEdge
     public partial class EdgeForm : Form
     {
         private Conf EdgeConf { get; }
+        private Log Log { get; }
         private Topic MqttTopic { get; }
         private MqttUtils MqttUtils { get; }
         private RunDbUtils RunDbUtils { get; }
@@ -85,33 +86,69 @@ namespace DViewEdge
         /// </summary>
         public EdgeForm()
         {
-            // 初始化窗体组件
-            InitializeComponent();
+            try
+            {
+                // 初始化窗体组件
+                InitializeComponent();
 
-            // 设置为false能安全的访问窗体控件
-            CheckForIllegalCrossThreadCalls = false;
+                // 设置为false能安全的访问窗体控件
+                CheckForIllegalCrossThreadCalls = false;
 
-            // 加载配置文件
-            EdgeConf = new Conf();
+                // 加载日志配置
+                Log = new Log();
 
-            // 初始化显示内容
-            InitFormData(EdgeConf);
+                // 加载配置文件
+                EdgeConf = new Conf();
 
-            // 获取客户端ID
-            string clientId = GetClientIdByConf(EdgeConf);
+                // 打印配置内容
+                PrintConf();
 
-            // 加载Topic信息
-            MqttTopic = new Topic(clientId);
+                // 初始化显示内容
+                InitFormData(EdgeConf);
+                Log.WriteAppend("完成初始化显示内容");
 
-            // 初始化MQTT客户端
-            MqttUtils = MqttUtils.GetInastance(EdgeConf.Address, EdgeConf.Port);
-            MqttUtils.AddPublishedHandler(MqttMsgPublished);
+                // 获取客户端ID
+                string clientId = GetClientIdByConf(EdgeConf);
+                Log.WriteAppend("完成客户端ID生成");
 
-            // 初始化COM客户端
-            RunDbUtils = RunDbUtils.GetInstance();
+                // 加载Topic信息
+                MqttTopic = new Topic(clientId);
+                Log.WriteAppend("完成加载Topic信息");
 
-            // 启动后台任务
-            StartTask();
+                // 初始化MQTT客户端
+                MqttUtils = MqttUtils.GetInastance(EdgeConf.Address, EdgeConf.Port);
+                MqttUtils.AddPublishedHandler(MqttMsgPublished);
+                Log.WriteAppend("完成MQTT客户端初始化");
+
+                // 初始化COM客户端
+                RunDbUtils = RunDbUtils.GetInstance();
+                Log.WriteAppend("完成COM客户端初始化");
+
+                // 启动后台任务
+                StartTask();
+            }
+            catch (Exception e)
+            {
+                Log.WriteAppend(e.Message);
+            }
+        }
+
+        /// <summary>
+        /// 将配置文件读取结果写入日志
+        /// </summary>
+        private void PrintConf()
+        {
+            Log.WriteAppend("[config]repeate:" + EdgeConf.Repeate);
+            Log.WriteAppend("[config]username:" + EdgeConf.Username);
+            Log.WriteAppend("[config]password:" + EdgeConf.Password);
+            Log.WriteAppend("[config]address:" + EdgeConf.Address);
+            Log.WriteAppend("[config]port:" + EdgeConf.Port);
+            Log.WriteAppend("[config]selectTag:" + EdgeConf.SelectTag);
+            Log.WriteAppend("[config]offset:" + EdgeConf.Offset);
+            Log.WriteAppend("[config]userClientId:" + EdgeConf.UserClientId);
+            Log.WriteAppend("[config]deviceDescribe:" + EdgeConf.DeviceDescribe);
+            Log.WriteAppend("[auth]username:" + EdgeConf.AuthUser);
+            Log.WriteAppend("[auth]password:" + EdgeConf.AuthPass);
         }
 
         /// <summary>
@@ -164,16 +201,19 @@ namespace DViewEdge
             Task task1 = new(() => { CheckConnect(); });
             task1.Start();
             AppendLog("启动监控任务");
+            Log.WriteAppend("启动监控任务");
 
             // 订阅任务
             Task task2 = new(() => { TopicSubscribe(); });
             task2.Start();
             AppendLog("启动订阅任务");
+            Log.WriteAppend("启动订阅任务");
 
             // 采集任务
             Task task3 = new(() => { PublishRunData(); });
             task3.Start();
             AppendLog("启动采集任务");
+            Log.WriteAppend("启动采集任务");
         }
 
         /// <summary>
