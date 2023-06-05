@@ -39,14 +39,18 @@ namespace DViewEdge
             this.txtDeviceDescribe = new System.Windows.Forms.TextBox();
             this.txtUserClientId = new System.Windows.Forms.TextBox();
             this.grbCollection = new System.Windows.Forms.GroupBox();
-            this.lbl9 = new System.Windows.Forms.Label();
-            this.txtSelectTag = new System.Windows.Forms.TextBox();
+            this.checkBoxAo = new System.Windows.Forms.CheckBox();
+            this.checkBoxAi = new System.Windows.Forms.CheckBox();
+            this.checkBoxVd = new System.Windows.Forms.CheckBox();
+            this.checkBoxVa = new System.Windows.Forms.CheckBox();
+            this.checkBoxDo = new System.Windows.Forms.CheckBox();
+            this.checkBoxDi = new System.Windows.Forms.CheckBox();
+            this.checkBoxDr = new System.Windows.Forms.CheckBox();
+            this.checkBoxAr = new System.Windows.Forms.CheckBox();
             this.lbl10 = new System.Windows.Forms.Label();
             this.txtRepeate = new System.Windows.Forms.TextBox();
             this.req11 = new System.Windows.Forms.Label();
             this.req10 = new System.Windows.Forms.Label();
-            this.req9 = new System.Windows.Forms.Label();
-            this.lbl20 = new System.Windows.Forms.Label();
             this.lbl21 = new System.Windows.Forms.Label();
             this.lbl22 = new System.Windows.Forms.Label();
             this.lbl11 = new System.Windows.Forms.Label();
@@ -197,14 +201,18 @@ namespace DViewEdge
             // 
             // grbCollection
             // 
-            this.grbCollection.Controls.Add(this.lbl9);
-            this.grbCollection.Controls.Add(this.txtSelectTag);
+            this.grbCollection.Controls.Add(this.checkBoxAo);
+            this.grbCollection.Controls.Add(this.checkBoxAi);
+            this.grbCollection.Controls.Add(this.checkBoxVd);
+            this.grbCollection.Controls.Add(this.checkBoxVa);
+            this.grbCollection.Controls.Add(this.checkBoxDo);
+            this.grbCollection.Controls.Add(this.checkBoxDi);
+            this.grbCollection.Controls.Add(this.checkBoxDr);
+            this.grbCollection.Controls.Add(this.checkBoxAr);
             this.grbCollection.Controls.Add(this.lbl10);
             this.grbCollection.Controls.Add(this.txtRepeate);
             this.grbCollection.Controls.Add(this.req11);
             this.grbCollection.Controls.Add(this.req10);
-            this.grbCollection.Controls.Add(this.req9);
-            this.grbCollection.Controls.Add(this.lbl20);
             this.grbCollection.Controls.Add(this.lbl21);
             this.grbCollection.Controls.Add(this.lbl22);
             this.grbCollection.Controls.Add(this.lbl11);
@@ -216,28 +224,90 @@ namespace DViewEdge
             this.grbCollection.TabStop = false;
             this.grbCollection.Text = "数据采集";
             // 
-            // lbl9
+            // checkBoxAo
             // 
-            this.lbl9.AutoSize = true;
-            this.lbl9.Location = new System.Drawing.Point(12, 45);
-            this.lbl9.Name = "lbl9";
-            this.lbl9.Size = new System.Drawing.Size(59, 17);
-            this.lbl9.TabIndex = 1;
-            this.lbl9.Text = "变量类型:";
+            this.checkBoxAo.AutoSize = true;
+            this.checkBoxAo.Location = new System.Drawing.Point(242, 85);
+            this.checkBoxAo.Name = "checkBoxAo";
+            this.checkBoxAo.Size = new System.Drawing.Size(101, 21);
+            this.checkBoxAo.TabIndex = 12;
+            this.checkBoxAo.Text = "模拟只写(AO)";
+            this.checkBoxAo.UseVisualStyleBackColor = true;
             // 
-            // txtSelectTag
+            // checkBoxAi
             // 
-            this.txtSelectTag.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.txtSelectTag.Location = new System.Drawing.Point(92, 42);
-            this.txtSelectTag.Name = "txtSelectTag";
-            this.txtSelectTag.Size = new System.Drawing.Size(161, 23);
-            this.txtSelectTag.TabIndex = 3;
-            this.txtSelectTag.Leave += new System.EventHandler(this.SelectTagLeave);
+            this.checkBoxAi.AutoSize = true;
+            this.checkBoxAi.Location = new System.Drawing.Point(132, 85);
+            this.checkBoxAi.Name = "checkBoxAi";
+            this.checkBoxAi.Size = new System.Drawing.Size(95, 21);
+            this.checkBoxAi.TabIndex = 12;
+            this.checkBoxAi.Text = "模拟只读(AI)";
+            this.checkBoxAi.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxVd
+            // 
+            this.checkBoxVd.AutoSize = true;
+            this.checkBoxVd.Location = new System.Drawing.Point(132, 165);
+            this.checkBoxVd.Name = "checkBoxVd";
+            this.checkBoxVd.Size = new System.Drawing.Size(100, 21);
+            this.checkBoxVd.TabIndex = 12;
+            this.checkBoxVd.Text = "内部开关(VD)";
+            this.checkBoxVd.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxVa
+            // 
+            this.checkBoxVa.AutoSize = true;
+            this.checkBoxVa.Location = new System.Drawing.Point(12, 165);
+            this.checkBoxVa.Name = "checkBoxVa";
+            this.checkBoxVa.Size = new System.Drawing.Size(99, 21);
+            this.checkBoxVa.TabIndex = 12;
+            this.checkBoxVa.Text = "内部模拟(VA)";
+            this.checkBoxVa.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxDo
+            // 
+            this.checkBoxDo.AutoSize = true;
+            this.checkBoxDo.Location = new System.Drawing.Point(242, 125);
+            this.checkBoxDo.Name = "checkBoxDo";
+            this.checkBoxDo.Size = new System.Drawing.Size(102, 21);
+            this.checkBoxDo.TabIndex = 12;
+            this.checkBoxDo.Text = "开关只写(DO)";
+            this.checkBoxDo.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxDi
+            // 
+            this.checkBoxDi.AutoSize = true;
+            this.checkBoxDi.Location = new System.Drawing.Point(132, 125);
+            this.checkBoxDi.Name = "checkBoxDi";
+            this.checkBoxDi.Size = new System.Drawing.Size(96, 21);
+            this.checkBoxDi.TabIndex = 12;
+            this.checkBoxDi.Text = "开关只读(DI)";
+            this.checkBoxDi.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxDr
+            // 
+            this.checkBoxDr.AutoSize = true;
+            this.checkBoxDr.Location = new System.Drawing.Point(12, 125);
+            this.checkBoxDr.Name = "checkBoxDr";
+            this.checkBoxDr.Size = new System.Drawing.Size(100, 21);
+            this.checkBoxDr.TabIndex = 12;
+            this.checkBoxDr.Text = "开关读写(DR)";
+            this.checkBoxDr.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxAr
+            // 
+            this.checkBoxAr.AutoSize = true;
+            this.checkBoxAr.Location = new System.Drawing.Point(12, 85);
+            this.checkBoxAr.Name = "checkBoxAr";
+            this.checkBoxAr.Size = new System.Drawing.Size(99, 21);
+            this.checkBoxAr.TabIndex = 12;
+            this.checkBoxAr.Text = "模拟读写(AR)";
+            this.checkBoxAr.UseVisualStyleBackColor = true;
             // 
             // lbl10
             // 
             this.lbl10.AutoSize = true;
-            this.lbl10.Location = new System.Drawing.Point(12, 85);
+            this.lbl10.Location = new System.Drawing.Point(12, 45);
             this.lbl10.Name = "lbl10";
             this.lbl10.Size = new System.Drawing.Size(59, 17);
             this.lbl10.TabIndex = 5;
@@ -246,9 +316,9 @@ namespace DViewEdge
             // txtRepeate
             // 
             this.txtRepeate.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.txtRepeate.Location = new System.Drawing.Point(92, 82);
+            this.txtRepeate.Location = new System.Drawing.Point(92, 42);
             this.txtRepeate.Name = "txtRepeate";
-            this.txtRepeate.Size = new System.Drawing.Size(161, 23);
+            this.txtRepeate.Size = new System.Drawing.Size(43, 23);
             this.txtRepeate.TabIndex = 7;
             this.txtRepeate.Leave += new System.EventHandler(this.RepeateLeave);
             // 
@@ -256,7 +326,7 @@ namespace DViewEdge
             // 
             this.req11.AutoSize = true;
             this.req11.ForeColor = System.Drawing.Color.Red;
-            this.req11.Location = new System.Drawing.Point(77, 125);
+            this.req11.Location = new System.Drawing.Point(249, 45);
             this.req11.Name = "req11";
             this.req11.Size = new System.Drawing.Size(13, 17);
             this.req11.TabIndex = 10;
@@ -267,37 +337,17 @@ namespace DViewEdge
             // 
             this.req10.AutoSize = true;
             this.req10.ForeColor = System.Drawing.Color.Red;
-            this.req10.Location = new System.Drawing.Point(77, 85);
+            this.req10.Location = new System.Drawing.Point(77, 45);
             this.req10.Name = "req10";
             this.req10.Size = new System.Drawing.Size(13, 17);
             this.req10.TabIndex = 6;
             this.req10.Text = "*";
             this.req10.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // req9
-            // 
-            this.req9.AutoSize = true;
-            this.req9.ForeColor = System.Drawing.Color.Red;
-            this.req9.Location = new System.Drawing.Point(77, 45);
-            this.req9.Name = "req9";
-            this.req9.Size = new System.Drawing.Size(13, 17);
-            this.req9.TabIndex = 2;
-            this.req9.Text = "*";
-            this.req9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // lbl20
-            // 
-            this.lbl20.AutoSize = true;
-            this.lbl20.Location = new System.Drawing.Point(255, 45);
-            this.lbl20.Name = "lbl20";
-            this.lbl20.Size = new System.Drawing.Size(83, 17);
-            this.lbl20.TabIndex = 4;
-            this.lbl20.Text = "例：AR,DI,VA";
-            // 
             // lbl21
             // 
             this.lbl21.AutoSize = true;
-            this.lbl21.Location = new System.Drawing.Point(255, 85);
+            this.lbl21.Location = new System.Drawing.Point(137, 46);
             this.lbl21.Name = "lbl21";
             this.lbl21.Size = new System.Drawing.Size(20, 17);
             this.lbl21.TabIndex = 8;
@@ -306,7 +356,7 @@ namespace DViewEdge
             // lbl22
             // 
             this.lbl22.AutoSize = true;
-            this.lbl22.Location = new System.Drawing.Point(255, 125);
+            this.lbl22.Location = new System.Drawing.Point(309, 45);
             this.lbl22.Name = "lbl22";
             this.lbl22.Size = new System.Drawing.Size(20, 17);
             this.lbl22.TabIndex = 0;
@@ -315,7 +365,7 @@ namespace DViewEdge
             // lbl11
             // 
             this.lbl11.AutoSize = true;
-            this.lbl11.Location = new System.Drawing.Point(12, 125);
+            this.lbl11.Location = new System.Drawing.Point(184, 45);
             this.lbl11.Name = "lbl11";
             this.lbl11.Size = new System.Drawing.Size(59, 17);
             this.lbl11.TabIndex = 9;
@@ -324,9 +374,9 @@ namespace DViewEdge
             // txtOffset
             // 
             this.txtOffset.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.txtOffset.Location = new System.Drawing.Point(92, 122);
+            this.txtOffset.Location = new System.Drawing.Point(264, 42);
             this.txtOffset.Name = "txtOffset";
-            this.txtOffset.Size = new System.Drawing.Size(161, 23);
+            this.txtOffset.Size = new System.Drawing.Size(43, 23);
             this.txtOffset.TabIndex = 11;
             this.txtOffset.Leave += new System.EventHandler(this.OffsetLeave);
             // 
@@ -806,14 +856,10 @@ namespace DViewEdge
         private System.Windows.Forms.TextBox txtDeviceDescribe;
         private System.Windows.Forms.TextBox txtUserClientId;
         private System.Windows.Forms.GroupBox grbCollection;
-        private System.Windows.Forms.Label lbl9;
-        private System.Windows.Forms.TextBox txtSelectTag;
         private System.Windows.Forms.Label lbl10;
         private System.Windows.Forms.TextBox txtRepeate;
         private System.Windows.Forms.Label req11;
         private System.Windows.Forms.Label req10;
-        private System.Windows.Forms.Label req9;
-        private System.Windows.Forms.Label lbl20;
         private System.Windows.Forms.Label lbl21;
         private System.Windows.Forms.Label lbl22;
         private System.Windows.Forms.Label lbl11;
@@ -854,6 +900,14 @@ namespace DViewEdge
         private System.Windows.Forms.Label lbl23;
         private System.Windows.Forms.Label lblCom;
         private System.Windows.Forms.Label lbl0;
+        private System.Windows.Forms.CheckBox checkBoxAo;
+        private System.Windows.Forms.CheckBox checkBoxAi;
+        private System.Windows.Forms.CheckBox checkBoxVd;
+        private System.Windows.Forms.CheckBox checkBoxVa;
+        private System.Windows.Forms.CheckBox checkBoxDo;
+        private System.Windows.Forms.CheckBox checkBoxDi;
+        private System.Windows.Forms.CheckBox checkBoxDr;
+        private System.Windows.Forms.CheckBox checkBoxAr;
     }
 }
 

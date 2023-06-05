@@ -168,11 +168,13 @@ namespace DViewEdge
             txtPassword.Text = conf.Password;
             txtAddress.Text = conf.Address;
             txtPort.Text = conf.Port;
-            txtSelectTag.Text = conf.SelectTag;
             txtRepeate.Text = conf.Repeate;
             txtOffset.Text = conf.Offset;
             txtUserClientId.Text = conf.UserClientId;
             txtDeviceDescribe.Text = conf.DeviceDescribe;
+
+            // 初始化选择框
+            InitPointTypeCheckBox(conf.SelectTag);
 
             // 初始化连接状态
             PlatformNg();
@@ -190,6 +192,46 @@ namespace DViewEdge
             NetSendBytes = 0;
             SendSuccedCount = 0;
             SendErrorCount = 0;
+        }
+
+        private void InitPointTypeCheckBox(string selectTag)
+        {
+            if (string.IsNullOrEmpty(selectTag))
+            {
+                return;
+            }
+
+            string[] pointTypeList = selectTag.Split(",");
+            foreach (string pointType in pointTypeList)
+            {
+                switch (pointType)
+                {
+                    case Constants.AR:
+                        checkBoxAr.Checked = true;
+                        break;
+                    case Constants.AI:
+                        checkBoxAi.Checked = true;
+                        break;
+                    case Constants.AO:
+                        checkBoxAo.Checked = true;
+                        break;
+                    case Constants.DR:
+                        checkBoxDr.Checked = true;
+                        break;
+                    case Constants.DI:
+                        checkBoxDi.Checked = true;
+                        break;
+                    case Constants.DO:
+                        checkBoxDo.Checked = true;
+                        break;
+                    case Constants.VA:
+                        checkBoxVa.Checked = true;
+                        break;
+                    case Constants.VD:
+                        checkBoxVd.Checked = true;
+                        break;
+                }
+            }
         }
 
         /// <summary>
@@ -328,7 +370,7 @@ namespace DViewEdge
             try
             {
                 List<ReportData> dataList = new();
-                string[] pointTypeList = txtSelectTag.Text.Split(",");
+                List<string> pointTypeList = GetPointTypeList();
                 foreach (string pointType in pointTypeList)
                 {
                     ReportData reportData = GetReportData(pointType, out bool isError, out bool noData);
@@ -384,7 +426,7 @@ namespace DViewEdge
         {
             try
             {
-                string[] pointTypeList = txtSelectTag.Text.Split(",");
+                List<string> pointTypeList = GetPointTypeList();
                 foreach (string pointType in pointTypeList)
                 {
                     ReportData reportData = GetReportData(pointType, out bool isError, out bool noData);
@@ -468,7 +510,8 @@ namespace DViewEdge
         /// </summary>
         private void DoSaveConf()
         {
-            EdgeConf.SelectTag = txtSelectTag.Text;
+            List<string> pointTypeList = GetPointTypeList();
+            EdgeConf.SelectTag = string.Join(",", pointTypeList);
             EdgeConf.Username = txtUsername.Text;
             EdgeConf.Password = txtPassword.Text;
             EdgeConf.Address = txtAddress.Text;
@@ -582,6 +625,48 @@ namespace DViewEdge
         private void CleanBtnClick(object sender, EventArgs e)
         {
             rtbLogContent.Text = "";
+        }
+
+        /// <summary>
+        /// 获取测点类型集合
+        /// </summary>
+        /// <returns></returns>
+        private List<string> GetPointTypeList()
+        {
+            List<string> result = new();
+            if (checkBoxAr.Checked)
+            {
+                result.Add(Constants.AR);
+            }
+            if (checkBoxAi.Checked)
+            {
+                result.Add(Constants.AI);
+            }
+            if (checkBoxAo.Checked)
+            {
+                result.Add(Constants.AO);
+            }
+            if (checkBoxDr.Checked)
+            {
+                result.Add(Constants.DR);
+            }
+            if (checkBoxDi.Checked)
+            {
+                result.Add(Constants.DI);
+            }
+            if (checkBoxDo.Checked)
+            {
+                result.Add(Constants.DO);
+            }
+            if (checkBoxVa.Checked)
+            {
+                result.Add(Constants.VA);
+            }
+            if (checkBoxVd.Checked)
+            {
+                result.Add(Constants.VD);
+            }
+            return result;
         }
 
         /// <summary>
@@ -740,24 +825,6 @@ namespace DViewEdge
             if (!ok)
             {
                 Utils.ShowInfoBox("输入的端口不合法");
-            }
-        }
-
-        /// <summary>
-        /// 内容合法检查：测点类型
-        /// </summary>
-        /// <param name="sender">sender</param>
-        /// <param name="e">e</param>
-        private void SelectTagLeave(object sender, EventArgs e)
-        {
-            string[] splits = txtSelectTag.Text.Split(",");
-            foreach (string s in splits)
-            {
-                if (!Constants.SupportType.Contains(s))
-                {
-                    string str = string.Join(",", Constants.SupportType.ToArray());
-                    Utils.ShowInfoBox("测点类型输入不合法，正确格式为：" + str);
-                }
             }
         }
 
