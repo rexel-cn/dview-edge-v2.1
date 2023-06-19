@@ -31,6 +31,7 @@ namespace DViewEdge
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EdgeForm));
             this.splitContainer = new System.Windows.Forms.SplitContainer();
+            this.btPoint = new System.Windows.Forms.Button();
             this.grbDevice = new System.Windows.Forms.GroupBox();
             this.lbl12 = new System.Windows.Forms.Label();
             this.lbl14 = new System.Windows.Forms.Label();
@@ -109,6 +110,7 @@ namespace DViewEdge
             // 
             // splitContainer.Panel1
             // 
+            this.splitContainer.Panel1.Controls.Add(this.btPoint);
             this.splitContainer.Panel1.Controls.Add(this.grbDevice);
             this.splitContainer.Panel1.Controls.Add(this.grbCollection);
             this.splitContainer.Panel1.Controls.Add(this.grbPlatform);
@@ -124,9 +126,28 @@ namespace DViewEdge
             this.splitContainer.Panel2.Controls.Add(this.txtMaxLines);
             this.splitContainer.Panel2.Controls.Add(this.btnClean);
             this.splitContainer.Panel2.Controls.Add(this.btnPause);
-            this.splitContainer.Size = new System.Drawing.Size(1172, 612);
+            this.splitContainer.Size = new System.Drawing.Size(1172, 600);
             this.splitContainer.SplitterDistance = 745;
             this.splitContainer.TabIndex = 0;
+            // 
+            // btPoint
+            // 
+            this.btPoint.AutoSize = true;
+            this.btPoint.BackColor = System.Drawing.SystemColors.Menu;
+            this.btPoint.BackgroundImage = global::DViewEdge.Properties.Resources.list;
+            this.btPoint.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.btPoint.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btPoint.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.btPoint.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btPoint.Location = new System.Drawing.Point(455, 9);
+            this.btPoint.Name = "btPoint";
+            this.btPoint.Padding = new System.Windows.Forms.Padding(30, 0, 0, 0);
+            this.btPoint.Size = new System.Drawing.Size(115, 34);
+            this.btPoint.TabIndex = 8;
+            this.btPoint.Text = "分频采集";
+            this.btPoint.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btPoint.UseVisualStyleBackColor = true;
+            this.btPoint.Click += new System.EventHandler(this.PointBtnClick);
             // 
             // grbDevice
             // 
@@ -754,7 +775,7 @@ namespace DViewEdge
             this.rtbLogContent.Location = new System.Drawing.Point(9, 56);
             this.rtbLogContent.Name = "rtbLogContent";
             this.rtbLogContent.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Horizontal;
-            this.rtbLogContent.Size = new System.Drawing.Size(408, 545);
+            this.rtbLogContent.Size = new System.Drawing.Size(408, 533);
             this.rtbLogContent.TabIndex = 4;
             this.rtbLogContent.Text = "";
             this.rtbLogContent.TextChanged += new System.EventHandler(this.LogContentTextChanged);
@@ -816,16 +837,15 @@ namespace DViewEdge
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.AutoValidate = System.Windows.Forms.AutoValidate.Disable;
             this.BackColor = System.Drawing.SystemColors.Window;
-            this.ClientSize = new System.Drawing.Size(1172, 612);
+            this.ClientSize = new System.Drawing.Size(1172, 603);
             this.Controls.Add(this.splitContainer);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "EdgeForm";
-            this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "DView数据采集程序";
+            this.Text = "DView数据采集";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.EdgeFormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.EdgeFormClosed);
             this.splitContainer.Panel1.ResumeLayout(false);
@@ -908,6 +928,7 @@ namespace DViewEdge
         private System.Windows.Forms.CheckBox checkBoxDi;
         private System.Windows.Forms.CheckBox checkBoxDr;
         private System.Windows.Forms.CheckBox checkBoxAr;
+        private System.Windows.Forms.Button btPoint;
     }
 }
 

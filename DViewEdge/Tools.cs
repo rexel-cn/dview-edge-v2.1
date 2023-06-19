@@ -2,6 +2,7 @@ using System;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using System.Globalization;
+using static DViewEdge.RunDbUtils;
 
 namespace DViewEdge
 {
@@ -13,9 +14,9 @@ namespace DViewEdge
         /// <param name="listStr">listStr</param>
         /// <param name="pointType">pointType</param>
         /// <returns>结果</returns>
-        public static List<EdgeForm.PointData> GetPointDataList(string listStr, string pointType)
+        public static List<PointData> GetPointDataList(string listStr, string pointType)
         {
-            List<EdgeForm.PointData> pointDataList = new();
+            List<PointData> pointDataList = new();
             if (listStr == "" || listStr == null)
             {
                 return pointDataList;
@@ -53,7 +54,7 @@ namespace DViewEdge
 
                 if (CheckPointValid(pointId))
                 {
-                    EdgeForm.PointData pointData = MakePointData(pointType, pointId, pointValue);
+                    PointData pointData = MakePointData(pointType, pointId, pointValue);
                     pointDataList.Add(pointData);
                 }
 
@@ -106,9 +107,9 @@ namespace DViewEdge
         /// <param name="pointId">测点Id</param>
         /// <param name="pointValue">测点值</param>
         /// <returns>PointData</returns>
-        private static EdgeForm.PointData MakePointData(string pointType, string pointId, string pointValue)
+        private static PointData MakePointData(string pointType, string pointId, string pointValue)
         {
-            EdgeForm.PointData pointData = new()
+            PointData pointData = new()
             {
                 PointId = pointId,
                 Qty = Constants.QtyOk

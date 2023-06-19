@@ -9,11 +9,13 @@ using System.Diagnostics;
 using uPLibrary.Networking.M2Mqtt.Messages;
 using System.Drawing;
 using DViewEdge.Properties;
+using static DViewEdge.RunDbUtils;
 
 namespace DViewEdge
 {
     public partial class EdgeForm : Form
     {
+        private EdgePoint EdgePoint { get; }
         private Conf EdgeConf { get; }
         private Log Log { get; }
         private Topic MqttTopic { get; }
@@ -35,27 +37,6 @@ namespace DViewEdge
             public int Count { get; set; }
             public long Size { get; set; }
             public byte[] Data { get; set; }
-        }
-
-        /// <summary>
-        /// 运行数据
-        /// </summary>
-        public class ReportData
-        {
-            public string Time { get; set; }
-            public string DataType { get; set; }
-            public string PointType { get; set; }
-            public List<PointData> Data { get; set; }
-        }
-
-        /// <summary>
-        /// 测点信息
-        /// </summary>
-        public class PointData
-        {
-            public string PointId { get; set; }
-            public object PointValue { get; set; }
-            public string Qty { get; set; }
         }
 
         /// <summary>
@@ -124,6 +105,9 @@ namespace DViewEdge
                 RunDbUtils = RunDbUtils.GetInstance();
                 Log.WriteAppend("完成COM客户端初始化");
 
+                // 分频采集子窗体
+                EdgePoint = new EdgePoint(EdgeConf, RunDbUtils);
+
                 // 启动后台任务
                 StartTask();
             }
@@ -183,9 +167,6 @@ namespace DViewEdge
             MaxLines = 100;
             IsPause = false;
             IsFirstSend = true;
-
-            // 位于屏幕最前面
-            TopMost = true;
 
             // 流量计数初始化
             NetSendCount = 0;
@@ -256,6 +237,84 @@ namespace DViewEdge
             task3.Start();
             AppendLog("启动采集任务");
             Log.WriteAppend("启动采集任务");
+
+            // 分频采集
+            StartSpecialTask();
+        }
+
+        /// <summary>
+        /// 执行分频采集
+        /// </summary>
+        private void StartSpecialTask()
+        {
+            // 获取配置文件
+            PointConf pointConf = new();
+            List<PointConf.PointJson> pointJsonList = pointConf.Load();
+
+            // 没有分频测点
+            if (pointJsonList.Count <= 0)
+            {
+                return;
+            }
+
+            // 转换数据结构
+            // Dictionary<频率, Dictionary<测点类型, List<测点ID>>>
+            Dictionary<int, Dictionary<string, List<string>>> dict = new();
+            foreach (PointConf.PointJson pointJson in pointJsonList)
+            {
+                string pointType = pointJson.PointType;
+                List<PointConf.PointRepeate> pointList = pointJson.PointList;
+                if (pointList == null || pointList.Count <= 0)
+                {
+                    continue;
+                }
+                foreach (PointConf.PointRepeate pointRepeate in pointJson.PointList)
+                {
+                    string pointId = pointRepeate.PointId;
+                    int repeate = pointRepeate.Repeate;
+                    if (!dict.ContainsKey(repeate))
+                    {
+                        dict.Add(repeate, new());
+                    }
+                    _ = dict.TryGetValue(repeate, out Dictionary<string, List<string>> pointTypeDict);
+                    if (!pointTypeDict.ContainsKey(pointType))
+                    {
+                        pointTypeDict.Add(pointType, new());
+                    }
+                    pointTypeDict.TryGetValue(pointType, out List<String> pointIdList);
+                    pointIdList.Add(pointId);
+                }
+            }
+
+            // 没有分频测点
+            if (dict.Count <= 0)
+            {
+                return;
+            }
+
+            // 按频率启动任务
+            foreach (KeyValuePair<int, Dictionary<string, List<string>>> kv in dict)
+            {
+                // 不可用频率
+                int repeate = kv.Key;
+                if (repeate <= 0)
+                {
+                    continue;
+                }
+
+                // 没有分频测点
+                Dictionary<string, List<string>> pointTypeDict = kv.Value;
+                if (pointTypeDict.Count <= 0)
+                {
+                    continue;
+                }
+
+                // 启动采集任务
+                Task task = new(() => { PublishSpecialPointData(repeate, pointTypeDict); });
+                task.Start();
+                AppendLog(string.Format("启动分频采集任务。频率:{0}", repeate));
+                Log.WriteAppend(string.Format("启动分频采集任务。频率:{0}", repeate));
+            }
         }
 
         /// <summary>
@@ -363,6 +422,23 @@ namespace DViewEdge
         }
 
         /// <summary>
+        /// 分频发送运行数据
+        /// </summary>
+        /// <param name="repeate">频率</param>
+        /// <param name="pointTypeDict">测点类型字典</param>
+        private void PublishSpecialPointData(int repeate, Dictionary<string, List<string>> pointTypeDict)
+        {
+            while (true)
+            {
+                // 上报各类型数据
+                DoSendSpecialDataOnce(repeate, pointTypeDict);
+
+                // 等待下一次上报
+                Thread.Sleep(repeate);
+            }
+        }
+
+        /// <summary>
         /// 执行元数据上报
         /// </summary>
         private void DoSendMetaOnce()
@@ -373,7 +449,7 @@ namespace DViewEdge
                 List<string> pointTypeList = GetPointTypeList();
                 foreach (string pointType in pointTypeList)
                 {
-                    ReportData reportData = GetReportData(pointType, out bool isError, out bool noData);
+                    ReportData reportData = GetReportData(pointType, out bool isError, out bool noData, null);
                     if (isError)
                     {
                         SendErrorCount += 1;
@@ -429,7 +505,7 @@ namespace DViewEdge
                 List<string> pointTypeList = GetPointTypeList();
                 foreach (string pointType in pointTypeList)
                 {
-                    ReportData reportData = GetReportData(pointType, out bool isError, out bool noData);
+                    ReportData reportData = GetReportData(pointType, out bool isError, out bool noData, null);
                     if (isError)
                     {
                         Console.WriteLine("DoSendDataOnce. isError");
@@ -453,7 +529,63 @@ namespace DViewEdge
                     {
                         // 发送数据
                         MqttUtils.Public(MqttTopic.UpData, sendInfo.Data);
-                        AppendLog(string.Format("上报{0}类型测点{1}个", pointType, sendInfo.Count));
+                        AppendLog(string.Format("正常上报{0}类型测点{1}个", pointType, sendInfo.Count));
+
+                        // 流量计数
+                        NetSendCount += 1;
+                        NetSendBytes += sendInfo.Size;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                SendErrorCount += 1;
+                AppendLog(string.Format("COM接口异常:{0}", e.Message));
+            }
+            finally
+            {
+                RefreshFlowData();
+            }
+        }
+
+        /// <summary>
+        /// 执行运行数据上报
+        /// </summary>
+        private void DoSendSpecialDataOnce(int repeate, Dictionary<string, List<string>> pointTypeDict)
+        {
+            try
+            {
+                foreach (KeyValuePair< string, List<string>> kv in pointTypeDict)
+                {
+                    string pointType = kv.Key;
+                    List<string> pointIdList = kv.Value;
+
+                    // 过滤分频测点
+                    ReportData reportData = GetReportData(pointType, out bool isError, out bool noData, pointIdList);
+                    if (isError)
+                    {
+                        Console.WriteLine("DoSendSpecialDataOnce. isError");
+                        SendErrorCount += 1;
+                        continue;
+                    }
+                    if (noData)
+                    {
+                        Console.WriteLine("DoSendSpecialDataOnce. noData");
+                        continue;
+                    }
+                    if (reportData == null)
+                    {
+                        Console.WriteLine("DoSendSpecialDataOnce. reportData == null");
+                        continue;
+                    }
+                    SendInfo sendInfo = GetSendInfoForData(reportData);
+                    Console.WriteLine(string.Format("DoSendSpecialDataOnce. sendInfo: {0}", reportData.ToString()));
+
+                    if (sendInfo.Count > 0)
+                    {
+                        // 发送数据
+                        MqttUtils.Public(MqttTopic.UpData, sendInfo.Data);
+                        AppendLog(string.Format("分频上报{0}类型测点{1}个。频率{2}", pointType, sendInfo.Count, repeate));
 
                         // 流量计数
                         NetSendCount += 1;
@@ -715,7 +847,7 @@ namespace DViewEdge
         /// <param name="isError">是否异常</param>
         /// <param name="noData">是否有数据</param>
         /// <returns>ReportData</returns>
-        private ReportData GetReportData(string pontType, out bool isError, out bool noData)
+        private ReportData GetReportData(string pontType, out bool isError, out bool noData, List<string> pointFilter)
         {
             try
             {
@@ -750,13 +882,16 @@ namespace DViewEdge
                 // 转换数据结构
                 List<PointData> dataList = Tools.GetPointDataList(data, pontType);
 
+                // 过滤数据测点
+                List<PointData> dataFilter = FilterPointData(dataList, pointFilter);
+
                 // 生成应答数据
                 var reportData = new ReportData
                 {
                     Time = offsetTime.ToString(Constants.FormatLongMs),
                     DataType = Utils.GetDataType(pontType),
                     PointType = pontType,
-                    Data = dataList,
+                    Data = dataFilter,
                 };
                 isError = false;
                 noData = false;
@@ -770,6 +905,28 @@ namespace DViewEdge
                 AppendLog(string.Format("COM接口打开异常：{0}", e.Message));
                 return null;
             }
+        }
+
+        private List<PointData> FilterPointData(List<PointData> dataList, List<string> pointFilter)
+        {
+            if (pointFilter == null || pointFilter.Count <= 0)
+            {
+                return dataList;
+            }
+            if (dataList == null || dataList.Count <= 0)
+            {
+                return dataList;
+            }
+
+            List<PointData> result = new();
+            foreach (PointData pointData in dataList)
+            {
+                if (pointFilter.Contains(pointData.PointId))
+                {
+                    result.Add(pointData);
+                }
+            }
+            return result;
         }
 
         /// <summary>
@@ -789,14 +946,21 @@ namespace DViewEdge
         /// <param name="str">str</param>
         private void AppendLog(string str)
         {
-            if (IsPause)
+            try
             {
-                return;
+                if (IsPause)
+                {
+                    return;
+                }
+                string log = string.Format("{0}:{1}\n", Utils.TimeNow(), str);
+                if (!rtbLogContent.IsDisposed)
+                {
+                    rtbLogContent.AppendText(log);
+                }
             }
-            string log = string.Format("{0}:{1}\n", Utils.TimeNow(), str);
-            if (!rtbLogContent.IsDisposed)
+            catch (Exception e)
             {
-                rtbLogContent.AppendText(log);
+                Log.WriteAppend(e.ToString());
             }
         }
 
@@ -1019,6 +1183,11 @@ namespace DViewEdge
             Application.Exit();
             // 最彻底的退出方式、不管什么线程都被强制退出
             System.Environment.Exit(0);
+        }
+
+        private void PointBtnClick(object sender, EventArgs e)
+        {
+            EdgePoint.Show();
         }
     }
 }

@@ -1,9 +1,31 @@
 ﻿using FMDMOLib;
+using System.Collections.Generic;
 
 namespace DViewEdge
 {
     public class RunDbUtils
     {
+        /// <summary>
+        /// 运行数据
+        /// </summary>
+        public class ReportData
+        {
+            public string Time { get; set; }
+            public string DataType { get; set; }
+            public string PointType { get; set; }
+            public List<PointData> Data { get; set; }
+        }
+
+        /// <summary>
+        /// 测点信息
+        /// </summary>
+        public class PointData
+        {
+            public string PointId { get; set; }
+            public object PointValue { get; set; }
+            public string Qty { get; set; }
+        }
+
         private static RunDbUtils Instance = null;
         private Rundb Read { get; set; }
         private Rundb Write { get; set; }

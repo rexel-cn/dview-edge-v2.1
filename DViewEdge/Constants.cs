@@ -6,6 +6,7 @@ namespace DViewEdge
     {
         // 配置文件名称
         public const string ConfFile = "conf.ini";
+        public const string PointFile = "point.json";
         // 日志文件名称
         public const string LogFile = "log.txt";
 

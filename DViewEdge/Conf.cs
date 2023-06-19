@@ -49,6 +49,7 @@ namespace DViewEdge
         private const string KeyUserClientId = "userClientId";
         // 配置项：设备名称描述
         private const string KeyDeviceDescribe = "deviceDescribe";
+        
 
         /// <summary>
         /// 加载配置文件
