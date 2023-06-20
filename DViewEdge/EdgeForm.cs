@@ -413,7 +413,10 @@ namespace DViewEdge
                 }
 
                 // 上报各类型数据
-                DoSendDataOnce();
+                Task.Run(() =>
+                {
+                    DoSendDataOnce();
+                });
 
                 // 等待下一次上报
                 int s =  (int)(double.Parse(txtRepeate.Text) * 1000);
@@ -431,7 +434,10 @@ namespace DViewEdge
             while (true)
             {
                 // 上报各类型数据
-                DoSendSpecialDataOnce(repeate, pointTypeDict);
+                Task.Run(() =>
+                {
+                    DoSendSpecialDataOnce(repeate, pointTypeDict);
+                });
 
                 // 等待下一次上报
                 Thread.Sleep(repeate);
@@ -722,7 +728,10 @@ namespace DViewEdge
             btnUpMeta.Enabled = false;
 
             // 上报测点数据
-            DoSendMetaOnce();
+            Task.Run(() =>
+            {
+                DoSendMetaOnce();
+            });
 
             Thread.Sleep(1000);
             btnUpMeta.Enabled = true;

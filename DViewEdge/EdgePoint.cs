@@ -100,7 +100,7 @@ namespace DViewEdge
                 foreach (PointData pointData in reportData.Data)
                 {
                     PointConf.PointRepeate pointRepeate = GetOnePointRepeate(pointRepeateList, pointData.PointId);
-                    int repeate = Convert.ToInt32(EdgeConf.Repeate) * 1000;
+                    double repeate = Convert.ToDouble(EdgeConf.Repeate) * 1000;
 
                     int index = dataGrid.Rows.Add();
                     dataGrid.Rows[index].Cells[0].Value = pointData.PointId;
@@ -221,7 +221,7 @@ namespace DViewEdge
         private List<PointConf.PointJson> GetPointJson()
         {
             List<PointConf.PointJson> pointConf = new();
-            int repeateGlobal = Convert.ToInt32(EdgeConf.Repeate) * 1000;
+            double repeateGlobal = Convert.ToDouble(EdgeConf.Repeate) * 1000;
 
             string[] pointTypeList = EdgeConf.SelectTag.Split(",");
             foreach (string pointType in pointTypeList)
@@ -237,7 +237,7 @@ namespace DViewEdge
                 for (int i = 0; i < count; i++)
                 {
                     string pointId = Convert.ToString(dataGrid.Rows[i].Cells[0].Value);
-                    int repeate = Convert.ToInt32(dataGrid.Rows[i].Cells[1].Value);
+                    double repeate = Convert.ToDouble(dataGrid.Rows[i].Cells[1].Value);
                     if (repeateGlobal == repeate)
                     {
                         continue;
@@ -249,7 +249,7 @@ namespace DViewEdge
                     PointConf.PointRepeate pointRepeate = new()
                     {
                         PointId = pointId,
-                        Repeate = repeate
+                        Repeate = (int)repeate
                     };
                     list.Add(pointRepeate);
                 }
