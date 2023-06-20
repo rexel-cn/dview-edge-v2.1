@@ -1,6 +1,7 @@
 ﻿using FMDMOLib;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Windows.Forms;
 using static DViewEdge.RunDbUtils;
 
@@ -63,7 +64,7 @@ namespace DViewEdge
         {
             List<PointConf.PointJson> pointJson = GetPointJson();
             PointConf.Save(pointJson);
-            Console.WriteLine(pointJson);
+            BindDataGrid();
         }
 
         /// <summary>
@@ -103,6 +104,7 @@ namespace DViewEdge
 
                     int index = dataGrid.Rows.Add();
                     dataGrid.Rows[index].Cells[0].Value = pointData.PointId;
+                    bool isSpecial = false;
                     if (pointRepeate == null || pointRepeate.Repeate == repeate)
                     {
                         dataGrid.Rows[index].Cells[1].Value = repeate;
@@ -110,6 +112,12 @@ namespace DViewEdge
                     else
                     {
                         dataGrid.Rows[index].Cells[1].Value = pointRepeate.Repeate;
+                        isSpecial = true;
+                    }
+
+                    if (isSpecial)
+                    {
+                        dataGrid.Rows[index].DefaultCellStyle.ForeColor = Color.Red;
                     }
                 }
             }

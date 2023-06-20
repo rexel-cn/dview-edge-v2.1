@@ -61,6 +61,7 @@
             this.dataGridViewTextBoxColumn13 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn14 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnSave = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridAR)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridAI)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridAO)).BeginInit();
@@ -386,12 +387,22 @@
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.SaveButtonClick);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(553, 15);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(668, 17);
+            this.label1.TabIndex = 23;
+            this.label1.Text = "默认使用统一采集频率。如需特殊采集频率，请输入频率后保存配置并重新启动采集软件。特殊频率的测点以红色字体标识。";
+            // 
             // EdgePoint
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
             this.ClientSize = new System.Drawing.Size(1229, 833);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.labelVD);
             this.Controls.Add(this.dataGridVD);
@@ -464,5 +475,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn12;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn13;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn14;
+        private System.Windows.Forms.Label label1;
     }
 }
