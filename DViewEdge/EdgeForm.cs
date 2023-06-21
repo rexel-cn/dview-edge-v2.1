@@ -916,7 +916,13 @@ namespace DViewEdge
             }
         }
 
-        private List<PointData> FilterPointData(List<PointData> dataList, List<string> pointFilter)
+        /// <summary>
+        /// 过滤测点数据
+        /// </summary>
+        /// <param name="dataList">dataList</param>
+        /// <param name="pointFilter">pointFilter</param>
+        /// <returns>结果</returns>
+        private static List<PointData> FilterPointData(List<PointData> dataList, List<string> pointFilter)
         {
             if (pointFilter == null || pointFilter.Count <= 0)
             {
@@ -1044,7 +1050,7 @@ namespace DViewEdge
             bool ok = Utils.IsClientId(txtUserClientId.Text);
             if (!ok)
             {
-                Utils.ShowInfoBox("客户端ID不合法。\n请以字母开头，长度在4~50之间，只能包含字符、数字和下划线");
+                Utils.ShowInfoBox("客户端ID长度必须在4~50之间");
             }
         }
 

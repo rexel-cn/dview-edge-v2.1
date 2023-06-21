@@ -87,8 +87,14 @@ namespace DViewEdge
         /// <returns></returns>
         public static bool IsClientId(string str)
         {
-            Regex regex = new(@"^[a-zA-Z]\w{3,49}$");
-            return regex.IsMatch(str);
+            if (str.Length < 4 || str.Length > 50)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
 
         /// <summary>
