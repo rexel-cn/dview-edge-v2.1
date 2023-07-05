@@ -12,7 +12,7 @@ namespace DViewEdge
         /// <summary>
         /// 全局变量
         /// </summary>
-        private static readonly Dictionary<string, DataGridView> DataGridDict = new();
+        private static readonly Dictionary<string, DataGridView> DataGridDict = new Dictionary<string, DataGridView>();
         private PointConf PointConf { get; }
         private Conf EdgeConf { get; }
         private RunDbUtils RunDbUtils { get; }
@@ -195,7 +195,7 @@ namespace DViewEdge
                 }
 
                 // 转换数据结构
-                List<PointData> dataList = Tools.GetPointDataList(data, pontType);
+                List<PointData> dataList = Tools.GetPointDataList(data, pontType, null);
 
                 // 生成应答数据
                 var reportData = new ReportData
@@ -220,10 +220,10 @@ namespace DViewEdge
         /// <returns></returns>
         private List<PointConf.PointJson> GetPointJson()
         {
-            List<PointConf.PointJson> pointConf = new();
+            List<PointConf.PointJson> pointConf = new List<PointConf.PointJson>();
             double repeateGlobal = Convert.ToDouble(EdgeConf.Repeate) * 1000;
 
-            string[] pointTypeList = EdgeConf.SelectTag.Split(",");
+            string[] pointTypeList = EdgeConf.SelectTag.Split(',');
             foreach (string pointType in pointTypeList)
             {
                 DataGridDict.TryGetValue(pointType, out DataGridView dataGrid);
@@ -232,7 +232,7 @@ namespace DViewEdge
                     continue;
                 }
 
-                List<PointConf.PointRepeate> list = new();
+                List<PointConf.PointRepeate> list = new List<PointConf.PointRepeate>();
                 int count = dataGrid.Rows.Count;
                 for (int i = 0; i < count; i++)
                 {
@@ -246,7 +246,7 @@ namespace DViewEdge
                     {
                         continue;
                     }
-                    PointConf.PointRepeate pointRepeate = new()
+                    PointConf.PointRepeate pointRepeate = new PointConf.PointRepeate()
                     {
                         PointId = pointId,
                         Repeate = (int)repeate
@@ -255,7 +255,7 @@ namespace DViewEdge
                 }
                 if (list.Count > 0)
                 {
-                    PointConf.PointJson pointAR = new()
+                    PointConf.PointJson pointAR = new PointConf.PointJson()
                     {
                         PointType = pointType,
                         PointList = list

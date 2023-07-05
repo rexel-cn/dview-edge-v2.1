@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Management;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -39,7 +40,7 @@ namespace DViewEdge
         private static string GetHash(string str)
         {
             MD5 sec = new MD5CryptoServiceProvider();
-            ASCIIEncoding enc = new ();
+            ASCIIEncoding enc = new ASCIIEncoding();
             byte[] bt = enc.GetBytes(str);
             return GetHexString(sec.ComputeHash(bt));
         }
@@ -93,9 +94,9 @@ namespace DViewEdge
         private static string Identifier(string wmiClass, string wmiProperty, string wmiMustBeTrue)
         {
             string result = "";
-            System.Management.ManagementClass mc = new(wmiClass);
-            System.Management.ManagementObjectCollection moc = mc.GetInstances();
-            foreach (System.Management.ManagementObject mo in moc)
+            ManagementClass mc = new ManagementClass(wmiClass);
+            ManagementObjectCollection moc = mc.GetInstances();
+            foreach (ManagementObject mo in moc)
             {
                 if (mo[wmiMustBeTrue].ToString() == "True")
                 {
@@ -122,9 +123,9 @@ namespace DViewEdge
         private static string Identifier(string wmiClass, string wmiProperty)
         {
             string result = "";
-            System.Management.ManagementClass mc = new(wmiClass);
-            System.Management.ManagementObjectCollection moc = mc.GetInstances();
-            foreach (System.Management.ManagementObject mo in moc)
+            ManagementClass mc = new ManagementClass(wmiClass);
+            ManagementObjectCollection moc = mc.GetInstances();
+            foreach (ManagementObject mo in moc)
             {
                 try
                 {

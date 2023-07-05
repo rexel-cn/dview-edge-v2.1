@@ -1,5 +1,4 @@
-﻿using FMDMOLib;
-using System;
+﻿using System;
 using System.Text;
 using System.Windows.Forms;
 using System.Threading;
@@ -8,8 +7,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using uPLibrary.Networking.M2Mqtt.Messages;
 using System.Drawing;
-using DViewEdge.Properties;
 using static DViewEdge.RunDbUtils;
+using FMDMOLib;
+using DViewEdge.Properties;
 
 namespace DViewEdge
 {
@@ -182,7 +182,7 @@ namespace DViewEdge
                 return;
             }
 
-            string[] pointTypeList = selectTag.Split(",");
+            string[] pointTypeList = selectTag.Split(',');
             foreach (string pointType in pointTypeList)
             {
                 switch (pointType)
@@ -221,19 +221,19 @@ namespace DViewEdge
         private void StartTask()
         {
             // 监控任务
-            Task task1 = new(() => { CheckConnect(); });
+            Task task1 = new Task(() => { CheckConnect(); });
             task1.Start();
             AppendLog("启动监控任务");
             Log.WriteAppend("启动监控任务");
 
             // 订阅任务
-            Task task2 = new(() => { TopicSubscribe(); });
+            Task task2 = new Task(() => { TopicSubscribe(); });
             task2.Start();
             AppendLog("启动订阅任务");
             Log.WriteAppend("启动订阅任务");
 
             // 采集任务
-            Task task3 = new(() => { PublishRunData(); });
+            Task task3 = new Task(() => { PublishRunData(); });
             task3.Start();
             AppendLog("启动采集任务");
             Log.WriteAppend("启动采集任务");
@@ -248,7 +248,7 @@ namespace DViewEdge
         private void StartSpecialTask()
         {
             // 获取配置文件
-            PointConf pointConf = new();
+            PointConf pointConf = new PointConf();
             List<PointConf.PointJson> pointJsonList = pointConf.Load();
 
             // 没有分频测点
@@ -259,7 +259,7 @@ namespace DViewEdge
 
             // 转换数据结构
             // Dictionary<频率, Dictionary<测点类型, List<测点ID>>>
-            Dictionary<int, Dictionary<string, List<string>>> dict = new();
+            Dictionary<int, Dictionary<string, List<string>>> dict = new Dictionary<int, Dictionary<string, List<string>>>();
             foreach (PointConf.PointJson pointJson in pointJsonList)
             {
                 string pointType = pointJson.PointType;
@@ -274,12 +274,12 @@ namespace DViewEdge
                     int repeate = pointRepeate.Repeate;
                     if (!dict.ContainsKey(repeate))
                     {
-                        dict.Add(repeate, new());
+                        dict.Add(repeate, new Dictionary<string, List<string>>());
                     }
                     _ = dict.TryGetValue(repeate, out Dictionary<string, List<string>> pointTypeDict);
                     if (!pointTypeDict.ContainsKey(pointType))
                     {
-                        pointTypeDict.Add(pointType, new());
+                        pointTypeDict.Add(pointType, new List<string>());
                     }
                     pointTypeDict.TryGetValue(pointType, out List<String> pointIdList);
                     pointIdList.Add(pointId);
@@ -310,7 +310,7 @@ namespace DViewEdge
                 }
 
                 // 启动采集任务
-                Task task = new(() => { PublishSpecialPointData(repeate, pointTypeDict); });
+                Task task = new Task(() => { PublishSpecialPointData(repeate, pointTypeDict); });
                 task.Start();
                 AppendLog(string.Format("启动分频采集任务。频率:{0}", repeate));
                 Log.WriteAppend(string.Format("启动分频采集任务。频率:{0}", repeate));
@@ -419,7 +419,7 @@ namespace DViewEdge
                 });
 
                 // 等待下一次上报
-                int s =  (int)(double.Parse(txtRepeate.Text) * 1000);
+                int s = (int)(double.Parse(txtRepeate.Text) * 1000);
                 Thread.Sleep(s);
             }
         }
@@ -451,11 +451,11 @@ namespace DViewEdge
         {
             try
             {
-                List<ReportData> dataList = new();
+                List<ReportData> dataList = new List<ReportData>();
                 List<string> pointTypeList = GetPointTypeList();
                 foreach (string pointType in pointTypeList)
                 {
-                    ReportData reportData = GetReportData(pointType, out bool isError, out bool noData, null);
+                    ReportData reportData = GetReportData(pointType, out bool isError, out bool noData, null, null);
                     if (isError)
                     {
                         SendErrorCount += 1;
@@ -471,7 +471,7 @@ namespace DViewEdge
                     }
                 }
 
-                DeviceMeta meta = new()
+                DeviceMeta meta = new DeviceMeta()
                 {
                     Username = EdgeConf.Username,
                     DeviceDescribe = txtDeviceDescribe.Text,
@@ -511,7 +511,7 @@ namespace DViewEdge
                 List<string> pointTypeList = GetPointTypeList();
                 foreach (string pointType in pointTypeList)
                 {
-                    ReportData reportData = GetReportData(pointType, out bool isError, out bool noData, null);
+                    ReportData reportData = GetReportData(pointType, out bool isError, out bool noData, null, null);
                     if (isError)
                     {
                         Console.WriteLine("DoSendDataOnce. isError");
@@ -557,17 +557,19 @@ namespace DViewEdge
         /// <summary>
         /// 执行运行数据上报
         /// </summary>
-        private void DoSendSpecialDataOnce(int repeate, Dictionary<string, List<string>> pointTypeDict)
+        /// <param name="repeate">采集频率</param>
+        /// <param name="pointTypeList">测点类型列表</param>
+        private void DoSendSpecialDataOnce(int repeate, Dictionary<string, List<string>> pointTypeList)
         {
             try
             {
-                foreach (KeyValuePair< string, List<string>> kv in pointTypeDict)
+                foreach (KeyValuePair<string, List<string>> kv in pointTypeList)
                 {
                     string pointType = kv.Key;
                     List<string> pointIdList = kv.Value;
 
                     // 过滤分频测点
-                    ReportData reportData = GetReportData(pointType, out bool isError, out bool noData, pointIdList);
+                    ReportData reportData = GetReportData(pointType, out bool isError, out bool noData, pointIdList, null);
                     if (isError)
                     {
                         Console.WriteLine("DoSendSpecialDataOnce. isError");
@@ -707,7 +709,7 @@ namespace DViewEdge
             DoSaveConf();
 
             // 重启应用
-            ProcessStartInfo processStartInfo = new()
+            ProcessStartInfo processStartInfo = new ProcessStartInfo()
             {
                 WorkingDirectory = AppDomain.CurrentDomain.SetupInformation.ApplicationBase,
                 FileName = @"DViewEdge.exe",
@@ -774,7 +776,7 @@ namespace DViewEdge
         /// <returns></returns>
         private List<string> GetPointTypeList()
         {
-            List<string> result = new();
+            List<string> result = new List<string>();
             if (checkBoxAr.Checked)
             {
                 result.Add(Constants.AR);
@@ -855,8 +857,11 @@ namespace DViewEdge
         /// <param name="pontType">测点类型</param>
         /// <param name="isError">是否异常</param>
         /// <param name="noData">是否有数据</param>
+        /// <param name="pointFilter">测点过滤</param>
+        /// <param name="pointDict">测点名称字典</param>
         /// <returns>ReportData</returns>
-        private ReportData GetReportData(string pontType, out bool isError, out bool noData, List<string> pointFilter)
+        private ReportData GetReportData(string pontType, out bool isError, out bool noData,
+            List<string> pointFilter, Dictionary<string, string> pointDict)
         {
             try
             {
@@ -889,7 +894,7 @@ namespace DViewEdge
                 }
 
                 // 转换数据结构
-                List<PointData> dataList = Tools.GetPointDataList(data, pontType);
+                List<PointData> dataList = Tools.GetPointDataList(data, pontType, pointDict);
 
                 // 过滤数据测点
                 List<PointData> dataFilter = FilterPointData(dataList, pointFilter);
@@ -933,7 +938,7 @@ namespace DViewEdge
                 return dataList;
             }
 
-            List<PointData> result = new();
+            List<PointData> result = new List<PointData>();
             foreach (PointData pointData in dataList)
             {
                 if (pointFilter.Contains(pointData.PointId))
@@ -1112,7 +1117,7 @@ namespace DViewEdge
         {
             if (rtbLogContent.Lines.Length > MaxLines)
             {
-                rtbLogContent.Text = rtbLogContent.Text[(rtbLogContent.Lines[0].Length + 1)..];
+                rtbLogContent.Text = rtbLogContent.Text.Substring(rtbLogContent.Lines[0].Length + 1);
                 rtbLogContent.Select(rtbLogContent.Text.Length, 0);
             }
         }
@@ -1192,17 +1197,136 @@ namespace DViewEdge
             }
         }
 
+        /// <summary>
+        /// 关闭窗体
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">e</param>
         private void EdgeFormClosed(object sender, FormClosedEventArgs e)
         {
             // 强制所有消息中止，退出所有窗体，但是若有委托线程，无法干净退出
             Application.Exit();
             // 最彻底的退出方式、不管什么线程都被强制退出
-            System.Environment.Exit(0);
+            Environment.Exit(0);
         }
 
+        /// <summary>
+        /// 采集按钮
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">e</param>
         private void PointBtnClick(object sender, EventArgs e)
         {
             EdgePoint.Show();
+        }
+
+        /// <summary>
+        /// 选择文件
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">e</param>
+        private void SelectFileButtonClick(object sender, EventArgs e)
+        {
+            OpenFileDialog of = new OpenFileDialog
+            {
+                // 设置文件选择窗口标题
+                Title = "请选择测点文件",
+                // 设置文件选择窗口的初始目录
+                // InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+                InitialDirectory = "C:\\DView500\\Temp",
+                // 设置过滤器
+                Filter = "(*.xlsx)|*.xlsx|(*.xls)|*.xls",
+                // 设置单选
+                Multiselect = false
+            };
+            // 打开选择框
+            if (of.ShowDialog() == DialogResult.OK)
+            {
+                txtFileDir.Text = of.FileName;
+            }
+        }
+
+        /// <summary>
+        /// 上报名称
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void UpNameButtonClick(object sender, EventArgs e)
+        {
+            DialogResult result = Utils.ShowConfirm("上报的测点名称会覆盖平台已有名称，请确认选择的测点文件正确且合法，确认要上报吗？");
+            if (result == DialogResult.No)
+            {
+                return;
+            }
+
+
+            ExcelUtils excelUtils = null;
+            try
+            {
+                // 打开测点文件
+                excelUtils = new ExcelUtils(txtFileDir.Text);
+
+                // 测点类型列表
+                List<string> pointTypeList = GetPointTypeList();
+
+                // 遍历测点类型
+                List<ReportData> dataList = new List<ReportData>();
+                foreach (string pointType in pointTypeList)
+                {
+                    // 从文件中读取测点名称
+                    Dictionary<string, string> dict = excelUtils.GetPointDict(pointType);
+
+                    // 从COM中读取测点数据
+                    ReportData reportData = GetReportData(pointType, out bool isError, out bool noData, null, dict);
+                    if (isError)
+                    {
+                        SendErrorCount += 1;
+                        continue;
+                    }
+                    if (noData)
+                    {
+                        continue;
+                    }
+                    if (reportData != null)
+                    {
+                        dataList.Add(reportData);
+                    }
+                }
+
+                // 生成上报数据
+                DeviceMeta meta = new DeviceMeta()
+                {
+                    Username = EdgeConf.Username,
+                    DeviceDescribe = txtDeviceDescribe.Text,
+                    PointList = dataList
+                };
+                SendInfo sendInfo = GetSendInfoForMeta(meta);
+
+                // 执行数据上报
+                if (sendInfo.Count > 0)
+                {
+                    // 发送数据
+                    MqttUtils.Public(MqttTopic.UpMeta, sendInfo.Data);
+                    AppendLog(string.Format("上报测点元数据, 测点数{0}", sendInfo.Count));
+
+                    // 流量计数
+                    NetSendCount += 1;
+                    NetSendBytes += sendInfo.Size;
+                }
+            }
+            catch (Exception ex)
+            {
+                SendErrorCount += 1;
+                AppendLog(string.Format("COM接口异常:{0}", ex.Message));
+            }
+            finally
+            {
+                if (excelUtils != null)
+                {
+                    excelUtils.Close();
+                }
+                RefreshFlowData();
+            }
         }
     }
 }

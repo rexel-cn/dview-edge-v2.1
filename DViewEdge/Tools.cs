@@ -13,16 +13,17 @@ namespace DViewEdge
         /// </summary>
         /// <param name="listStr">listStr</param>
         /// <param name="pointType">pointType</param>
+        /// <param name="pointDict">pointDict</param>
         /// <returns>结果</returns>
-        public static List<PointData> GetPointDataList(string listStr, string pointType)
+        public static List<PointData> GetPointDataList(string listStr, string pointType, Dictionary<string, string> pointDict)
         {
-            List<PointData> pointDataList = new();
+            List<PointData> pointDataList = new List<PointData>();
             if (listStr == "" || listStr == null)
             {
                 return pointDataList;
             }
 
-            Regex r = new(@"\(.*?\)");
+            Regex r = new Regex(@"\(.*?\)");
             int get_cnt = int.Parse(r.Match(listStr).Value.Replace("(", "").Replace(")", ""));
             if (get_cnt == 0)
             {
@@ -49,12 +50,12 @@ namespace DViewEdge
                     lineData = listStr.Substring(start + 1, end - start - 1);
                 }
 
-                string pointId = lineData.Split(",")[0];
-                string pointValue = lineData.Split(",")[1].Replace("'", "");
+                string pointId = lineData.Split(',')[0];
+                string pointValue = lineData.Split(',')[1].Replace("'", "");
 
                 if (CheckPointValid(pointId))
                 {
-                    PointData pointData = MakePointData(pointType, pointId, pointValue);
+                    PointData pointData = MakePointData(pointType, pointId, pointValue, pointDict);
                     pointDataList.Add(pointData);
                 }
 
@@ -83,7 +84,7 @@ namespace DViewEdge
         /// </summary>
         /// <param name="str">str</param>
         /// <returns>结果</returns>
-        private static bool CheckPointValid(string str)
+        public static bool CheckPointValid(string str)
         {
             if (Regex.IsMatch(str, @"[\u4e00-\u9fa5]"))
             {
@@ -106,12 +107,21 @@ namespace DViewEdge
         /// <param name="pointType">测点类型</param>
         /// <param name="pointId">测点Id</param>
         /// <param name="pointValue">测点值</param>
+        /// <param name="pointDict">测点名称字典</param>
         /// <returns>PointData</returns>
-        private static PointData MakePointData(string pointType, string pointId, string pointValue)
+        private static PointData MakePointData(
+            string pointType, string pointId, string pointValue, Dictionary<string, string> pointDict)
         {
-            PointData pointData = new()
+            string pointName = "";
+            if (pointDict != null && pointDict.ContainsKey(pointId))
+            {
+                pointName = pointDict[pointId];
+            }
+
+            PointData pointData = new PointData()
             {
                 PointId = pointId,
+                PointName = pointName,
                 Qty = Constants.QtyOk
             };
 

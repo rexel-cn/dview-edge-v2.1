@@ -34,7 +34,7 @@ namespace DViewEdge
                 return Instance;
             }
 
-            MqttUtils _instance = new()
+            MqttUtils _instance = new MqttUtils()
             {
                 Client = null,
                 Address = _address,

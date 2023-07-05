@@ -60,7 +60,7 @@ namespace DViewEdge
             string BasePath = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
             string path = BasePath + Constants.ConfFile;
 
-            IniFile ini = new(path);
+            IniFile ini = new IniFile(path);
             Path = path;
             SelectTag = ini.Read(KeySelectTag, SectionConfig);
             Username = ini.Read(KeyUsername, SectionConfig);
@@ -80,7 +80,7 @@ namespace DViewEdge
         /// </summary>
         public void SaveConf()
         {
-            IniFile ini = new(Path);
+            IniFile ini = new IniFile(Path);
             ini.Write(KeySelectTag, SelectTag, SectionConfig);
             ini.Write(KeyUsername, Username, SectionConfig);
             ini.Write(KeyPassword, Password, SectionConfig);

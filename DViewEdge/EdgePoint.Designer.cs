@@ -372,7 +372,7 @@
             // 
             this.btnSave.AutoSize = true;
             this.btnSave.BackColor = System.Drawing.SystemColors.Menu;
-            this.btnSave.BackgroundImage = global::DViewEdge.Properties.Resources.save;
+            this.btnSave.BackgroundImage = DViewEdge.Properties.Resources.save;
             this.btnSave.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.btnSave.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnSave.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
@@ -442,18 +442,15 @@
         private System.Windows.Forms.DataGridView dataGridAR;
         private System.Windows.Forms.Label labelAR;
         private System.Windows.Forms.Label labelAI;
-        private System.Windows.Forms.DataGridView dataGridAI;
         private System.Windows.Forms.Label labelAO;
-        private System.Windows.Forms.DataGridView dataGridAO;
         private System.Windows.Forms.Label labelVA;
-        private System.Windows.Forms.DataGridView dataGridVA;
         private System.Windows.Forms.Label labelVD;
-        private System.Windows.Forms.DataGridView dataGridView4;
         private System.Windows.Forms.Label labelDO;
-        private System.Windows.Forms.DataGridView dataGridView5;
         private System.Windows.Forms.Label labelDI;
-        private System.Windows.Forms.DataGridView dataGridView6;
         private System.Windows.Forms.Label labelDR;
+        private System.Windows.Forms.DataGridView dataGridAI;
+        private System.Windows.Forms.DataGridView dataGridAO;
+        private System.Windows.Forms.DataGridView dataGridVA;
         private System.Windows.Forms.DataGridView dataGridDR;
         private System.Windows.Forms.DataGridView dataGridVD;
         private System.Windows.Forms.DataGridView dataGridDO;

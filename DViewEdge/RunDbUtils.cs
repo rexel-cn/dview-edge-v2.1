@@ -22,6 +22,7 @@ namespace DViewEdge
         public class PointData
         {
             public string PointId { get; set; }
+            public string PointName { get; set; }
             public object PointValue { get; set; }
             public string Qty { get; set; }
         }
@@ -46,7 +47,7 @@ namespace DViewEdge
                 return Instance;
             }
 
-            RunDbUtils _instance = new()
+            RunDbUtils _instance = new RunDbUtils()
             {
                 Read = new Rundb(),
                 Write = new Rundb(),

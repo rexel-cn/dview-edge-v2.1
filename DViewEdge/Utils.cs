@@ -26,13 +26,22 @@ namespace DViewEdge
         /// <returns>数据类型</returns>
         public static string GetDataType(string pointType)
         {
-            string result = pointType switch
+            switch (pointType)
             {
-                Constants.AR or Constants.AO or Constants.AI or Constants.VA => Constants.TypeDouble,
-                Constants.DR or Constants.DO or Constants.DI or Constants.VD => Constants.TypeInt,
-                Constants.VT or _ => Constants.TypeString,
-            };
-            return result;
+                case Constants.AR:
+                case Constants.AO:
+                case Constants.AI:
+                case Constants.VA:
+                    return Constants.TypeDouble;
+                case Constants.DR:
+                case Constants.DO:
+                case Constants.DI:
+                case Constants.VD:
+                    return Constants.TypeInt;
+                case Constants.VT:
+                default:
+                    return Constants.TypeString;
+            }
         }
 
         /// <summary>
@@ -42,7 +51,7 @@ namespace DViewEdge
         /// <returns>true:是、false:否</returns>
         public static bool IsNumber(string str)
         {
-            Regex regex = new("^[0-9]*$");
+            Regex regex = new Regex("^[0-9]*$");
             return regex.IsMatch(str);
         }
 
@@ -53,7 +62,7 @@ namespace DViewEdge
         /// <returns>true:是、false:否</returns>
         public static bool IsInteger(string str)
         {
-            Regex regex = new(@"^-?\d+$");
+            Regex regex = new Regex(@"^-?\d+$");
             return regex.IsMatch(str);
         }
 
@@ -64,7 +73,7 @@ namespace DViewEdge
         /// <returns>true:是、false:否</returns>
         public static bool IsPositiveNumber(string str)
         {
-            Regex regex = new("^[0-9]+(.[0-9]{1})?$");
+            Regex regex = new Regex("^[0-9]+(.[0-9]{1})?$");
             return regex.IsMatch(str);
         }
 
@@ -75,7 +84,7 @@ namespace DViewEdge
         /// <returns>true:是、false:否</returns>
         public static bool IsNaturalNumber(string str)
         {
-            Regex regex = new(@"^\+?[1-9][0-9]*$");
+            Regex regex = new Regex(@"^\+?[1-9][0-9]*$");
             return regex.IsMatch(str);
         }
 
@@ -104,7 +113,7 @@ namespace DViewEdge
         /// <returns>true:是、false:否</returns>
         public static bool IsIpAddress(string str)
         {
-            Regex regex = new("^[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}$");
+            Regex regex = new Regex("^[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}$");
             if (regex.IsMatch(str) != true)
             {
                 return false;
