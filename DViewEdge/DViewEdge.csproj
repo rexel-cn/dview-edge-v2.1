@@ -122,7 +122,9 @@
     <Content Include="Image\rebort.png" />
     <Content Include="Image\save.png" />
     <Content Include="Image\start.png" />
+    <None Include="Image\trigger.png" />
     <Content Include="Image\upload.png" />
+    <None Include="Resources\trigger.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\M2Mqtt\M2Mqtt.Net.csproj">

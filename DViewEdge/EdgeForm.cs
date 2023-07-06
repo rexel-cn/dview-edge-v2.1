@@ -451,11 +451,15 @@ namespace DViewEdge
         {
             try
             {
+                // 偏移后的时间
+                DateTime offsetTime = DateTime.Now.AddSeconds(Convert.ToDouble(EdgeConf.Offset));
+
+                // 按照数据类型采集数据
                 List<ReportData> dataList = new List<ReportData>();
                 List<string> pointTypeList = GetPointTypeList();
                 foreach (string pointType in pointTypeList)
                 {
-                    ReportData reportData = GetReportData(pointType, out bool isError, out bool noData, null, null);
+                    ReportData reportData = GetReportData(pointType, out bool isError, out bool noData, null, null, offsetTime);
                     if (isError)
                     {
                         SendErrorCount += 1;
@@ -508,10 +512,14 @@ namespace DViewEdge
         {
             try
             {
+                // 偏移后的时间
+                DateTime offsetTime = DateTime.Now.AddSeconds(Convert.ToDouble(EdgeConf.Offset));
+
+                // 按照数据类型采集数据
                 List<string> pointTypeList = GetPointTypeList();
                 foreach (string pointType in pointTypeList)
                 {
-                    ReportData reportData = GetReportData(pointType, out bool isError, out bool noData, null, null);
+                    ReportData reportData = GetReportData(pointType, out bool isError, out bool noData, null, null, offsetTime);
                     if (isError)
                     {
                         Console.WriteLine("DoSendDataOnce. isError");
@@ -563,13 +571,17 @@ namespace DViewEdge
         {
             try
             {
+                // 偏移后的时间
+                DateTime offsetTime = DateTime.Now.AddSeconds(Convert.ToDouble(EdgeConf.Offset));
+
+                // 按照数据类型采集数据
                 foreach (KeyValuePair<string, List<string>> kv in pointTypeList)
                 {
                     string pointType = kv.Key;
                     List<string> pointIdList = kv.Value;
 
                     // 过滤分频测点
-                    ReportData reportData = GetReportData(pointType, out bool isError, out bool noData, pointIdList, null);
+                    ReportData reportData = GetReportData(pointType, out bool isError, out bool noData, pointIdList, null, offsetTime);
                     if (isError)
                     {
                         Console.WriteLine("DoSendSpecialDataOnce. isError");
@@ -859,15 +871,13 @@ namespace DViewEdge
         /// <param name="noData">是否有数据</param>
         /// <param name="pointFilter">测点过滤</param>
         /// <param name="pointDict">测点名称字典</param>
+        /// <param name="offsetTime">偏移后的时间</param>
         /// <returns>ReportData</returns>
         private ReportData GetReportData(string pontType, out bool isError, out bool noData,
-            List<string> pointFilter, Dictionary<string, string> pointDict)
+            List<string> pointFilter, Dictionary<string, string> pointDict, DateTime offsetTime)
         {
             try
             {
-                // 偏移后的时间
-                DateTime offsetTime = DateTime.Now.AddSeconds(Convert.ToDouble(EdgeConf.Offset));
-
                 // 打开COM接口
                 Rundb runbdb = RunDbUtils.GetRead();
                 object openResult = runbdb.Open();
@@ -1259,25 +1269,40 @@ namespace DViewEdge
                 return;
             }
 
-
             ExcelUtils excelUtils = null;
             try
             {
-                // 打开测点文件
-                excelUtils = new ExcelUtils(txtFileDir.Text);
-
                 // 测点类型列表
                 List<string> pointTypeList = GetPointTypeList();
 
-                // 遍历测点类型
-                List<ReportData> dataList = new List<ReportData>();
+                // 打开测点文件
+                excelUtils = new ExcelUtils(txtFileDir.Text);
+
+                // 读取测点文件
+                Dictionary<string, Dictionary<string, string>> pointTypeDict = new Dictionary<string, Dictionary<string, string>>();
                 foreach (string pointType in pointTypeList)
                 {
-                    // 从文件中读取测点名称
                     Dictionary<string, string> dict = excelUtils.GetPointDict(pointType);
+                    if (dict != null)
+                    {
+                        pointTypeDict.Add(pointType, dict);
+                    }
+                }
+
+                // 遍历测点类型
+                List<ReportData> dataList = new List<ReportData>();
+
+                // 偏移后的时间
+                DateTime offsetTime = DateTime.Now.AddSeconds(Convert.ToDouble(EdgeConf.Offset));
+
+                // 按照数据类型采集数据
+                foreach (string pointType in pointTypeList)
+                {
+                    // 获取测点名称字典
+                    pointTypeDict.TryGetValue(pointType, out Dictionary<string, string> dict);
 
                     // 从COM中读取测点数据
-                    ReportData reportData = GetReportData(pointType, out bool isError, out bool noData, null, dict);
+                    ReportData reportData = GetReportData(pointType, out bool isError, out bool noData, null, dict, offsetTime);
                     if (isError)
                     {
                         SendErrorCount += 1;

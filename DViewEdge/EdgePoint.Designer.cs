@@ -81,11 +81,12 @@
             this.pointId,
             this.repeate});
             this.dataGridAR.Location = new System.Drawing.Point(3, 66);
+            this.dataGridAR.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dataGridAR.Name = "dataGridAR";
             this.dataGridAR.RowHeadersVisible = false;
             this.dataGridAR.RowTemplate.Height = 25;
             this.dataGridAR.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.dataGridAR.Size = new System.Drawing.Size(300, 360);
+            this.dataGridAR.Size = new System.Drawing.Size(300, 300);
             this.dataGridAR.TabIndex = 6;
             // 
             // pointId
@@ -103,18 +104,18 @@
             // labelAR
             // 
             this.labelAR.AutoSize = true;
-            this.labelAR.Location = new System.Drawing.Point(3, 46);
+            this.labelAR.Location = new System.Drawing.Point(3, 51);
             this.labelAR.Name = "labelAR";
-            this.labelAR.Size = new System.Drawing.Size(101, 17);
+            this.labelAR.Size = new System.Drawing.Size(95, 12);
             this.labelAR.TabIndex = 7;
             this.labelAR.Text = "AR-模拟读写变量";
             // 
             // labelAI
             // 
             this.labelAI.AutoSize = true;
-            this.labelAI.Location = new System.Drawing.Point(309, 46);
+            this.labelAI.Location = new System.Drawing.Point(309, 51);
             this.labelAI.Name = "labelAI";
-            this.labelAI.Size = new System.Drawing.Size(97, 17);
+            this.labelAI.Size = new System.Drawing.Size(95, 12);
             this.labelAI.TabIndex = 9;
             this.labelAI.Text = "AI-模拟只读变量";
             // 
@@ -127,11 +128,12 @@
             this.dataGridViewTextBoxColumn1,
             this.dataGridViewTextBoxColumn2});
             this.dataGridAI.Location = new System.Drawing.Point(309, 66);
+            this.dataGridAI.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dataGridAI.Name = "dataGridAI";
             this.dataGridAI.RowHeadersVisible = false;
             this.dataGridAI.RowTemplate.Height = 25;
             this.dataGridAI.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.dataGridAI.Size = new System.Drawing.Size(300, 360);
+            this.dataGridAI.Size = new System.Drawing.Size(300, 300);
             this.dataGridAI.TabIndex = 8;
             // 
             // dataGridViewTextBoxColumn1
@@ -149,9 +151,9 @@
             // labelAO
             // 
             this.labelAO.AutoSize = true;
-            this.labelAO.Location = new System.Drawing.Point(615, 46);
+            this.labelAO.Location = new System.Drawing.Point(615, 50);
             this.labelAO.Name = "labelAO";
-            this.labelAO.Size = new System.Drawing.Size(103, 17);
+            this.labelAO.Size = new System.Drawing.Size(95, 12);
             this.labelAO.TabIndex = 11;
             this.labelAO.Text = "AO-模拟只写变量";
             // 
@@ -163,12 +165,13 @@
             this.dataGridAO.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn3,
             this.dataGridViewTextBoxColumn4});
-            this.dataGridAO.Location = new System.Drawing.Point(615, 66);
+            this.dataGridAO.Location = new System.Drawing.Point(615, 65);
+            this.dataGridAO.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dataGridAO.Name = "dataGridAO";
             this.dataGridAO.RowHeadersVisible = false;
             this.dataGridAO.RowTemplate.Height = 25;
             this.dataGridAO.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.dataGridAO.Size = new System.Drawing.Size(300, 360);
+            this.dataGridAO.Size = new System.Drawing.Size(300, 300);
             this.dataGridAO.TabIndex = 10;
             // 
             // dataGridViewTextBoxColumn3
@@ -186,9 +189,9 @@
             // labelVA
             // 
             this.labelVA.AutoSize = true;
-            this.labelVA.Location = new System.Drawing.Point(921, 46);
+            this.labelVA.Location = new System.Drawing.Point(921, 51);
             this.labelVA.Name = "labelVA";
-            this.labelVA.Size = new System.Drawing.Size(101, 17);
+            this.labelVA.Size = new System.Drawing.Size(95, 12);
             this.labelVA.TabIndex = 13;
             this.labelVA.Text = "VA-内部模拟变量";
             // 
@@ -201,11 +204,12 @@
             this.dataGridViewTextBoxColumn5,
             this.dataGridViewTextBoxColumn6});
             this.dataGridVA.Location = new System.Drawing.Point(921, 66);
+            this.dataGridVA.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dataGridVA.Name = "dataGridVA";
             this.dataGridVA.RowHeadersVisible = false;
             this.dataGridVA.RowTemplate.Height = 25;
             this.dataGridVA.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.dataGridVA.Size = new System.Drawing.Size(300, 360);
+            this.dataGridVA.Size = new System.Drawing.Size(300, 300);
             this.dataGridVA.TabIndex = 12;
             // 
             // dataGridViewTextBoxColumn5
@@ -223,9 +227,9 @@
             // labelVD
             // 
             this.labelVD.AutoSize = true;
-            this.labelVD.Location = new System.Drawing.Point(921, 437);
+            this.labelVD.Location = new System.Drawing.Point(921, 376);
             this.labelVD.Name = "labelVD";
-            this.labelVD.Size = new System.Drawing.Size(102, 17);
+            this.labelVD.Size = new System.Drawing.Size(95, 12);
             this.labelVD.TabIndex = 21;
             this.labelVD.Text = "VD-内部开关变量";
             // 
@@ -237,12 +241,13 @@
             this.dataGridVD.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn7,
             this.dataGridViewTextBoxColumn8});
-            this.dataGridVD.Location = new System.Drawing.Point(921, 457);
+            this.dataGridVD.Location = new System.Drawing.Point(921, 391);
+            this.dataGridVD.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dataGridVD.Name = "dataGridVD";
             this.dataGridVD.RowHeadersVisible = false;
             this.dataGridVD.RowTemplate.Height = 25;
             this.dataGridVD.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.dataGridVD.Size = new System.Drawing.Size(300, 360);
+            this.dataGridVD.Size = new System.Drawing.Size(300, 300);
             this.dataGridVD.TabIndex = 20;
             // 
             // dataGridViewTextBoxColumn7
@@ -260,9 +265,9 @@
             // labelDO
             // 
             this.labelDO.AutoSize = true;
-            this.labelDO.Location = new System.Drawing.Point(615, 437);
+            this.labelDO.Location = new System.Drawing.Point(615, 376);
             this.labelDO.Name = "labelDO";
-            this.labelDO.Size = new System.Drawing.Size(104, 17);
+            this.labelDO.Size = new System.Drawing.Size(95, 12);
             this.labelDO.TabIndex = 19;
             this.labelDO.Text = "DO-开关只写变量";
             // 
@@ -274,12 +279,13 @@
             this.dataGridDO.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn9,
             this.dataGridViewTextBoxColumn10});
-            this.dataGridDO.Location = new System.Drawing.Point(615, 457);
+            this.dataGridDO.Location = new System.Drawing.Point(615, 391);
+            this.dataGridDO.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dataGridDO.Name = "dataGridDO";
             this.dataGridDO.RowHeadersVisible = false;
             this.dataGridDO.RowTemplate.Height = 25;
             this.dataGridDO.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.dataGridDO.Size = new System.Drawing.Size(300, 360);
+            this.dataGridDO.Size = new System.Drawing.Size(300, 300);
             this.dataGridDO.TabIndex = 18;
             // 
             // dataGridViewTextBoxColumn9
@@ -297,9 +303,9 @@
             // labelDI
             // 
             this.labelDI.AutoSize = true;
-            this.labelDI.Location = new System.Drawing.Point(309, 437);
+            this.labelDI.Location = new System.Drawing.Point(309, 376);
             this.labelDI.Name = "labelDI";
-            this.labelDI.Size = new System.Drawing.Size(98, 17);
+            this.labelDI.Size = new System.Drawing.Size(95, 12);
             this.labelDI.TabIndex = 17;
             this.labelDI.Text = "DI-开关只读变量";
             // 
@@ -311,12 +317,13 @@
             this.dataGridDI.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn11,
             this.dataGridViewTextBoxColumn12});
-            this.dataGridDI.Location = new System.Drawing.Point(309, 457);
+            this.dataGridDI.Location = new System.Drawing.Point(309, 391);
+            this.dataGridDI.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dataGridDI.Name = "dataGridDI";
             this.dataGridDI.RowHeadersVisible = false;
             this.dataGridDI.RowTemplate.Height = 25;
             this.dataGridDI.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.dataGridDI.Size = new System.Drawing.Size(300, 360);
+            this.dataGridDI.Size = new System.Drawing.Size(300, 300);
             this.dataGridDI.TabIndex = 16;
             // 
             // dataGridViewTextBoxColumn11
@@ -334,9 +341,9 @@
             // labelDR
             // 
             this.labelDR.AutoSize = true;
-            this.labelDR.Location = new System.Drawing.Point(3, 437);
+            this.labelDR.Location = new System.Drawing.Point(3, 376);
             this.labelDR.Name = "labelDR";
-            this.labelDR.Size = new System.Drawing.Size(102, 17);
+            this.labelDR.Size = new System.Drawing.Size(95, 12);
             this.labelDR.TabIndex = 15;
             this.labelDR.Text = "DR-开关读写变量";
             // 
@@ -348,12 +355,13 @@
             this.dataGridDR.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn13,
             this.dataGridViewTextBoxColumn14});
-            this.dataGridDR.Location = new System.Drawing.Point(3, 457);
+            this.dataGridDR.Location = new System.Drawing.Point(3, 391);
+            this.dataGridDR.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dataGridDR.Name = "dataGridDR";
             this.dataGridDR.RowHeadersVisible = false;
             this.dataGridDR.RowTemplate.Height = 25;
             this.dataGridDR.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.dataGridDR.Size = new System.Drawing.Size(300, 360);
+            this.dataGridDR.Size = new System.Drawing.Size(300, 300);
             this.dataGridDR.TabIndex = 14;
             // 
             // dataGridViewTextBoxColumn13
@@ -372,15 +380,16 @@
             // 
             this.btnSave.AutoSize = true;
             this.btnSave.BackColor = System.Drawing.SystemColors.Menu;
-            this.btnSave.BackgroundImage = DViewEdge.Properties.Resources.save;
+            this.btnSave.BackgroundImage = global::DViewEdge.Properties.Resources.save;
             this.btnSave.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.btnSave.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnSave.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.btnSave.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold);
             this.btnSave.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnSave.Location = new System.Drawing.Point(3, 5);
+            this.btnSave.Location = new System.Drawing.Point(3, 4);
+            this.btnSave.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Padding = new System.Windows.Forms.Padding(30, 0, 0, 0);
-            this.btnSave.Size = new System.Drawing.Size(115, 34);
+            this.btnSave.Padding = new System.Windows.Forms.Padding(26, 0, 0, 0);
+            this.btnSave.Size = new System.Drawing.Size(111, 34);
             this.btnSave.TabIndex = 22;
             this.btnSave.Text = "保存配置";
             this.btnSave.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -390,18 +399,18 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(553, 15);
+            this.label1.Location = new System.Drawing.Point(556, 17);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(668, 17);
+            this.label1.Size = new System.Drawing.Size(665, 12);
             this.label1.TabIndex = 23;
             this.label1.Text = "默认使用统一采集频率。如需特殊采集频率，请输入频率后保存配置并重新启动采集软件。特殊频率的测点以红色字体标识。";
             // 
             // EdgePoint
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
-            this.ClientSize = new System.Drawing.Size(1229, 833);
+            this.ClientSize = new System.Drawing.Size(1225, 693);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.labelVD);
@@ -420,6 +429,7 @@
             this.Controls.Add(this.dataGridAI);
             this.Controls.Add(this.labelAR);
             this.Controls.Add(this.dataGridAR);
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "EdgePoint";
             this.Text = "EdgePoint";
             this.Activated += new System.EventHandler(this.EdgePoint_Activated);
@@ -456,8 +466,6 @@
         private System.Windows.Forms.DataGridView dataGridDO;
         private System.Windows.Forms.DataGridView dataGridDI;
         private System.Windows.Forms.Button btnSave;
-        private System.Windows.Forms.DataGridViewTextBoxColumn pointId;
-        private System.Windows.Forms.DataGridViewTextBoxColumn repeate;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
@@ -473,5 +481,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn13;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn14;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn pointId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn repeate;
     }
 }
