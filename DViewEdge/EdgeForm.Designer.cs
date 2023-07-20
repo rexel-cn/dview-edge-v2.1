@@ -35,6 +35,7 @@ namespace DViewEdge
             this.txtFileDir = new System.Windows.Forms.TextBox();
             this.btnUpName = new System.Windows.Forms.Button();
             this.btnSelectFile = new System.Windows.Forms.Button();
+            this.btPoint = new System.Windows.Forms.Button();
             this.grbDevice = new System.Windows.Forms.GroupBox();
             this.lbl12 = new System.Windows.Forms.Label();
             this.lbl14 = new System.Windows.Forms.Label();
@@ -72,6 +73,9 @@ namespace DViewEdge
             this.txtAddress = new System.Windows.Forms.TextBox();
             this.lbl8 = new System.Windows.Forms.Label();
             this.txtPort = new System.Windows.Forms.TextBox();
+            this.btnUpMeta = new System.Windows.Forms.Button();
+            this.btnRestart = new System.Windows.Forms.Button();
+            this.btnSave = new System.Windows.Forms.Button();
             this.grbMonitor = new System.Windows.Forms.GroupBox();
             this.lblSize = new System.Windows.Forms.Label();
             this.lblError = new System.Windows.Forms.Label();
@@ -90,12 +94,10 @@ namespace DViewEdge
             this.rtbLogContent = new System.Windows.Forms.RichTextBox();
             this.lbl25 = new System.Windows.Forms.Label();
             this.txtMaxLines = new System.Windows.Forms.TextBox();
-            this.btPoint = new System.Windows.Forms.Button();
-            this.btnUpMeta = new System.Windows.Forms.Button();
-            this.btnRestart = new System.Windows.Forms.Button();
-            this.btnSave = new System.Windows.Forms.Button();
             this.btnClean = new System.Windows.Forms.Button();
             this.btnPause = new System.Windows.Forms.Button();
+            this.checkBoxVt = new System.Windows.Forms.CheckBox();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
             this.splitContainer.Panel1.SuspendLayout();
             this.splitContainer.Panel2.SuspendLayout();
@@ -132,7 +134,7 @@ namespace DViewEdge
             this.splitContainer.Panel2.Controls.Add(this.txtMaxLines);
             this.splitContainer.Panel2.Controls.Add(this.btnClean);
             this.splitContainer.Panel2.Controls.Add(this.btnPause);
-            this.splitContainer.Size = new System.Drawing.Size(1172, 749);
+            this.splitContainer.Size = new System.Drawing.Size(1172, 712);
             this.splitContainer.SplitterDistance = 745;
             this.splitContainer.TabIndex = 0;
             // 
@@ -141,7 +143,7 @@ namespace DViewEdge
             this.groupBox1.Controls.Add(this.txtFileDir);
             this.groupBox1.Controls.Add(this.btnUpName);
             this.groupBox1.Controls.Add(this.btnSelectFile);
-            this.groupBox1.Location = new System.Drawing.Point(10, 646);
+            this.groupBox1.Location = new System.Drawing.Point(10, 611);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(727, 92);
             this.groupBox1.TabIndex = 8;
@@ -175,6 +177,25 @@ namespace DViewEdge
             this.btnSelectFile.UseVisualStyleBackColor = true;
             this.btnSelectFile.Click += new System.EventHandler(this.SelectFileButtonClick);
             // 
+            // btPoint
+            // 
+            this.btPoint.AutoSize = true;
+            this.btPoint.BackColor = System.Drawing.SystemColors.Menu;
+            this.btPoint.BackgroundImage = global::DViewEdge.Properties.Resources.list;
+            this.btPoint.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.btPoint.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btPoint.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold);
+            this.btPoint.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btPoint.Location = new System.Drawing.Point(459, 9);
+            this.btPoint.Name = "btPoint";
+            this.btPoint.Padding = new System.Windows.Forms.Padding(30, 0, 0, 0);
+            this.btPoint.Size = new System.Drawing.Size(115, 34);
+            this.btPoint.TabIndex = 8;
+            this.btPoint.Text = "分频采集";
+            this.btPoint.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btPoint.UseVisualStyleBackColor = true;
+            this.btPoint.Click += new System.EventHandler(this.PointBtnClick);
+            // 
             // grbDevice
             // 
             this.grbDevice.Controls.Add(this.lbl12);
@@ -183,7 +204,7 @@ namespace DViewEdge
             this.grbDevice.Controls.Add(this.lbl13);
             this.grbDevice.Controls.Add(this.txtDeviceDescribe);
             this.grbDevice.Controls.Add(this.txtUserClientId);
-            this.grbDevice.Location = new System.Drawing.Point(9, 459);
+            this.grbDevice.Location = new System.Drawing.Point(9, 440);
             this.grbDevice.Name = "grbDevice";
             this.grbDevice.Size = new System.Drawing.Size(727, 165);
             this.grbDevice.TabIndex = 7;
@@ -248,8 +269,10 @@ namespace DViewEdge
             // 
             // grbCollection
             // 
+            this.grbCollection.Controls.Add(this.label1);
             this.grbCollection.Controls.Add(this.checkBoxAo);
             this.grbCollection.Controls.Add(this.checkBoxAi);
+            this.grbCollection.Controls.Add(this.checkBoxVt);
             this.grbCollection.Controls.Add(this.checkBoxVd);
             this.grbCollection.Controls.Add(this.checkBoxVa);
             this.grbCollection.Controls.Add(this.checkBoxDo);
@@ -264,9 +287,9 @@ namespace DViewEdge
             this.grbCollection.Controls.Add(this.lbl22);
             this.grbCollection.Controls.Add(this.lbl11);
             this.grbCollection.Controls.Add(this.txtOffset);
-            this.grbCollection.Location = new System.Drawing.Point(9, 306);
+            this.grbCollection.Location = new System.Drawing.Point(10, 274);
             this.grbCollection.Name = "grbCollection";
-            this.grbCollection.Size = new System.Drawing.Size(727, 129);
+            this.grbCollection.Size = new System.Drawing.Size(727, 160);
             this.grbCollection.TabIndex = 7;
             this.grbCollection.TabStop = false;
             this.grbCollection.Text = "数据采集";
@@ -294,7 +317,7 @@ namespace DViewEdge
             // checkBoxVd
             // 
             this.checkBoxVd.AutoSize = true;
-            this.checkBoxVd.Location = new System.Drawing.Point(585, 83);
+            this.checkBoxVd.Location = new System.Drawing.Point(588, 85);
             this.checkBoxVd.Name = "checkBoxVd";
             this.checkBoxVd.Size = new System.Drawing.Size(96, 16);
             this.checkBoxVd.TabIndex = 12;
@@ -304,7 +327,7 @@ namespace DViewEdge
             // checkBoxVa
             // 
             this.checkBoxVa.AutoSize = true;
-            this.checkBoxVa.Location = new System.Drawing.Point(585, 43);
+            this.checkBoxVa.Location = new System.Drawing.Point(588, 43);
             this.checkBoxVa.Name = "checkBoxVa";
             this.checkBoxVa.Size = new System.Drawing.Size(96, 16);
             this.checkBoxVa.TabIndex = 12;
@@ -441,7 +464,7 @@ namespace DViewEdge
             this.grbPlatform.Controls.Add(this.txtAddress);
             this.grbPlatform.Controls.Add(this.lbl8);
             this.grbPlatform.Controls.Add(this.txtPort);
-            this.grbPlatform.Location = new System.Drawing.Point(9, 192);
+            this.grbPlatform.Location = new System.Drawing.Point(9, 178);
             this.grbPlatform.Name = "grbPlatform";
             this.grbPlatform.Size = new System.Drawing.Size(727, 90);
             this.grbPlatform.TabIndex = 6;
@@ -563,6 +586,63 @@ namespace DViewEdge
             this.txtPort.Size = new System.Drawing.Size(58, 23);
             this.txtPort.TabIndex = 0;
             this.txtPort.Leave += new System.EventHandler(this.PortLeave);
+            // 
+            // btnUpMeta
+            // 
+            this.btnUpMeta.AutoSize = true;
+            this.btnUpMeta.BackColor = System.Drawing.SystemColors.Menu;
+            this.btnUpMeta.BackgroundImage = global::DViewEdge.Properties.Resources.upload;
+            this.btnUpMeta.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.btnUpMeta.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnUpMeta.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold);
+            this.btnUpMeta.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnUpMeta.Location = new System.Drawing.Point(309, 9);
+            this.btnUpMeta.Name = "btnUpMeta";
+            this.btnUpMeta.Padding = new System.Windows.Forms.Padding(30, 0, 0, 0);
+            this.btnUpMeta.Size = new System.Drawing.Size(115, 34);
+            this.btnUpMeta.TabIndex = 3;
+            this.btnUpMeta.Text = "上报测点";
+            this.btnUpMeta.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnUpMeta.UseVisualStyleBackColor = true;
+            this.btnUpMeta.Click += new System.EventHandler(this.UpMetaBtnClick);
+            // 
+            // btnRestart
+            // 
+            this.btnRestart.AutoSize = true;
+            this.btnRestart.BackColor = System.Drawing.SystemColors.Menu;
+            this.btnRestart.BackgroundImage = global::DViewEdge.Properties.Resources.rebort;
+            this.btnRestart.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.btnRestart.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnRestart.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold);
+            this.btnRestart.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnRestart.Location = new System.Drawing.Point(159, 9);
+            this.btnRestart.Name = "btnRestart";
+            this.btnRestart.Padding = new System.Windows.Forms.Padding(30, 0, 0, 0);
+            this.btnRestart.Size = new System.Drawing.Size(115, 34);
+            this.btnRestart.TabIndex = 2;
+            this.btnRestart.Text = "重新启动";
+            this.btnRestart.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnRestart.UseVisualStyleBackColor = true;
+            this.btnRestart.Click += new System.EventHandler(this.RestartButtonClick);
+            // 
+            // btnSave
+            // 
+            this.btnSave.AutoSize = true;
+            this.btnSave.BackColor = System.Drawing.SystemColors.Menu;
+            this.btnSave.BackgroundImage = global::DViewEdge.Properties.Resources.save;
+            this.btnSave.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.btnSave.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnSave.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold);
+            this.btnSave.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnSave.Location = new System.Drawing.Point(9, 9);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Padding = new System.Windows.Forms.Padding(30, 0, 0, 0);
+            this.btnSave.Size = new System.Drawing.Size(115, 34);
+            this.btnSave.TabIndex = 1;
+            this.btnSave.Text = "保存配置";
+            this.btnSave.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.SaveButtonClick);
             // 
             // grbMonitor
             // 
@@ -744,7 +824,7 @@ namespace DViewEdge
             this.rtbLogContent.Location = new System.Drawing.Point(9, 56);
             this.rtbLogContent.Name = "rtbLogContent";
             this.rtbLogContent.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Horizontal;
-            this.rtbLogContent.Size = new System.Drawing.Size(408, 682);
+            this.rtbLogContent.Size = new System.Drawing.Size(408, 645);
             this.rtbLogContent.TabIndex = 4;
             this.rtbLogContent.Text = "";
             this.rtbLogContent.TextChanged += new System.EventHandler(this.LogContentTextChanged);
@@ -766,82 +846,6 @@ namespace DViewEdge
             this.txtMaxLines.TabIndex = 3;
             this.txtMaxLines.Text = "100";
             this.txtMaxLines.Leave += new System.EventHandler(this.MaxLinesLeave);
-            // 
-            // btPoint
-            // 
-            this.btPoint.AutoSize = true;
-            this.btPoint.BackColor = System.Drawing.SystemColors.Menu;
-            this.btPoint.BackgroundImage = global::DViewEdge.Properties.Resources.list;
-            this.btPoint.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.btPoint.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btPoint.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold);
-            this.btPoint.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btPoint.Location = new System.Drawing.Point(459, 9);
-            this.btPoint.Name = "btPoint";
-            this.btPoint.Padding = new System.Windows.Forms.Padding(30, 0, 0, 0);
-            this.btPoint.Size = new System.Drawing.Size(115, 34);
-            this.btPoint.TabIndex = 8;
-            this.btPoint.Text = "分频采集";
-            this.btPoint.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btPoint.UseVisualStyleBackColor = true;
-            this.btPoint.Click += new System.EventHandler(this.PointBtnClick);
-            // 
-            // btnUpMeta
-            // 
-            this.btnUpMeta.AutoSize = true;
-            this.btnUpMeta.BackColor = System.Drawing.SystemColors.Menu;
-            this.btnUpMeta.BackgroundImage = global::DViewEdge.Properties.Resources.upload;
-            this.btnUpMeta.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.btnUpMeta.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnUpMeta.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold);
-            this.btnUpMeta.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnUpMeta.Location = new System.Drawing.Point(309, 9);
-            this.btnUpMeta.Name = "btnUpMeta";
-            this.btnUpMeta.Padding = new System.Windows.Forms.Padding(30, 0, 0, 0);
-            this.btnUpMeta.Size = new System.Drawing.Size(115, 34);
-            this.btnUpMeta.TabIndex = 3;
-            this.btnUpMeta.Text = "上报测点";
-            this.btnUpMeta.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnUpMeta.UseVisualStyleBackColor = true;
-            this.btnUpMeta.Click += new System.EventHandler(this.UpMetaBtnClick);
-            // 
-            // btnRestart
-            // 
-            this.btnRestart.AutoSize = true;
-            this.btnRestart.BackColor = System.Drawing.SystemColors.Menu;
-            this.btnRestart.BackgroundImage = global::DViewEdge.Properties.Resources.rebort;
-            this.btnRestart.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.btnRestart.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnRestart.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold);
-            this.btnRestart.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnRestart.Location = new System.Drawing.Point(159, 9);
-            this.btnRestart.Name = "btnRestart";
-            this.btnRestart.Padding = new System.Windows.Forms.Padding(30, 0, 0, 0);
-            this.btnRestart.Size = new System.Drawing.Size(115, 34);
-            this.btnRestart.TabIndex = 2;
-            this.btnRestart.Text = "重新启动";
-            this.btnRestart.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnRestart.UseVisualStyleBackColor = true;
-            this.btnRestart.Click += new System.EventHandler(this.RestartButtonClick);
-            // 
-            // btnSave
-            // 
-            this.btnSave.AutoSize = true;
-            this.btnSave.BackColor = System.Drawing.SystemColors.Menu;
-            this.btnSave.BackgroundImage = global::DViewEdge.Properties.Resources.save;
-            this.btnSave.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.btnSave.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnSave.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold);
-            this.btnSave.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnSave.Location = new System.Drawing.Point(9, 9);
-            this.btnSave.Name = "btnSave";
-            this.btnSave.Padding = new System.Windows.Forms.Padding(30, 0, 0, 0);
-            this.btnSave.Size = new System.Drawing.Size(115, 34);
-            this.btnSave.TabIndex = 1;
-            this.btnSave.Text = "保存配置";
-            this.btnSave.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnSave.UseVisualStyleBackColor = true;
-            this.btnSave.Click += new System.EventHandler(this.SaveButtonClick);
             // 
             // btnClean
             // 
@@ -877,12 +881,32 @@ namespace DViewEdge
             this.btnPause.UseVisualStyleBackColor = true;
             this.btnPause.Click += new System.EventHandler(this.PauseBtnClick);
             // 
+            // checkBoxVt
+            // 
+            this.checkBoxVt.AutoSize = true;
+            this.checkBoxVt.Location = new System.Drawing.Point(588, 123);
+            this.checkBoxVt.Name = "checkBoxVt";
+            this.checkBoxVt.Size = new System.Drawing.Size(96, 16);
+            this.checkBoxVt.TabIndex = 12;
+            this.checkBoxVt.Text = "文本变量(VT)";
+            this.checkBoxVt.UseVisualStyleBackColor = true;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label1.Location = new System.Drawing.Point(6, 127);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(341, 12);
+            this.label1.TabIndex = 13;
+            this.label1.Text = "注：对于文本变量(VT)，平台仅采集测点信息不采集测点数据！";
+            // 
             // EdgeForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.AutoValidate = System.Windows.Forms.AutoValidate.Disable;
             this.BackColor = System.Drawing.SystemColors.Window;
-            this.ClientSize = new System.Drawing.Size(1172, 750);
+            this.ClientSize = new System.Drawing.Size(1172, 712);
             this.Controls.Add(this.splitContainer);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -980,6 +1004,8 @@ namespace DViewEdge
         private System.Windows.Forms.TextBox txtFileDir;
         private System.Windows.Forms.Button btnUpName;
         private System.Windows.Forms.Button btnSelectFile;
+        private System.Windows.Forms.CheckBox checkBoxVt;
+        private System.Windows.Forms.Label label1;
     }
 }
 

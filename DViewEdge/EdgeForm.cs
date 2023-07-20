@@ -211,6 +211,9 @@ namespace DViewEdge
                     case Constants.VD:
                         checkBoxVd.Checked = true;
                         break;
+                    case Constants.VT:
+                        checkBoxVt.Checked = true;
+                        break;
                 }
             }
         }
@@ -820,6 +823,10 @@ namespace DViewEdge
             if (checkBoxVd.Checked)
             {
                 result.Add(Constants.VD);
+            }
+            if (checkBoxVt.Checked)
+            {
+                result.Add(Constants.VT);
             }
             return result;
         }
