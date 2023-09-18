@@ -86,6 +86,10 @@ namespace DViewEdge
         /// <returns>½á¹û</returns>
         public static bool CheckPointValid(string str)
         {
+            if (string.IsNullOrEmpty(str))
+            {
+                return false;
+            }
             if (Regex.IsMatch(str, @"[\u4e00-\u9fa5]"))
             {
                 return false;
